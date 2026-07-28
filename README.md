@@ -1,16 +1,32 @@
-# React + Vite
+# TRAIL
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+TRAIL is a web platform that helps users discover career paths and follow a structured learning roadmap based on their interests.
 
-Currently, two official plugins are available:
+The platform is designed to make career planning easier by providing a clear path to learn the right skills, technologies, and tools for a chosen field.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Project Overview
 
-## React Compiler
+Choosing the right career path can be confusing because information is scattered across different websites and resources. TRAIL brings everything together in one place by offering a simple and organized roadmap that guides users from beginner to advanced level.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Features
 
-## Expanding the ESLint configuration
+- Personalized career roadmaps
+- Step by step learning paths
+- Skill recommendations
+- Learning resource suggestions
+- Clean and responsive user interface
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Tech Stack
+
+- React
+- Tailwind CSS
+- JavaScript
+- Vite
+
+## Project Status
+
+This project is currently under development.
+
+---
+
+Made with ❤️ by the TRAIL Team
