@@ -1,32 +1,139 @@
+<div align="center">
+
 # TRAIL
 
-TRAIL is a web platform that helps users discover career paths and follow a structured learning roadmap based on their interests.
+A modern career roadmap platform that helps users discover career paths and follow structured learning roadmaps based on their interests.
 
-The platform is designed to make career planning easier by providing a clear path to learn the right skills, technologies, and tools for a chosen field.
+</div>
 
-## Project Overview
+---
 
-Choosing the right career path can be confusing because information is scattered across different websites and resources. TRAIL brings everything together in one place by offering a simple and organized roadmap that guides users from beginner to advanced level.
+## Overview
+
+TRAIL helps users choose the right career path by providing structured learning roadmaps, recommended skills, technologies, and learning resources in one place.
+
+The goal is to simplify career planning through a clean, interactive, and engaging experience.
+
+---
 
 ## Features
 
 - Personalized career roadmaps
-- Step by step learning paths
+- Step-by-step learning paths
 - Skill recommendations
-- Learning resource suggestions
-- Clean and responsive user interface
-
-## Tech Stack
-
-- React
-- Tailwind CSS
-- JavaScript
-- Vite
-
-## Project Status
-
-This project is currently under development.
+- Curated learning resources
+- Interactive user experience
+- Smooth scrolling
+- Modern animations
+- Responsive design
+- 3D experiences
 
 ---
 
-Made with ❤️ by the TRAIL Team
+## Tech Stack
+
+### Frontend
+
+- React
+- JavaScript
+- Tailwind CSS
+- Vite
+- GSAP
+- Motion
+- Lenis
+- Three.js
+- WebGL
+
+### Backend
+
+- Node.js
+- Express.js
+
+### Database
+
+- MongoDB
+
+---
+
+## Project Structure
+
+```text
+trail/
+├── public/
+├── src/
+│   ├── assets/
+│   ├── components/
+│   ├── pages/
+│   ├── App.jsx
+│   └── main.jsx
+├── package.json
+└── README.md
+```
+
+---
+
+## Getting Started
+
+Clone the repository
+
+```bash
+git clone https://github.com/shobhitasthana1/trail.git
+```
+
+Move into the project directory
+
+```bash
+cd trail
+```
+
+Install dependencies
+
+```bash
+npm install
+```
+
+Start the development server
+
+```bash
+npm run dev
+```
+
+---
+
+## Clone Options
+
+### HTTPS
+
+```bash
+git clone https://github.com/shobhitasthana1/trail.git
+```
+
+### SSH
+
+```bash
+git clone git@github.com:shobhitasthana1/trail.git
+```
+
+### GitHub CLI
+
+```bash
+gh repo clone shobhitasthana1/trail
+```
+
+---
+
+## Status
+
+This project is currently under active development. New features, career roadmaps, animations, and interactive experiences will be added over time.
+
+---
+
+## Team
+
+Developed by the **TRAIL Team**
+
+---
+
+## License
+
+This project is licensed under the MIT License.
