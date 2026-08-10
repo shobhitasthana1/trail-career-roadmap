@@ -4,7 +4,7 @@ import Hero from './components/Hero'
 
 const App = () => {
   return (
-    <div className="w-full min-h-screen">
+    <div className="w-full min-h-screen bg-[#CCCCCC]">
       <Navbar />
       <Hero />
     </div>
