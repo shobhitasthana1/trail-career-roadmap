@@ -32,6 +32,7 @@ const HeroCanvas = ({ sectionRef }) => {
 
     const targetW = Math.round(cssWidth * dpr);
     const targetH = Math.round(cssHeight * dpr);
+    
     if (canvas.width !== targetW || canvas.height !== targetH) {
       canvas.width = targetW;
       canvas.height = targetH;
@@ -45,15 +46,15 @@ const HeroCanvas = ({ sectionRef }) => {
     let drawWidth, drawHeight, offsetX, offsetY;
 
     if (imgAspect > canvasAspect) {
-      drawWidth = canvas.width;
-      drawHeight = drawWidth / imgAspect;
-      offsetX = 0;
-      offsetY = (canvas.height - drawHeight) / 2;
-    } else {
       drawHeight = canvas.height;
       drawWidth = drawHeight * imgAspect;
       offsetX = (canvas.width - drawWidth) / 2;
       offsetY = 0;
+    } else {
+      drawWidth = canvas.width;
+      drawHeight = drawWidth / imgAspect;
+      offsetX = 0;
+      offsetY = (canvas.height - drawHeight) / 2;
     }
 
     ctx.drawImage(img, offsetX, offsetY, drawWidth, drawHeight);
@@ -153,12 +154,11 @@ const HeroCanvas = ({ sectionRef }) => {
   return (
     <div
       ref={wrapperRef}
-      className="w-full h-full flex items-center justify-center"
+      className="flex items-center justify-center w-full h-full"
     >
-      <canvas
-        ref={canvasRef}
-        className="w-full h-full max-h-[70vh] lg:max-h-[80vh]"
-      />
+      <div className="relative w-full h-full max-h-[70vh] lg:max-h-[80vh] overflow-hidden rounded-2xl md:rounded-3xl shadow-[0_8px_30px_rgba(0,0,0,0.08)] border-[0.5px] border-stone-200/50">
+        <canvas ref={canvasRef} className="block w-full h-full" />
+      </div>
     </div>
   );
 };
