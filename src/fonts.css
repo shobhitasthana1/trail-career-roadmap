@@ -1,55 +1,55 @@
 @font-face {
   font-family: "Satoshi";
-  src: url("./assets/fonts/Satoshi-Regular.otf") format("opentype");
+  src: url("/fonts/Satoshi-Regular.otf") format("opentype");
   font-weight: 400;
   font-style: normal;
 }
 
 @font-face {
   font-family: "Satoshi";
-  src: url("./assets/fonts/Satoshi-Medium.otf") format("opentype");
+  src: url("/fonts/Satoshi-Medium.otf") format("opentype");
   font-weight: 500;
   font-style: normal;
 }
 
 @font-face {
   font-family: "Satoshi";
-  src: url("./assets/fonts/Satoshi-Bold.otf") format("opentype");
+  src: url("/fonts/Satoshi-Bold.otf") format("opentype");
   font-weight: 700;
   font-style: normal;
 }
 
 @font-face {
   font-family: "Satoshi";
-  src: url("./assets/fonts/Satoshi-Black.otf") format("opentype");
+  src: url("/fonts/Satoshi-Black.otf") format("opentype");
   font-weight: 900;
   font-style: normal;
 }
 
 @font-face {
   font-family: "Inter";
-  src: url("./assets/fonts/Inter-VariableFont_opsz,wght.ttf") format("truetype");
+  src: url("/fonts/Inter-VariableFont_opsz,wght.ttf") format("truetype");
   font-weight: 100 900;
   font-style: normal;
 }
 
 @font-face {
   font-family: "Inter";
-  src: url("./assets/fonts/Inter-Italic-VariableFont_opsz,wght.ttf") format("truetype");
+  src: url("/fonts/Inter-Italic-VariableFont_opsz,wght.ttf") format("truetype");
   font-weight: 100 900;
   font-style: italic;
 }
 
 @font-face {
   font-family: "Exo";
-  src: url("./assets/fonts/Exo-VariableFont_wght.ttf") format("truetype");
+  src: url("/fonts/Exo-VariableFont_wght.ttf") format("truetype");
   font-weight: 100 900;
   font-style: normal;
 }
 
 @font-face {
   font-family: "Exo";
-  src: url("./assets/fonts/Exo-Italic-VariableFont_wght.ttf") format("truetype");
+  src: url("/fonts/Exo-Italic-VariableFont_wght.ttf") format("truetype");
   font-weight: 100 900;
   font-style: italic;
 }
