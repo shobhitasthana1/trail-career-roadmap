@@ -4,7 +4,7 @@ import { TiWavesOutline } from "react-icons/ti"
 
 const Section1Marquee = () => {
   return (
-    <div className="group w-full py-16 md:py-24 bg-[#6D3DF5] hover:bg-[#111827] transition-colors duration-700 ease-in-out rounded-t-2xl md:rounded-t-3xl overflow-hidden">
+    <div className="group w-full py-18 md:py-20 bg-[#6D3DF5] hover:bg-[#111827] transition-colors duration-700 ease-in-out rounded-t-2xl md:rounded-t-3xl overflow-hidden">
       <div className="flex whitespace-nowrap text-[#F8FAFC] font-satoshi border-y border-white/20 group-hover:border-[#6D3DF5]/40 transition-colors duration-700 ease-in-out py-4 md:py-6">
         {[...Array(4)].map((_, i) => (
           <motion.div

@@ -27,7 +27,7 @@ const TrackContent = () => (
   </>
 );
 
-const Marquee = () => {
+const Section2Marquee = () => {
   return (
     <div className="relative w-full overflow-hidden border-y border-[#E5E7EB] bg-white py-3 md:py-4">
       <div className="flex w-max animate-marquee whitespace-nowrap will-change-transform">
@@ -42,4 +42,4 @@ const Marquee = () => {
   );
 };
 
-export default Marquee;
+export default Section2Marquee;
