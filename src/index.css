@@ -1,3 +1,27 @@
 @import "tailwindcss";
 
 @import "./fonts.css";
+
+/* Seamless infinite marquee.
+   Marquee.jsx renders the track as: [copy 1 (long)] [copy 2 (identical, long)]
+   Moving exactly -50% shifts by the width of one copy, so copy 2 lands
+   exactly where copy 1 started — the reset is invisible. Because each
+   copy repeats the item set several times, total track width always
+   exceeds the viewport, so overflow-hidden never reveals blank space. */
+
+@keyframes marquee {
+  from {
+    transform: translateX(0%);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  animation: marquee 34s linear infinite;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}

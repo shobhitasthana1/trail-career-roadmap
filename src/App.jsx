@@ -44,7 +44,7 @@ const App = () => {
   }, [])
 
   return (
-    <div ref={scrollRef} className="w-full min-h-screen overflow-x-hidden bg-[#f0eeee]">
+    <div ref={scrollRef} className="w-full min-h-screen overflow-x-hidden bg-[#ffffff]">
       <Navbar />
       <Hero />
       <Section2 />

@@ -58,4 +58,12 @@
   --font-satoshi: "Satoshi", sans-serif;
   --font-inter: "Inter", sans-serif;
   --font-exo: "Exo", sans-serif;
+
+  --color-brand-ink: #111827;
+  --color-brand-body: #64748b;
+  --color-brand-border: #e5e7eb;
+  --color-brand-dark: #0b0b0f;
+  --color-brand-purple: #6d3df5;
+  --color-brand-purple-light: #a855f7;
+  --color-brand-glow: #9577f4;
 }
