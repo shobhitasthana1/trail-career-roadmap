@@ -16,7 +16,7 @@ const CareerSelector = ({ onSelect }) => {
         <button
           key={career}
           onClick={() => handleSelect(career)}
-          className={`whitespace-nowrap rounded-full px-4 py-2 font-exo text-[11px] font-bold tracking-widest transition-all duration-300 md:px-5 md:text-xs ${
+          className={`whitespace-nowrap rounded-full px-4 py-2 font-exo text-[11px] font-bold tracking-widest transition-all duration-300 ease-out hover:-translate-y-0.5 active:scale-95 md:px-5 md:text-xs ${
             active === career
               ? "bg-[#6D3DF5] text-white shadow-[0_4px_14px_rgba(109,61,245,0.35)]"
               : "text-[#111827] hover:bg-[#f5f3ff]"

@@ -10,7 +10,6 @@ const Section2Cylinder = () => {
   const speedRef = useRef(0.35);
 
   useFrame((state, delta) => {
-    // smooth, controlled rotation — premium feel, not spinny
     cyl.current.rotation.y += delta * speedRef.current;
   });
 

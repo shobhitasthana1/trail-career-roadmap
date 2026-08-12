@@ -2,12 +2,6 @@
 
 @import "./fonts.css";
 
-/* Seamless infinite marquee.
-   Marquee.jsx renders the track as: [copy 1 (long)] [copy 2 (identical, long)]
-   Moving exactly -50% shifts by the width of one copy, so copy 2 lands
-   exactly where copy 1 started — the reset is invisible. Because each
-   copy repeats the item set several times, total track width always
-   exceeds the viewport, so overflow-hidden never reveals blank space. */
 
 @keyframes marquee {
   from {
@@ -24,4 +18,35 @@
 
 .animate-marquee:hover {
   animation-play-state: paused;
+}
+
+
+@keyframes float-slow {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-14px);
+  }
+}
+
+.animate-float-slow {
+  animation: float-slow 6s ease-in-out infinite;
+}
+
+@keyframes glow-pulse {
+  0%,
+  100% {
+    opacity: 0.55;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.08);
+  }
+}
+
+.animate-glow-pulse {
+  animation: glow-pulse 4.5s ease-in-out infinite;
 }
