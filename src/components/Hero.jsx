@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
 import ButtonTwo from "./ButtonTwo";
-import HeroCanvas from "./HeroCanvas";
+// import HeroCanvas from "./HeroCanvas";
 
 const Hero = () => {
   const heroSectionRef = useRef(null);
@@ -28,7 +28,7 @@ const Hero = () => {
         </div>
 
         <div className="flex items-center justify-end w-full mt-10 lg:w-1/2 lg:mt-0">
-          <HeroCanvas sectionRef={heroSectionRef} />
+          {/* <HeroCanvas sectionRef={heroSectionRef} /> */}
         </div>
 
       </div>

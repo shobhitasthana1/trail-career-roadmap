@@ -83,7 +83,7 @@ const Section2 = () => {
   return (
     <section
       ref={sectionRef}
-      className="relative flex min-h-[100svh] w-full flex-col overflow-hidden bg-white"
+      className="relative flex min-h-svh w-full flex-col overflow-hidden rounded-t-3xl"
     >
       <div className="pointer-events-none absolute inset-0 opacity-[0.05] [background:radial-gradient(circle_at_15%_20%,#6D3DF5_0,transparent_45%),radial-gradient(circle_at_85%_75%,#A855F7_0,transparent_40%)]" />
 

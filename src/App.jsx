@@ -5,6 +5,7 @@ import Section2 from './components/Section2'
 import Lenis from 'lenis'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import gsap from 'gsap'
+import Section1Marquee from './components/Section1Marquee'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -47,6 +48,7 @@ const App = () => {
     <div ref={scrollRef} className="w-full min-h-screen overflow-x-hidden bg-[#ffffff]">
       <Navbar />
       <Hero />
+      <Section1Marquee />
       <Section2 />
     </div>
   )
