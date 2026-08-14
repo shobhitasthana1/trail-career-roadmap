@@ -1,15 +1,36 @@
-import React, { useRef } from "react";
+import React, { useRef, useEffect } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import ButtonTwo from "./ButtonTwo";
-// import HeroCanvas from "./HeroCanvas";
+import HeroRight from "./HeroRight";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const Hero = () => {
   const heroSectionRef = useRef(null);
 
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      ScrollTrigger.create({
+        trigger: heroSectionRef.current,
+        start: "top top",
+        end: "+=15%", 
+        pin: true,
+        pinSpacing: false,
+      });
+    }, heroSectionRef);
+
+    return () => ctx.revert();
+  }, []);
+
   return (
-    <div ref={heroSectionRef} className="w-full px-6 pt-12 pb-12 md:px-10 md:pt-16 md:pb-20 font-inter">
+    <div ref={heroSectionRef} className="w-full h-screen px-6 pt-12 pb-12 md:px-10 md:pt-16 md:pb-20 font-inter bg-white flex flex-col justify-center">
       <div className="flex flex-col w-full lg:flex-row lg:justify-between">
         
-        <div className="flex flex-col w-full max-w-[650px] mt-5 md:mt-10 lg:w-[55%]">
+        <div className="flex flex-col w-full max-w-[650px] mt-5 md:mt-10 lg:w-[45%] relative">
+
+          <img className="w-[10vw]" src="/images/hero-images/trail-build-your-path-sticker.png" alt="" />
+
           <div className="flex flex-col gap-0">
             <h1 className="w-fit font-satoshi text-5xl font-black leading-[0.9] tracking-tighter text-[#111827] transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] md:text-7xl hover:font-exo hover:italic hover:text-transparent hover:[-webkit-text-stroke:2px_#111827] hover:translate-x-4 cursor-default">
               YOUR JOURNEY.
@@ -33,8 +54,8 @@ const Hero = () => {
           </div>
         </div>
 
-        <div className="flex items-center justify-end w-full mt-10 lg:w-[45%] lg:mt-0">
-          {/* <HeroCanvas sectionRef={heroSectionRef} /> */}
+        <div className="flex items-center justify-center w-full mt-10 lg:w-[55%] lg:mt-0">
+          <HeroRight />
         </div>
       </div>
 
