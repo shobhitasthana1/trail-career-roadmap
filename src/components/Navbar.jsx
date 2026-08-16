@@ -28,7 +28,7 @@ const Navbar = () => {
           : "bg-white/60 backdrop-blur-sm border-b border-stone-100"
       }`}
     >
-      <div className="flex items-center justify-between max-w-7xl mx-auto">
+      <div className="flex items-center justify-between w-full max-w-7xl mx-auto">
         <div className="shrink-0 cursor-pointer flex items-center gap-2">
           <img
             className="w-20 sm:w-24 md:w-28 object-contain transition-transform duration-300 hover:scale-105"
