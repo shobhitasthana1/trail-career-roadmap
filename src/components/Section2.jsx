@@ -103,7 +103,7 @@ const Section2 = () => {
     >
       <div className="pointer-events-none absolute inset-0 opacity-[0.06] [background:radial-gradient(circle_at_15%_20%,#6D3DF5_0,transparent_45%),radial-gradient(circle_at_85%_75%,#A855F7_0,transparent_40%)]" />
 
-      <div className="relative mx-auto flex w-[92%] max-w-[1440px] flex-1 flex-col">
+      <div className="relative mx-auto flex w-[92%] max-w-360 flex-1 flex-col">
         <div className="grid w-full flex-1 grid-cols-1 items-center gap-4 pt-5 lg:grid-cols-[0.85fr_1.15fr] lg:gap-4 lg:pt-4">
           <div className="flex flex-col items-start gap-3 lg:max-w-[440px] lg:gap-4">
             <span className="s2-reveal flex items-center gap-2 font-exo text-[11px] font-bold uppercase tracking-[0.3em] text-[#6D3DF5] md:text-xs">
