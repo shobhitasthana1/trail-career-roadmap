@@ -48,15 +48,15 @@ const drawFrame = (frameIndex) => {
   let drawWidth, drawHeight, offsetX, offsetY;
 
   if (imgRatio > containerRatio) {
-    drawHeight = containerHeight;
-    drawWidth = drawHeight * imgRatio;
-    offsetX = (containerWidth - drawWidth) / 2;
-    offsetY = 0;
-  } else {
     drawWidth = containerWidth;
     drawHeight = drawWidth / imgRatio;
     offsetX = 0;
     offsetY = (containerHeight - drawHeight) / 2;
+  } else {
+    drawHeight = containerHeight;
+    drawWidth = drawHeight * imgRatio;
+    offsetX = (containerWidth - drawWidth) / 2;
+    offsetY = 0;
   }
 
   ctx.drawImage(img, offsetX, offsetY, drawWidth, drawHeight);
@@ -126,7 +126,7 @@ const HeroRight = () => {
   }, [imagesLoaded]);
 
   return (
-    <div className="relative w-full flex justify-center items-center h-[45vh] sm:h-[50vh] lg:h-[70vh]">
+    <div className="relative w-full flex justify-center items-center h-[40vh] sm:h-[45vh] lg:h-[65vh] object-contain">
       {!imagesLoaded && (
         <div className="absolute inset-0 flex items-center justify-center">
           <div className="w-8 h-8 border-2 border-[#9577F4] border-t-transparent rounded-full animate-spin" />
