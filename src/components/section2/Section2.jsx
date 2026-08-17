@@ -1,4 +1,3 @@
-
 import { useEffect, useRef, useState } from "react";
 import { Environment } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
@@ -7,8 +6,8 @@ import { EffectComposer, Bloom, ToneMapping } from "@react-three/postprocessing"
 import { motion, AnimatePresence } from "motion/react";
 import Section2Marquee from "./Section2Marquee";
 import CareerSelector from "./CareerSelector";
-import ButtonThree from "./ButtonThree";
-import ButtonFour from "./ButtonFour";
+import ButtonThree from "../buttons/ButtonThree";
+import ButtonFour from "../buttons/ButtonFour";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 

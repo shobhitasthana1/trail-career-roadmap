@@ -250,7 +250,7 @@ const RoadmapTimeline = forwardRef((props, ref) => {
 
   return (
     <div className="w-full mt-1 lg:mt-0 pb-6">
-      <div className="hidden lg:block">
+      <div className="hidden md:block">
         <div className="relative w-full h-6 mb-3">
           <div className="absolute top-1/2 left-0 right-0 h-[2px] bg-[#D6D3D1] -translate-y-1/2 rounded-full" />
 
@@ -270,7 +270,7 @@ const RoadmapTimeline = forwardRef((props, ref) => {
               ref={(el) => {
                 stepRefs.current[index].desktopDot = el;
               }}
-              className="absolute top-1/2 -translate-x-1/2 -translate-y-1/2 w-[14px] h-[14px] rounded-full border-2 bg-white z-[5]"
+              className="absolute top-1/2 -translate-x-1/2 -translate-y-1/2 w-[12px] h-[12px] md:w-[14px] md:h-[14px] rounded-full border-2 bg-white z-[5]"
               style={{
                 left: `${step.pos}%`,
                 borderColor: index === 0 ? "#C4B5FD" : "#D6D3D1",
@@ -285,25 +285,25 @@ const RoadmapTimeline = forwardRef((props, ref) => {
 
           <div
             ref={progressDotRef}
-            className="absolute top-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center w-[26px] h-[26px] rounded-full bg-[#7C3AED] z-[10]"
+            className="absolute top-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center w-[22px] h-[22px] md:w-[26px] md:h-[26px] rounded-full bg-[#7C3AED] z-[10]"
             style={{
               left: "12.5%",
               boxShadow:
                 "0 0 0 6px rgba(124,58,237,0.10), 0 0 24px rgba(124,58,237,0.38)",
             }}
           >
-            <div className="w-[8px] h-[8px] rounded-full bg-white" />
+            <div className="w-[7px] h-[7px] md:w-[8px] md:h-[8px] rounded-full bg-white" />
           </div>
         </div>
 
-        <div className="grid grid-cols-4 w-full">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-0 w-full">
           {roadmapSteps.map((step, index) => (
-            <div key={`desktop-card-${step.id}`} className="w-full px-2">
+            <div key={`desktop-card-${step.id}`} className="w-full lg:px-2">
               <div
                 ref={(el) => {
                   stepRefs.current[index].desktopCard = el;
                 }}
-                className="group relative flex flex-col gap-2 min-h-[105px] py-4 px-5 bg-white border border-stone-200 rounded-[18px] overflow-hidden transition-colors duration-300"
+                className="group relative flex flex-col gap-2 min-h-[95px] lg:min-h-[105px] py-3.5 px-4 lg:py-4 lg:px-5 bg-white border border-stone-200 rounded-[16px] lg:rounded-[18px] overflow-hidden transition-colors duration-300"
                 style={{
                   borderColor:
                     index === 0
@@ -313,13 +313,13 @@ const RoadmapTimeline = forwardRef((props, ref) => {
               >
                 <div className="pointer-events-none absolute -right-12 -bottom-12 w-36 h-36 rounded-full bg-violet-500/[0.06] blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
-                <div className="absolute top-0 left-5 w-8 h-[2px] rounded-full bg-gradient-to-r from-violet-500 to-purple-300 opacity-70" />
+                <div className="absolute top-0 left-4 lg:left-5 w-8 h-[2px] rounded-full bg-gradient-to-r from-violet-500 to-purple-300 opacity-70" />
 
                 <h4
                   ref={(el) => {
                     stepRefs.current[index].desktopSubtitle = el;
                   }}
-                  className="relative z-[1] text-[11px] font-bold tracking-[0.24em] uppercase font-exo"
+                  className="relative z-[1] text-[10px] lg:text-[11px] font-bold tracking-[0.2em] lg:tracking-[0.24em] uppercase font-exo"
                   style={{
                     color: index === 0 ? COLORS.purple : COLORS.muted,
                   }}
@@ -331,7 +331,7 @@ const RoadmapTimeline = forwardRef((props, ref) => {
                   ref={(el) => {
                     stepRefs.current[index].desktopTitle = el;
                   }}
-                  className="relative z-[1] text-[16px] leading-[1.3] font-semibold font-satoshi max-w-[95%]"
+                  className="relative z-[1] text-[14px] lg:text-[16px] leading-[1.3] font-semibold font-satoshi max-w-full lg:max-w-[95%]"
                   style={{
                     color: index === 0 ? COLORS.navy : COLORS.darkGray,
                   }}
@@ -344,9 +344,9 @@ const RoadmapTimeline = forwardRef((props, ref) => {
         </div>
       </div>
 
-      <div className="lg:hidden flex flex-col gap-4 pt-3 pb-4">
+      <div className="md:hidden flex flex-col gap-4 pt-3 pb-4">
         {roadmapSteps.map((step, index) => (
-          <div key={`mobile-card-${step.id}`} className="flex gap-4">
+          <div key={`mobile-card-${step.id}`} className="flex gap-3 sm:gap-4">
             <div className="flex flex-col items-center pt-4">
               <div
                 ref={(el) => {
@@ -380,7 +380,7 @@ const RoadmapTimeline = forwardRef((props, ref) => {
               ref={(el) => {
                 stepRefs.current[index].mobileCard = el;
               }}
-              className="relative flex-1 flex flex-col gap-1.5 py-4 px-4 bg-white border border-stone-200 rounded-[18px] overflow-hidden"
+              className="relative flex-1 min-w-0 flex flex-col gap-1.5 py-3.5 px-3.5 sm:py-4 sm:px-4 bg-white border border-stone-200 rounded-[16px] sm:rounded-[18px] overflow-hidden"
               style={{
                 borderColor:
                   index === 0
@@ -396,7 +396,7 @@ const RoadmapTimeline = forwardRef((props, ref) => {
                 ref={(el) => {
                   stepRefs.current[index].mobileSubtitle = el;
                 }}
-                className="relative z-[1] text-[11px] font-bold tracking-[0.2em] uppercase font-exo"
+                className="relative z-[1] text-[10px] sm:text-[11px] font-bold tracking-[0.2em] uppercase font-exo"
                 style={{
                   color: index === 0 ? COLORS.purple : COLORS.muted,
                 }}
@@ -408,7 +408,7 @@ const RoadmapTimeline = forwardRef((props, ref) => {
                 ref={(el) => {
                   stepRefs.current[index].mobileTitle = el;
                 }}
-                className="relative z-[1] text-base leading-snug font-semibold font-satoshi"
+                className="relative z-[1] text-sm sm:text-base leading-snug font-semibold font-satoshi break-words"
                 style={{
                   color: index === 0 ? COLORS.navy : COLORS.darkGray,
                 }}

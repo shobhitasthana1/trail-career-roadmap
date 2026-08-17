@@ -28,7 +28,7 @@ const drawFrame = (frameIndex) => {
   const containerHeight = parent.clientHeight;
   if (!containerWidth || !containerHeight) return;
 
-  const dpr = window.devicePixelRatio || 1;
+  const dpr = Math.min(window.devicePixelRatio || 1, 2);
   const width = Math.round(containerWidth * dpr);
   const height = Math.round(containerHeight * dpr);
 
@@ -62,6 +62,12 @@ const drawFrame = (frameIndex) => {
   ctx.drawImage(img, offsetX, offsetY, drawWidth, drawHeight);
 };
 
+const redrawCurrentFrame = () => {
+  const frameToRedraw = lastDrawnFrame === -1 ? START_FRAME : lastDrawnFrame;
+  lastDrawnFrame = -1;
+  drawFrame(frameToRedraw);
+};
+
 export const setHeroFrameProgress = (progress) => {
   const frame = Math.round(START_FRAME + progress * (TOTAL_FRAMES - START_FRAME));
   drawFrame(frame);
@@ -77,30 +83,27 @@ const HeroRight = () => {
 
   useEffect(() => {
     let loadedCount = 0;
+    let cancelled = false;
     const imgs = [];
     const totalToLoad = TOTAL_FRAMES - START_FRAME + 1;
 
     for (let i = START_FRAME; i <= TOTAL_FRAMES; i++) {
       const img = new Image();
       img.src = FRAME_PATH(i);
-      img.onload = () => {
+      const onSettle = () => {
         loadedCount++;
-        if (loadedCount === totalToLoad) {
+        if (!cancelled && loadedCount === totalToLoad) {
           imagesArr = imgs;
           setImagesLoaded(true);
         }
       };
-      img.onerror = () => {
-        loadedCount++;
-        if (loadedCount === totalToLoad) {
-          imagesArr = imgs;
-          setImagesLoaded(true);
-        }
-      };
+      img.onload = onSettle;
+      img.onerror = onSettle;
       imgs.push(img);
     }
 
     return () => {
+      cancelled = true;
       imagesArr = [];
       lastDrawnFrame = -1;
     };
@@ -114,12 +117,11 @@ const HeroRight = () => {
     }
 
     const handleResize = () => {
-      lastDrawnFrame = -1;
-      drawFrame(Math.round(lastDrawnFrame === -1 ? START_FRAME : lastDrawnFrame));
+      redrawCurrentFrame();
     };
 
     window.addEventListener("resize", handleResize);
-    
+
     let resizeObserver = null;
     if (canvasEl && canvasEl.parentElement) {
       resizeObserver = new ResizeObserver(() => {
@@ -136,10 +138,10 @@ const HeroRight = () => {
   }, [imagesLoaded]);
 
   return (
-    <div className="relative w-full h-[32vh] sm:h-[42vh] md:h-[48vh] lg:h-[58vh] xl:h-[65vh] max-h-[700px] flex justify-center items-center overflow-hidden">
+    <div className="relative flex items-center justify-center w-full h-[48vh] sm:h-[46vh] md:h-[50vh] lg:h-full overflow-hidden">
       {!imagesLoaded && (
         <div className="absolute inset-0 flex items-center justify-center">
-          <div className="w-8 h-8 border-2 border-[#9577F4] border-t-transparent rounded-full animate-spin" />
+          <div className="w-7 h-7 sm:w-8 sm:h-8 border-2 border-[#9577F4] border-t-transparent rounded-full animate-spin" />
         </div>
       )}
       <canvas
