@@ -235,21 +235,21 @@ const Section3 = () => {
       <div className="image-card-section h-full w-[200%] absolute top-0 z-6 translate-x-full flex items-center justify-around px-8">
         <div className="card card1 w-[25%] flex items-center justify-center">
           <img
-            className="w-full h-auto rounded-xl shadow-2xl"
+            className="w-full h-auto object-contain"
             src="/images/section3-images/card1.png"
             alt=""
           />
         </div>
         <div className="card card2 w-[25%] flex items-center justify-center">
           <img
-            className="w-full h-auto rounded-xl shadow-2xl"
+            className="w-full h-auto object-contain"
             src="/images/section3-images/card2.png"
             alt=""
           />
         </div>
         <div className="card card3 w-[25%] flex items-center justify-center">
           <img
-            className="w-full h-auto rounded-xl shadow-2xl"
+            className="w-full h-auto object-contain"
             src="/images/section3-images/card3.png"
             alt=""
           />
