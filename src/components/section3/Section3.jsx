@@ -216,7 +216,7 @@ const Section3 = () => {
           >
             <h1
               ref={heading2Ref}
-              className="text-[clamp(3rem,7vw,7.5rem)] leading-[1] font-satoshi font-black tracking-tighter text-center text-[#111827]"
+              className="text-[clamp(3rem,7vw,7.5rem)] leading-none font-satoshi font-black tracking-tighter text-center text-[#111827]"
             >
               GET A LIVING ROADMAP.
             </h1>
