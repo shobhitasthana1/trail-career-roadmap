@@ -15,8 +15,8 @@ const roadmapSteps = [
   },
   {
     id: "02",
-    subtitle: "LEARN",
-    title: "Build the skills that matter.",
+    subtitle: "EXPLORE",
+    title: "Discover the skills that matter.",
     pos: 37.5,
   },
   {

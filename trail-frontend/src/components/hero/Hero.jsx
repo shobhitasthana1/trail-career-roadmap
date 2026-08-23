@@ -10,7 +10,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 const roadmapSteps = [
   { id: "01", subtitle: "DISCOVER", title: "Find the right career path.", pos: 12.5 },
-  { id: "02", subtitle: "LEARN", title: "Build the skills that matter.", pos: 37.5 },
+  { id: "02", subtitle: "EXPLORE", title: "Discover the skills that matter.", pos: 37.5 },
   { id: "03", subtitle: "BUILD", title: "Follow your roadmap and build skills.", pos: 62.5 },
   { id: "04", subtitle: "GROW", title: "Track your progress and goals.", pos: 87.5 },
 ];
