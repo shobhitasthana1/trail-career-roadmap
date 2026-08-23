@@ -26,13 +26,17 @@ const Section3 = () => {
       gsap.set(text2WrapperRef.current, { autoAlpha: 0 });
       gsap.set(heading2Ref.current, { y: 40 });
       gsap.set(label2Ref.current, { y: 20 });
+      gsap.set(".final-text-reveal-content", { xPercent: 100 });
+      gsap.set(".imagereveal", { clipPath: "inset(0% 0% 0% 100%)" });
+      
+      gsap.set(".image-card-section", { xPercent: 50 });
 
       const tl = gsap.timeline({
         defaults: { ease: "none" },
         scrollTrigger: {
           trigger: sectionRef.current,
           start: "top top",
-          end: "+=600%",
+          end: "+=450%",
           scrub: 2.5,
           pin: true,
           anticipatePin: 1,
@@ -137,11 +141,41 @@ const Section3 = () => {
       tl.to(
         ".image-card-section",
         {
-          xPercent: -300,
+          xPercent: -100,
           duration: 4,
           ease: "none",
         },
-        "-=0.16"
+        "cardsSlide"
+      );
+
+      tl.to(
+        text2WrapperRef.current,
+        {
+          autoAlpha: 0,
+          duration: 1,
+          ease: "power2.out",
+        },
+        "cardsSlide+=1"
+      );
+
+      tl.to(
+        ".imagereveal",
+        {
+          clipPath: "inset(0% 0% 0% 0%)",
+          duration: 2.5,
+          ease: "power2.inOut",
+        },
+        "cardsSlide+=2.5" 
+      );
+
+      tl.to(
+        ".final-text-reveal-content",
+        {
+          xPercent: 0,
+          duration: 2.5,
+          ease: "power2.inOut",
+        },
+        "cardsSlide+=2.5"
       );
     }, sectionRef);
 
@@ -168,17 +202,17 @@ const Section3 = () => {
 
       <div className="absolute inset-0 bg-linear-to-b from-black/5 via-black/10 to-black/20 pointer-events-none" />
 
-      <div className="absolute inset-0 z-3 flex flex-col items-center justify-center text-white pointer-events-none drop-shadow-xl">
+      <div className="absolute inset-0 z-3 flex flex-col items-center justify-center pointer-events-none">
         <span
           ref={label1Ref}
-          className="mb-4 text-xs md:text-sm font-inter font-semibold uppercase tracking-[0.18em]"
+          className="mb-4 text-xs md:text-sm font-inter font-[600] uppercase tracking-[0.18em] text-[#F4EEFF] drop-shadow-[0_2px_4px_rgba(0,0,0,0.4)]"
         >
-          Your path starts here
+          THREE SIMPLE STEPS
         </span>
 
         <h1
           ref={heading1Ref}
-          className="text-[clamp(3rem,8vw,8rem)] leading-[0.9] font-satoshi font-black tracking-[-0.04em] text-center whitespace-nowrap"
+          className="text-[clamp(3rem,8vw,8rem)] leading-[0.9] font-satoshi font-black tracking-[-0.04em] text-center whitespace-nowrap text-[#FFFFFF] drop-shadow-[0_6px_24px_rgba(0,0,0,0.35)]"
         >
           HOW IT WORKS
         </h1>
@@ -216,23 +250,22 @@ const Section3 = () => {
           >
             <h1
               ref={heading2Ref}
-              className="text-[clamp(3rem,7vw,7.5rem)] leading-none font-satoshi font-black tracking-tighter text-center text-[#111827]"
+              className="text-[clamp(3rem,7vw,7.5rem)] leading-none font-satoshi font-black tracking-tighter text-center text-[#17133D] drop-shadow-[0_4px_20px_rgba(255,255,255,0.25)]"
             >
-              GET A LIVING ROADMAP.
+              BUILD YOUR PATH.
             </h1>
 
             <p
               ref={label2Ref}
-              className="text-lg md:text-2xl font-inter font-medium text-[#64748b] text-center max-w-3xl leading-relaxed text-balance"
+              className="text-lg md:text-2xl font-inter font-[500] text-[#5B587A] text-center max-w-3xl leading-[1.5] text-balance"
             >
-              Turn real job-market data into an ordered skill path — built for
-              where you want to go.
+              Start with the role you want, discover the skills it demands, and turn them into a clear path forward.
             </p>
           </div>
         </div>
       </div>
 
-      <div className="image-card-section h-full w-[200%] absolute top-0 z-6 translate-x-full flex items-center justify-around px-8">
+      <div className="image-card-section h-full w-[200%] absolute top-0 z-[8] flex items-center justify-around px-8 pointer-events-none">
         <div className="card card1 w-[25%] flex items-center justify-center">
           <img
             className="w-full h-auto object-contain"
@@ -256,8 +289,19 @@ const Section3 = () => {
         </div>
       </div>
 
-      <div className="final-text-reveal">
-        <img src="" alt="" />
+      <div className="final-text-reveal h-full w-full absolute top-0 z-20">
+        <div className="imagereveal w-full h-full">
+          <img
+            className="w-full h-full object-cover"
+            src="/images/section3-images/initial-image2.png"
+            alt=""
+          />
+        </div>
+        <div className="final-text-reveal-content h-full w-full absolute top-0 z-30 flex items-center justify-center bg-black/20">
+          <h2 className="text-[clamp(3.5rem,8vw,8rem)] leading-[1.1] font-satoshi font-black tracking-tight text-center text-[#FFFFFF] drop-shadow-[0_6px_28px_rgba(0,0,0,0.45)] px-4 text-balance">
+            YOUR GOAL IS CLEAR.<br className="hidden md:block" /> NOW BUILD THE PATH.
+          </h2>
+        </div>
       </div>
     </section>
   );
