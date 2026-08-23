@@ -2,7 +2,7 @@
   "name": "trail-backend",
   "version": "1.0.0",
   "description": "A web app where a user enters a job role and gets back the skills required and a learning roadmap — built from real, current job posting data instead of a static skill list.",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "start": "node server.js",
     "dev": "nodemon server.js"
