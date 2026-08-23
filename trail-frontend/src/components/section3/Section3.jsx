@@ -158,7 +158,6 @@ const Section3 = () => {
         "cardsSlide+=1"
       );
 
-      // Final background wipe starts exactly as the 3rd card moves left
       tl.to(
         ".imagereveal",
         {
@@ -169,7 +168,6 @@ const Section3 = () => {
         "cardsSlide+=8.5"
       );
 
-      // Text slides in from the right to fill the empty space immediately
       tl.to(
         ".final-text-reveal-content",
         {
@@ -254,7 +252,7 @@ const Section3 = () => {
               ref={heading2Ref}
               className="text-[clamp(3rem,7vw,7.5rem)] leading-none font-satoshi font-black tracking-tighter text-center text-[#17133D] drop-shadow-[0_4px_20px_rgba(255,255,255,0.25)]"
             >
-              BUILD YOUR PATH
+              BUILD YOUR PATH.
             </h1>
 
             <p
@@ -271,21 +269,21 @@ const Section3 = () => {
       <div className="image-card-section h-full w-[200%] absolute top-0 z-[8] flex items-center justify-around px-8 pointer-events-none">
         <div className="card card1 w-[25%] flex items-center justify-center">
           <img
-            className="w-full h-auto object-contain"
+            className="w-full h-[57vh] object-contain drop-shadow-2xl"
             src="/images/section3-images/card1.png"
             alt=""
           />
         </div>
         <div className="card card2 w-[25%] flex items-center justify-center">
           <img
-            className="w-full h-auto object-contain"
+            className="w-full h-[57vh] object-contain drop-shadow-2xl"
             src="/images/section3-images/card2.png"
             alt=""
           />
         </div>
         <div className="card card3 w-[25%] flex items-center justify-center">
           <img
-            className="w-full h-auto object-contain"
+            className="w-full h-[57vh] object-contain drop-shadow-2xl"
             src="/images/section3-images/card3.png"
             alt=""
           />
