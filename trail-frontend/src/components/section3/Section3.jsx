@@ -28,7 +28,7 @@ const Section3 = () => {
       gsap.set(label2Ref.current, { y: 20 });
       gsap.set(".final-text-reveal-content", { xPercent: 100 });
       gsap.set(".imagereveal", { clipPath: "inset(0% 0% 0% 100%)" });
-      
+
       gsap.set(".image-card-section", { xPercent: 50 });
 
       const tl = gsap.timeline({
@@ -36,7 +36,7 @@ const Section3 = () => {
         scrollTrigger: {
           trigger: sectionRef.current,
           start: "top top",
-          end: "+=450%",
+          end: "+=1200%",
           scrub: 2.5,
           pin: true,
           anticipatePin: 1,
@@ -142,7 +142,7 @@ const Section3 = () => {
         ".image-card-section",
         {
           xPercent: -100,
-          duration: 4,
+          duration: 12,
           ease: "none",
         },
         "cardsSlide"
@@ -152,30 +152,32 @@ const Section3 = () => {
         text2WrapperRef.current,
         {
           autoAlpha: 0,
-          duration: 1,
+          duration: 1.5,
           ease: "power2.out",
         },
         "cardsSlide+=1"
       );
 
+      // Final background wipe starts exactly as the 3rd card moves left
       tl.to(
         ".imagereveal",
         {
           clipPath: "inset(0% 0% 0% 0%)",
-          duration: 2.5,
+          duration: 4,
           ease: "power2.inOut",
         },
-        "cardsSlide+=2.5" 
+        "cardsSlide+=8.5"
       );
 
+      // Text slides in from the right to fill the empty space immediately
       tl.to(
         ".final-text-reveal-content",
         {
           xPercent: 0,
-          duration: 2.5,
-          ease: "power2.inOut",
+          duration: 4,
+          ease: "power2.out",
         },
-        "cardsSlide+=2.5"
+        "cardsSlide+=9"
       );
     }, sectionRef);
 
@@ -259,7 +261,8 @@ const Section3 = () => {
               ref={label2Ref}
               className="text-lg md:text-2xl font-inter font-[500] text-[#5B587A] text-center max-w-3xl leading-[1.5] text-balance"
             >
-              Start with the role you want, discover the skills it demands, and turn them into a clear path forward.
+              Start with the role you want, discover the skills it demands, and
+              turn them into a clear path forward.
             </p>
           </div>
         </div>
@@ -293,13 +296,14 @@ const Section3 = () => {
         <div className="imagereveal w-full h-full">
           <img
             className="w-full h-full object-cover"
-            src="/images/section3-images/initial-image2.png"
+            src="/images/section3-images/initial-image.jpg"
             alt=""
           />
         </div>
         <div className="final-text-reveal-content h-full w-full absolute top-0 z-30 flex items-center justify-center bg-black/20">
           <h2 className="text-[clamp(3.5rem,8vw,8rem)] leading-[1.1] font-satoshi font-black tracking-tight text-center text-[#FFFFFF] drop-shadow-[0_6px_28px_rgba(0,0,0,0.45)] px-4 text-balance">
-            YOUR GOAL IS CLEAR.<br className="hidden md:block" /> NOW BUILD THE PATH.
+            YOUR GOAL IS CLEAR.<br className="hidden md:block" /> NOW BUILD THE
+            PATH.
           </h2>
         </div>
       </div>
