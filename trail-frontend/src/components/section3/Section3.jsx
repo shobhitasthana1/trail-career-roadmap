@@ -254,7 +254,7 @@ const Section3 = () => {
               ref={heading2Ref}
               className="text-[clamp(3rem,7vw,7.5rem)] leading-none font-satoshi font-black tracking-tighter text-center text-[#17133D] drop-shadow-[0_4px_20px_rgba(255,255,255,0.25)]"
             >
-              BUILD YOUR PATH.
+              BUILD YOUR PATH
             </h1>
 
             <p

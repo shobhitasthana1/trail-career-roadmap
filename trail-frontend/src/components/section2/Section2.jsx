@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from "react";
-import { Environment } from "@react-three/drei";
-import { Canvas } from "@react-three/fiber";
-import Section2Cylinder from "./Section2Cylinder";
-import { EffectComposer, Bloom, ToneMapping } from "@react-three/postprocessing";
+// import { Environment } from "@react-three/drei";
+// import { Canvas } from "@react-three/fiber";
+// import Section2Cylinder from "./Section2Cylinder";
+// import { EffectComposer, Bloom, ToneMapping } from "@react-three/postprocessing";
 import { motion, AnimatePresence } from "motion/react";
 import Section2Marquee from "./Section2Marquee";
 import CareerSelector from "./CareerSelector";
@@ -157,37 +157,33 @@ const Section2 = () => {
           </div>
 
           <div className="flex h-full w-full flex-col items-center justify-center px-4 py-4 md:px-8 lg:py-0">
-            <div className="s2-cylinder-stage relative aspect-square w-full max-w-[520px] h-[min(46vh,520px)] sm:h-[min(50vh,520px)] lg:h-[min(53vh,520px)]">
-              <div className="animate-glow-pulse pointer-events-none absolute inset-0 [background:radial-gradient(circle,rgba(109,61,245,0.10),transparent_65%)]" />
+            <div className="s2-cylinder-stage relative aspect-square w-full max-w-[600px] h-[min(50vh,600px)] sm:h-[min(55vh,600px)] lg:h-[min(60vh,600px)]">
+              <div className="animate-glow-pulse pointer-events-none absolute inset-0 [background:radial-gradient(circle,rgba(109,61,245,0.12),transparent_65%)] scale-125" />
 
               <motion.div
-                className="relative h-full w-full"
-                animate={{ y: [0, -10, 0], rotate: [0, 0.5, 0, -0.5, 0] }}
-                transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }}
+                className="relative flex h-full w-full items-center justify-center"
+                animate={{ 
+                  y: [-12, 12, -12],
+                }}
+                transition={{ 
+                  duration: 6, 
+                  repeat: Infinity, 
+                  ease: "easeInOut" 
+                }}
               >
-                <Canvas
-                  camera={{ fov: 42, position: [0, 0, 10.5] }}
-                  dpr={[1, 2]}
-                  gl={{ alpha: true }}
-                >
-                  <ambientLight intensity={0.6} />
-                  <directionalLight position={[4, 6, 5]} intensity={1.2} />
-                  <pointLight position={[-5, -2, -5]} intensity={0.35} color="#9577F4" />
-
-                  <Section2Cylinder />
-
-                  <Environment preset="studio" />
-
-                  <EffectComposer>
-                    <Bloom
-                      mipmapBlur
-                      intensity={0.6}
-                      luminanceThreshold={0.4}
-                      luminanceSmoothing={0.4}
-                    />
-                    <ToneMapping adaptive />
-                  </EffectComposer>
-                </Canvas>
+                <motion.img 
+                  src="/images/section2-images/Section2-right.png" 
+                  alt="Trail Career Roadmap Illustration" 
+                  className="z-10 h-[90%] w-[90%] object-contain drop-shadow-[0_20px_40px_rgba(109,61,245,0.15)]"
+                  initial={{ opacity: 0, scale: 0.85, rotate: -2 }}
+                  animate={{ opacity: 1, scale: 1, rotate: 0 }}
+                  transition={{ 
+                    duration: 1.2, 
+                    ease: [0.16, 1, 0.3, 1],
+                    delay: 0.2
+                  }}
+                  whileHover={{ scale: 1.03, rotate: 1 }}
+                />
               </motion.div>
             </div>
           </div>
