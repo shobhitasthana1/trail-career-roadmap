@@ -77,7 +77,8 @@ const FAQ = () => {
       
       <div className="pointer-events-none absolute inset-0 opacity-[0.4] [background:radial-gradient(ellipse_at_center,rgba(109,61,245,0.08)_0%,transparent_70%)]" />
 
-      <div className="relative mx-auto flex w-[90%] max-w-4xl flex-col items-center z-10">
+      {/* Increased max-width to accommodate 2 columns perfectly */}
+      <div className="relative mx-auto flex w-[90%] max-w-[1200px] flex-col items-center z-10">
         
         {/* Header Section */}
         <div className="flex flex-col items-center text-center mb-12 md:mb-16">
@@ -93,78 +94,154 @@ const FAQ = () => {
           </h2>
         </div>
 
-        {/* FAQs List */}
-        <div className="faq-reveal w-full flex flex-col gap-4 md:gap-5">
-          {FAQ_DATA.map((faq, index) => {
-            const isOpen = openIndex === index;
+        {/* FAQs 2-Column Grid */}
+        <div className="faq-reveal w-full grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 items-start">
+          
+          {/* LEFT COLUMN (Questions 1 to 3) */}
+          <div className="flex w-full flex-col gap-4 md:gap-5">
+            {FAQ_DATA.slice(0, 3).map((faq, index) => {
+              const isOpen = openIndex === index;
 
-            return (
-              <motion.div
-                key={index}
-                className={`group overflow-hidden rounded-2xl md:rounded-[24px] border transition-all duration-300 ${
-                  isOpen
-                    ? "border-[#6D3DF5]/30 bg-[#6D3DF5]/[0.02] shadow-[0_10px_40px_rgba(109,61,245,0.08)]"
-                    : "border-gray-200 bg-white hover:border-gray-300 hover:shadow-[0_8px_30px_rgba(0,0,0,0.04)] hover:-translate-y-1"
-                }`}
-                initial={false}
-              >
-                <button
-                  onClick={() => toggleFAQ(index)}
-                  className="flex w-full items-center justify-between gap-4 p-5 md:p-7 text-left outline-none"
+              return (
+                <motion.div
+                  key={index}
+                  className={`group overflow-hidden rounded-2xl md:rounded-[24px] border transition-all duration-300 ${
+                    isOpen
+                      ? "border-[#6D3DF5]/30 bg-[#6D3DF5]/[0.02] shadow-[0_10px_40px_rgba(109,61,245,0.08)]"
+                      : "border-gray-200 bg-white hover:border-gray-300 hover:shadow-[0_8px_30px_rgba(0,0,0,0.04)] hover:-translate-y-1"
+                  }`}
+                  initial={false}
                 >
-                  <span
-                    className={`font-satoshi text-base font-bold transition-colors duration-300 md:text-[19px] leading-snug ${
-                      isOpen ? "text-[#6D3DF5]" : "text-[#111827] group-hover:text-[#6D3DF5]"
-                    }`}
+                  <button
+                    onClick={() => toggleFAQ(index)}
+                    className="flex w-full items-center justify-between gap-4 p-5 md:p-6 lg:p-7 text-left outline-none"
                   >
-                    {faq.question}
-                  </span>
-                  
-                  {/* Plus/Minus Icon with hover & active states */}
-                  <div
-                    className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full transition-all duration-300 ${
-                      isOpen 
-                        ? "bg-[#6D3DF5] text-white shadow-[0_4px_12px_rgba(109,61,245,0.3)]" 
-                        : "bg-gray-50 text-gray-400 group-hover:bg-[#6D3DF5]/10 group-hover:text-[#6D3DF5]"
-                    }`}
-                  >
-                    <motion.svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="18"
-                      height="18"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      animate={{ rotate: isOpen ? 45 : 0 }}
-                      transition={{ duration: 0.4, ease: "backOut(1.5)" }}
+                    <span
+                      className={`font-satoshi text-base font-bold transition-colors duration-300 md:text-[18px] leading-snug pr-2 ${
+                        isOpen ? "text-[#6D3DF5]" : "text-[#111827] group-hover:text-[#6D3DF5]"
+                      }`}
                     >
-                      <line x1="12" y1="5" x2="12" y2="19"></line>
-                      <line x1="5" y1="12" x2="19" y2="12"></line>
-                    </motion.svg>
-                  </div>
-                </button>
+                      {faq.question}
+                    </span>
+                    
+                    <div
+                      className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full transition-all duration-300 ${
+                        isOpen 
+                          ? "bg-[#6D3DF5] text-white shadow-[0_4px_12px_rgba(109,61,245,0.3)]" 
+                          : "bg-gray-50 text-gray-400 group-hover:bg-[#6D3DF5]/10 group-hover:text-[#6D3DF5]"
+                      }`}
+                    >
+                      <motion.svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="18"
+                        height="18"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        animate={{ rotate: isOpen ? 45 : 0 }}
+                        transition={{ duration: 0.4, ease: "backOut(1.5)" }}
+                      >
+                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                      </motion.svg>
+                    </div>
+                  </button>
 
-                <AnimatePresence initial={false}>
-                  {isOpen && (
-                    <motion.div
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: "auto", opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                  <AnimatePresence initial={false}>
+                    {isOpen && (
+                      <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: "auto", opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                      >
+                        <div className="px-5 pb-6 pt-0 md:px-7 md:pb-7 font-inter text-sm md:text-[15px] leading-relaxed text-[#64748B] pr-12 md:pr-16">
+                          {faq.answer}
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </motion.div>
+              );
+            })}
+          </div>
+
+          {/* RIGHT COLUMN (Questions 4 to 6) */}
+          <div className="flex w-full flex-col gap-4 md:gap-5">
+            {FAQ_DATA.slice(3, 6).map((faq, i) => {
+              const index = i + 3; // Setting actual absolute index (3, 4, 5)
+              const isOpen = openIndex === index;
+
+              return (
+                <motion.div
+                  key={index}
+                  className={`group overflow-hidden rounded-2xl md:rounded-[24px] border transition-all duration-300 ${
+                    isOpen
+                      ? "border-[#6D3DF5]/30 bg-[#6D3DF5]/[0.02] shadow-[0_10px_40px_rgba(109,61,245,0.08)]"
+                      : "border-gray-200 bg-white hover:border-gray-300 hover:shadow-[0_8px_30px_rgba(0,0,0,0.04)] hover:-translate-y-1"
+                  }`}
+                  initial={false}
+                >
+                  <button
+                    onClick={() => toggleFAQ(index)}
+                    className="flex w-full items-center justify-between gap-4 p-5 md:p-6 lg:p-7 text-left outline-none"
+                  >
+                    <span
+                      className={`font-satoshi text-base font-bold transition-colors duration-300 md:text-[18px] leading-snug pr-2 ${
+                        isOpen ? "text-[#6D3DF5]" : "text-[#111827] group-hover:text-[#6D3DF5]"
+                      }`}
                     >
-                      
-                      <div className="px-5 pb-6 pt-0 md:px-7 md:pb-7 font-inter text-sm md:text-[15px] leading-relaxed text-[#64748B] pr-12 md:pr-20">
-                        {faq.answer}
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </motion.div>
-            );
-          })}
+                      {faq.question}
+                    </span>
+                    
+                    <div
+                      className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full transition-all duration-300 ${
+                        isOpen 
+                          ? "bg-[#6D3DF5] text-white shadow-[0_4px_12px_rgba(109,61,245,0.3)]" 
+                          : "bg-gray-50 text-gray-400 group-hover:bg-[#6D3DF5]/10 group-hover:text-[#6D3DF5]"
+                      }`}
+                    >
+                      <motion.svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="18"
+                        height="18"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        animate={{ rotate: isOpen ? 45 : 0 }}
+                        transition={{ duration: 0.4, ease: "backOut(1.5)" }}
+                      >
+                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                      </motion.svg>
+                    </div>
+                  </button>
+
+                  <AnimatePresence initial={false}>
+                    {isOpen && (
+                      <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: "auto", opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                      >
+                        <div className="px-5 pb-6 pt-0 md:px-7 md:pb-7 font-inter text-sm md:text-[15px] leading-relaxed text-[#64748B] pr-12 md:pr-16">
+                          {faq.answer}
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </motion.div>
+              );
+            })}
+          </div>
+
         </div>
       </div>
     </section>
