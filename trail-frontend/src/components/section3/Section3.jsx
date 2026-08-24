@@ -191,7 +191,7 @@ const Section3 = () => {
   return (
     <section
       ref={sectionRef}
-      className="relative w-full h-screen overflow-hidden bg-[#FEFEFE]"
+      className="relative w-full h-screen overflow-hidden bg-white rounded-t-3xl md:rounded-t-[3rem] border-t border-stone-200/60 shadow-[0_-12px_40px_-5px_rgba(0,0,0,0.05)] z-30"
     >
       <img
         ref={imageRef}
