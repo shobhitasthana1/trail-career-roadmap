@@ -1,11 +1,6 @@
-import { useEffect, useRef, useState } from "react";
-// import { Environment } from "@react-three/drei";
-// import { Canvas } from "@react-three/fiber";
-// import Section2Cylinder from "./Section2Cylinder";
-// import { EffectComposer, Bloom, ToneMapping } from "@react-three/postprocessing";
-import { motion, AnimatePresence } from "motion/react";
+import { useEffect, useRef } from "react";
+import { motion } from "motion/react";
 import Section2Marquee from "./Section2Marquee";
-import CareerSelector from "./CareerSelector";
 import ButtonThree from "../buttons/ButtonThree";
 import ButtonFour from "../buttons/ButtonFour";
 import gsap from "gsap";
@@ -19,37 +14,23 @@ const STATS = [
   { value: "50K+", label: "Active Learners" },
 ];
 
-const CAREER_COPY = {
-  FRONTEND:
-    "Explore career paths, discover the skills that matter, and find a roadmap built around your goals.",
-  "FULL STACK":
-    "Master both sides of the stack, from interfaces to infrastructure, with a roadmap that ties it all together.",
-  "AI / ML":
-    "Dive into machine learning and applied AI, guided by a roadmap built around real-world models.",
-  "UI / UX":
-    "Design experiences people love, with a roadmap focused on research, systems, and craft.",
-  BACKEND:
-    "Build the systems that power everything else, with a roadmap centered on architecture and scale.",
-};
-
 const Section2 = () => {
   const sectionRef = useRef(null);
-  const [activeCareer, setActiveCareer] = useState("FRONTEND");
 
   useEffect(() => {
     const ctx = gsap.context(() => {
       gsap.fromTo(
         ".s2-reveal",
-        { opacity: 0, y: 28 },
+        { opacity: 0, y: 32 },
         {
           opacity: 1,
           y: 0,
-          duration: 0.9,
+          duration: 1,
           ease: "power3.out",
-          stagger: 0.09,
+          stagger: 0.1,
           scrollTrigger: {
             trigger: sectionRef.current,
-            start: "top 78%",
+            start: "top 75%",
             toggleActions: "play none none none",
           },
         }
@@ -57,17 +38,17 @@ const Section2 = () => {
 
       gsap.fromTo(
         ".s2-cylinder-stage",
-        { opacity: 0, scale: 0.9, y: 24 },
+        { opacity: 0, scale: 0.95, x: 20 },
         {
           opacity: 1,
           scale: 1,
-          y: 0,
-          duration: 1.1,
+          x: 0,
+          duration: 1.2,
           ease: "power3.out",
-          delay: 0.15,
+          delay: 0.2,
           scrollTrigger: {
             trigger: sectionRef.current,
-            start: "top 78%",
+            start: "top 75%",
             toggleActions: "play none none none",
           },
         }
@@ -75,17 +56,17 @@ const Section2 = () => {
 
       gsap.fromTo(
         ".s2-reveal-late",
-        { opacity: 0, y: 18 },
+        { opacity: 0, y: 20 },
         {
           opacity: 1,
           y: 0,
           duration: 0.8,
           ease: "power3.out",
-          stagger: 0.12,
-          delay: 0.35,
+          stagger: 0.15,
+          delay: 0.4,
           scrollTrigger: {
             trigger: sectionRef.current,
-            start: "top 78%",
+            start: "top 75%",
             toggleActions: "play none none none",
           },
         }
@@ -98,18 +79,32 @@ const Section2 = () => {
   return (
     <section
       ref={sectionRef}
-      className="relative flex min-h-svh w-full flex-col overflow-hidden rounded-t-3xl"
+      className="relative flex min-h-svh w-full flex-col overflow-hidden rounded-t-[2.5rem] bg-[#FAFAFA] pt-8"
     >
-      <div className="pointer-events-none absolute inset-0 opacity-[0.06] [background:radial-gradient(circle_at_15%_20%,#6D3DF5_0,transparent_45%),radial-gradient(circle_at_85%_75%,#A855F7_0,transparent_40%)]" />
+      <div className="pointer-events-none absolute inset-0 opacity-[0.06] [background:radial-gradient(circle_at_10%_20%,#6D3DF5_0,transparent_50%),radial-gradient(circle_at_90%_80%,#A855F7_0,transparent_50%)]" />
 
-      <div className="relative mx-auto flex w-[92%] max-w-360 flex-1 flex-col">
-        <div className="grid w-full flex-1 grid-cols-1 items-center gap-4 pt-5 lg:grid-cols-[0.85fr_1.15fr] lg:gap-4 lg:pt-4">
-          <div className="flex flex-col items-start gap-3 lg:max-w-[440px] lg:gap-4">
-            <span className="s2-reveal flex items-center gap-2 font-exo text-[11px] font-bold uppercase tracking-[0.3em] text-[#6D3DF5] md:text-xs">
-              Explore Your Path <span className="text-sm">✦</span>
+      <div
+        className="pointer-events-none absolute inset-0"
+        style={{
+          backgroundImage: "radial-gradient(#6D3DF5 1px, transparent 1px)",
+          backgroundSize: "32px 32px",
+          opacity: 0.2,
+          maskImage:
+            "radial-gradient(ellipse 60% 50% at 50% 50%, black 0%, transparent 70%)",
+          WebkitMaskImage:
+            "radial-gradient(ellipse 60% 50% at 50% 50%, black 0%, transparent 70%)",
+        }}
+      />
+
+      <div className="relative mx-auto flex w-[90%] max-w-[1300px] flex-1 flex-col justify-center">
+        <div className="grid w-full grid-cols-1 items-center gap-12 py-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-8 lg:py-6">
+          <div className="flex flex-col items-start gap-5 lg:max-w-[500px] lg:gap-6">
+            <span className="s2-reveal flex items-center gap-3 rounded-full border border-[#6D3DF5]/20 bg-[#6D3DF5]/[0.03] px-4 py-1.5 font-exo text-[11px] font-bold uppercase tracking-[0.3em] text-[#6D3DF5] shadow-sm md:text-xs">
+              <span className="h-1.5 w-1.5 rounded-full bg-[#6D3DF5]" />
+              Explore Your Path
             </span>
 
-            <h2 className="s2-reveal font-satoshi text-[clamp(2.1rem,4vw,3.6rem)] font-black leading-[0.95] tracking-tight text-[#111827]">
+            <h2 className="s2-reveal font-satoshi text-[clamp(2.5rem,4.5vw,4.2rem)] font-black leading-[1.05] tracking-tight text-[#111827]">
               FIND YOUR
               <br />
               <span className="bg-gradient-to-r from-[#6D3DF5] to-[#A855F7] bg-clip-text text-transparent">
@@ -117,87 +112,77 @@ const Section2 = () => {
               </span>
             </h2>
 
-            <div className="s2-reveal max-w-[440px]">
-              <AnimatePresence mode="wait" initial={false}>
-                <motion.p
-                  key={activeCareer}
-                  initial={{ opacity: 0, y: 6 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -6 }}
-                  transition={{ duration: 0.3, ease: "easeOut" }}
-                  className="font-inter text-sm leading-relaxed text-[#64748B] md:text-base"
-                >
-                  {CAREER_COPY[activeCareer]}
-                </motion.p>
-              </AnimatePresence>
-            </div>
+            <p className="s2-reveal max-w-[460px] font-inter text-[15px] leading-relaxed text-[#475569] md:text-[17px]">
+              Explore career paths, uncover the skills that matter, and follow a roadmap built entirely around your goals.
+            </p>
 
-            <div className="s2-reveal flex items-stretch divide-x divide-[#E5E7EB] py-1">
-              {STATS.map((stat, i) => (
+            <div className="s2-reveal grid w-full grid-cols-3 gap-3 pt-3 md:gap-5">
+              {STATS.map((stat) => (
                 <div
                   key={stat.label}
-                  className={`group flex flex-col gap-0.5 px-5 transition-transform duration-300 ease-out hover:-translate-y-1 ${
-                    i === 0 ? "pl-0" : ""
-                  }`}
+                  className="group flex flex-col gap-1.5 rounded-2xl border border-white/60 bg-white/40 px-4 py-4 shadow-[0_8px_30px_rgba(0,0,0,0.03)] backdrop-blur-md transition-all duration-400 ease-out hover:-translate-y-1.5 hover:bg-white/80 hover:shadow-[0_20px_40px_-15px_rgba(109,61,245,0.15)] md:px-5"
                 >
-                  <span className="font-satoshi text-xl font-black text-[#6D3DF5] transition-colors duration-300 group-hover:text-[#A855F7] md:text-2xl">
+                  <span className="h-1 w-8 rounded-full bg-gradient-to-r from-[#6D3DF5] to-[#A855F7] opacity-60 transition-all duration-300 group-hover:w-10 group-hover:opacity-100" />
+                  <span className="mt-1 font-satoshi text-2xl font-black text-[#111827] transition-colors duration-300 group-hover:text-[#6D3DF5] md:text-3xl">
                     {stat.value}
                   </span>
-                  <span className="text-[10px] font-medium text-[#64748B] md:text-[11px]">
+                  <span className="text-[10px] font-semibold uppercase tracking-wider text-[#64748B] md:text-xs">
                     {stat.label}
                   </span>
                 </div>
               ))}
             </div>
 
-            <div className="s2-reveal flex flex-row flex-wrap items-center gap-4 pt-1 md:gap-5">
+            <div className="s2-reveal flex flex-row flex-wrap items-center gap-4 pt-4 md:gap-5">
               <ButtonThree text="START EXPLORING" />
               <ButtonFour text="SEE HOW IT WORKS" />
             </div>
           </div>
 
-          <div className="flex h-full w-full flex-col items-center justify-center px-4 py-4 md:px-8 lg:py-0">
-            <div className="s2-cylinder-stage relative aspect-square w-full max-w-[600px] h-[min(50vh,600px)] sm:h-[min(55vh,600px)] lg:h-[min(60vh,600px)]">
-              <div className="animate-glow-pulse pointer-events-none absolute inset-0 [background:radial-gradient(circle,rgba(109,61,245,0.12),transparent_65%)] scale-125" />
+          <div className="flex h-full w-full flex-col items-center justify-center px-4 py-10 md:px-8 lg:translate-x-12 lg:py-0 xl:translate-x-20">
+            <div className="s2-cylinder-stage relative aspect-square w-full max-w-[650px] h-[min(55vh,650px)] sm:h-[min(60vh,650px)] lg:h-[min(65vh,650px)]">
+              <div className="animate-glow-pulse pointer-events-none absolute inset-0 scale-125 [background:radial-gradient(circle,rgba(109,61,245,0.12),transparent_60%)]" />
+
+              <div className="pointer-events-none absolute -inset-8 rounded-full border border-dashed border-[#6D3DF5]/20 animate-[spin_80s_linear_infinite] md:-inset-12" />
+              <div className="pointer-events-none absolute -inset-3 rounded-full border border-[#A855F7]/15 md:-inset-4" />
 
               <motion.div
                 className="relative flex h-full w-full items-center justify-center"
-                animate={{ 
-                  y: [-12, 12, -12],
+                animate={{
+                  y: [-15, 15, -15],
                 }}
-                transition={{ 
-                  duration: 6, 
-                  repeat: Infinity, 
-                  ease: "easeInOut" 
+                transition={{
+                  duration: 7,
+                  repeat: Infinity,
+                  ease: "easeInOut",
                 }}
               >
-                <motion.img 
-                  src="/images/section2-images/Section2-right.png" 
-                  alt="Trail Career Roadmap Illustration" 
-                  className="z-10 h-[90%] w-[90%] object-contain drop-shadow-[0_20px_40px_rgba(109,61,245,0.15)]"
-                  initial={{ opacity: 0, scale: 0.85, rotate: -2 }}
+                <motion.img
+                  src="/images/section2-images/Section2-right.png"
+                  alt="Trail Career Roadmap Illustration"
+                  className="z-10 h-[95%] w-[95%] object-contain drop-shadow-[0_24px_48px_rgba(109,61,245,0.18)]"
+                  initial={{ opacity: 0, scale: 0.9, rotate: -3 }}
                   animate={{ opacity: 1, scale: 1, rotate: 0 }}
-                  transition={{ 
-                    duration: 1.2, 
+                  transition={{
+                    duration: 1.4,
                     ease: [0.16, 1, 0.3, 1],
-                    delay: 0.2
+                    delay: 0.1,
                   }}
-                  whileHover={{ scale: 1.03, rotate: 1 }}
+                  whileHover={{ scale: 1.04, rotate: 1.5 }}
                 />
               </motion.div>
             </div>
           </div>
         </div>
 
-        <div className="s2-reveal-late flex w-full shrink-0 flex-col items-center gap-3 pb-2 pt-6">
-          <span className="font-exo text-[10px] font-bold uppercase tracking-[0.3em] text-[#94A3B8] md:text-[11px]">
-            Explore By Specialization
-          </span>
-          <CareerSelector active={activeCareer} onSelect={setActiveCareer} />
+        <div className="s2-reveal-late flex items-center justify-center gap-4 pb-4 pt-8">
+          <span className="h-px w-20 bg-gradient-to-r from-transparent to-[#6D3DF5]/30 md:w-32" />
+          <span className="text-xs text-[#6D3DF5]/50">✦</span>
+          <span className="h-px w-20 bg-gradient-to-l from-transparent to-[#6D3DF5]/30 md:w-32" />
         </div>
       </div>
 
-      <div className="s2-reveal-late mt-8 shrink-0 md:mt-12">
+      <div className="s2-reveal-late mt-8 shrink-0 md:mt-10">
         <Section2Marquee />
       </div>
     </section>
