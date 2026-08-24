@@ -49,28 +49,31 @@ const Section4 = () => {
 
         <div className="w-full flex flex-col gap-6 md:gap-10">
           
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10">
-            <div className="feature-reveal w-full h-full overflow-hidden rounded-2xl md:rounded-[32px] shadow-[0_8px_30px_rgba(0,0,0,0.04)] transition-transform duration-300 hover:-translate-y-2">
+          {/* 6-Column Grid System */}
+          <div className="grid grid-cols-1 md:grid-cols-6 gap-6 md:gap-10">
+            
+            {/* ROW 1: 3 Images (Each takes 2 columns: 2+2+2 = 6) */}
+            <div className="feature-reveal w-full h-full md:col-span-2 overflow-hidden rounded-2xl md:rounded-[32px] shadow-[0_8px_30px_rgba(0,0,0,0.04)] transition-transform duration-300 hover:-translate-y-2">
               <img src="/images/section4-features-images/Features1.png" alt="Feature 1" className="w-full h-auto" />
             </div>
             
-            <div className="feature-reveal w-full h-full overflow-hidden rounded-2xl md:rounded-[32px] shadow-[0_8px_30px_rgba(0,0,0,0.04)] transition-transform duration-300 hover:-translate-y-2">
+            <div className="feature-reveal w-full h-full md:col-span-2 overflow-hidden rounded-2xl md:rounded-[32px] shadow-[0_8px_30px_rgba(0,0,0,0.04)] transition-transform duration-300 hover:-translate-y-2">
               <img src="/images/section4-features-images/Features2.png" alt="Feature 2" className="w-full h-auto" />
             </div>
 
-            <div className="feature-reveal w-full h-full overflow-hidden rounded-2xl md:rounded-[32px] shadow-[0_8px_30px_rgba(0,0,0,0.04)] transition-transform duration-300 hover:-translate-y-2">
+            <div className="feature-reveal w-full h-full md:col-span-2 overflow-hidden rounded-2xl md:rounded-[32px] shadow-[0_8px_30px_rgba(0,0,0,0.04)] transition-transform duration-300 hover:-translate-y-2">
               <img src="/images/section4-features-images/Features3.png" alt="Feature 3" className="w-full h-auto" />
             </div>
             
-            <div className="feature-reveal w-full h-full overflow-hidden rounded-2xl md:rounded-[32px] shadow-[0_8px_30px_rgba(0,0,0,0.04)] transition-transform duration-300 hover:-translate-y-2">
+            {/* ROW 2: 2 Images Centered (Shifted using col-start-2) */}
+            <div className="feature-reveal w-full h-full md:col-start-2 md:col-span-2 overflow-hidden rounded-2xl md:rounded-[32px] shadow-[0_8px_30px_rgba(0,0,0,0.04)] transition-transform duration-300 hover:-translate-y-2">
               <img src="/images/section4-features-images/Features4.png" alt="Feature 4" className="w-full h-auto" />
             </div>
-          </div>
 
-          <div className="feature-reveal flex justify-center w-full mt-2 md:mt-4">
-            <div className="w-full md:w-[60%] h-full overflow-hidden rounded-2xl md:rounded-[32px] shadow-[0_8px_30px_rgba(0,0,0,0.04)] transition-transform duration-300 hover:-translate-y-2">
+            <div className="feature-reveal w-full h-full md:col-span-2 overflow-hidden rounded-2xl md:rounded-[32px] shadow-[0_8px_30px_rgba(0,0,0,0.04)] transition-transform duration-300 hover:-translate-y-2">
               <img src="/images/section4-features-images/Features5.png" alt="Feature 5" className="w-full h-auto" />
             </div>
+
           </div>
 
         </div>
