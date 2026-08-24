@@ -134,7 +134,8 @@ const Hero = () => {
   return (
     <div
       ref={heroSectionRef}
-      className="w-full min-h-screen lg:h-screen lg:max-h-screen px-4 sm:px-6 md:px-8 lg:px-10 pt-20 sm:pt-24 md:pt-24 lg:pt-20 pb-6 lg:pb-4 font-inter bg-white flex flex-col justify-center gap-6 lg:gap-1 overflow-x-hidden"
+      /* Yahan padding-bottom ko pb-0 kiya hai taaki neeche gap na bache */
+      className="w-full min-h-screen lg:h-screen lg:max-h-screen px-4 sm:px-6 md:px-8 lg:px-10 pt-20 sm:pt-24 md:pt-24 lg:pt-20 pb-0 font-inter bg-white flex flex-col justify-center gap-4 lg:gap-0 overflow-x-hidden"
     >
       <div className="flex flex-col w-full lg:flex-row lg:justify-between lg:items-center gap-6 lg:gap-4">
         <div className="flex flex-col items-center text-center lg:items-start lg:text-left w-full max-w-[560px] mx-auto lg:mx-0 lg:max-w-none mt-1 sm:mt-2 lg:w-[45%] relative z-10">
@@ -176,7 +177,7 @@ const Hero = () => {
         </div>
       </div>
 
-      <div className="w-full pb-2 mt-2 lg:mt-2">
+      <div className="w-full pb-0 mt-0 lg:mt-0 relative z-10">
         <div className="hidden lg:block relative w-full pt-1">
           <div className="absolute top-0 left-0 w-full h-2">
             <div className="absolute top-1/2 left-0 right-0 h-[2px] bg-stone-100 -translate-y-1/2 rounded-full" />
@@ -228,7 +229,7 @@ const Hero = () => {
           </div>
         </div>
 
-        <div className="lg:hidden flex flex-col gap-3 pt-2">
+        <div className="lg:hidden flex flex-col gap-3 pt-2 pb-4">
           {roadmapSteps.map((step, index) => (
             <div key={`mob-${step.id}`} className="flex gap-3">
               <div className="flex flex-col items-center pt-2">

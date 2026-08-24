@@ -1,38 +1,108 @@
-import React from "react";
-import { motion } from "framer-motion";
-import { TiWavesOutline } from "react-icons/ti";
+import React, { useRef } from "react";
 
-const marqueeContent = (
-  <>
-    <h1 className="text-[7vw] sm:text-[6vw] md:text-[4.5vw] font-black uppercase tracking-tight whitespace-nowrap">
-      WE BUILD YOUR NEXT MOVE
-    </h1>
-    <TiWavesOutline className="text-[5vw] sm:text-[4vw] md:text-[3vw] shrink-0 opacity-70 group-hover:text-[#6D3DF5] group-hover:opacity-100 transition-all duration-500 ease-in-out" />
-    <h1 className="text-[7vw] sm:text-[6vw] md:text-[4.5vw] font-black uppercase tracking-tight whitespace-nowrap">
-      WITH TRAIL
-    </h1>
-    <TiWavesOutline className="text-[5vw] sm:text-[4vw] md:text-[3vw] shrink-0 opacity-70 group-hover:text-[#6D3DF5] group-hover:opacity-100 transition-all duration-500 ease-in-out" />
-  </>
-);
+const PHRASE_PRIMARY = "We Build Your Next Move";
+const PHRASE_SECONDARY = "With Trail";
+const UNITS_PER_TRACK = 10;
 
-const Section1Marquee = () => {
+function TickerUnit() {
   return (
-    <div className="relative z-10 group w-full py-8 sm:py-12 md:py-14 bg-[#6D3DF5] hover:bg-[#111827] transition-colors duration-700 ease-in-out rounded-t-2xl md:rounded-t-3xl overflow-hidden flex shadow-lg">
-      <div className="flex whitespace-nowrap text-[#F8FAFC] font-satoshi border-y border-white/15 group-hover:border-[#6D3DF5]/30 transition-colors duration-700 ease-in-out py-3 sm:py-4 md:py-5 w-full">
-        {[...Array(4)].map((_, i) => (
-          <motion.div
-            key={i}
-            initial={{ x: 0 }}
-            animate={{ x: "-100%" }}
-            transition={{ ease: "linear", repeat: Infinity, duration: 22 }}
-            className="flex items-center gap-4 sm:gap-10 md:gap-12 pr-4 sm:pr-10 md:pr-12 shrink-0 select-none"
-          >
-            {marqueeContent}
-          </motion.div>
-        ))}
+    <span className="flex items-center gap-4 md:gap-6 shrink-0 pr-4 md:pr-6">
+      <span className="text-[11px] sm:text-xs md:text-sm font-semibold tracking-[0.32em] uppercase text-white">
+        {PHRASE_PRIMARY}
+      </span>
+
+      <span
+        aria-hidden="true"
+        className="trail-spark select-none text-[10px] md:text-xs text-white/45"
+      >
+        ✦
+      </span>
+
+      <span
+        className="text-[11px] sm:text-xs md:text-sm font-semibold tracking-[0.32em] uppercase text-transparent"
+        style={{ WebkitTextStroke: "0.6px rgba(255,255,255,0.55)" }}
+      >
+        {PHRASE_SECONDARY}
+      </span>
+
+      <span
+        aria-hidden="true"
+        className="trail-spark select-none text-[10px] md:text-xs text-white/45"
+      >
+        ✦
+      </span>
+    </span>
+  );
+}
+
+export default function Section1Marquee() {
+  const wrapRef = useRef(null);
+  const glowRef = useRef(null);
+
+  const handleMouseMove = (e) => {
+    if (!wrapRef.current || !glowRef.current) return;
+    const rect = wrapRef.current.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    glowRef.current.style.transform = `translateX(${x - 150}px)`;
+  };
+
+  return (
+    <div
+      ref={wrapRef}
+      onMouseMove={handleMouseMove}
+      /* Yahan -mt-8 md:-mt-14 aur z-20 add kiya hai gap khatam karne ke liye */
+      className="trail-marquee group relative z-20 -mt-5 md:-mt-10 w-full overflow-hidden bg-[#6D3DF5] hover:bg-[#0C0A18] transition-colors duration-700 ease-out rounded-t-2xl md:rounded-t-3xl shadow-[0_-10px_30px_rgba(0,0,0,0.03)]"
+      style={{
+        maskImage:
+          "linear-gradient(90deg, transparent 0%, black 6%, black 94%, transparent 100%)",
+        WebkitMaskImage:
+          "linear-gradient(90deg, transparent 0%, black 6%, black 94%, transparent 100%)",
+      }}
+    >
+      <style>{`
+        @keyframes trail-marquee-scroll {
+          from { transform: translateX(0); }
+          to   { transform: translateX(-50%); }
+        }
+        @keyframes trail-spark-spin {
+          from { transform: rotate(0deg); }
+          to   { transform: rotate(360deg); }
+        }
+        .trail-marquee .trail-track {
+          animation: trail-marquee-scroll 32s linear infinite;
+          will-change: transform;
+        }
+        .trail-marquee:hover .trail-track {
+          animation-duration: 90s;
+        }
+        .trail-spark {
+          display: inline-block;
+          animation: trail-spark-spin 7s linear infinite;
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .trail-marquee .trail-track,
+          .trail-spark {
+            animation: none;
+          }
+        }
+      `}</style>
+
+      <div className="absolute top-0 left-0 right-0 h-px bg-white/15" />
+      <div className="absolute bottom-0 left-0 right-0 h-px bg-white/15" />
+
+      <div
+        ref={glowRef}
+        aria-hidden="true"
+        className="pointer-events-none absolute top-0 left-0 h-full w-[300px] rounded-full blur-3xl bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+      />
+
+      <div className="relative flex py-3.5 md:py-4">
+        <div className="trail-track flex w-max items-center">
+          {Array.from({ length: UNITS_PER_TRACK * 2 }).map((_, i) => (
+            <TickerUnit key={i} />
+          ))}
+        </div>
       </div>
     </div>
   );
-};
-
-export default Section1Marquee;
+}
