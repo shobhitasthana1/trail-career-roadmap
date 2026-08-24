@@ -284,7 +284,7 @@ const RoadmapTimeline = forwardRef((props, ref) => {
   }));
 
   return (
-    <div className="w-full mt-1 lg:mt-0 pb-6">
+    <div className="w-full mt-1 lg:mt-0 pb-0">
       {/* ===== Desktop / tablet rail ===== */}
       <div className="hidden md:block">
         <div className="relative w-full h-8 mb-4">
