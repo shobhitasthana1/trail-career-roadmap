@@ -7,10 +7,8 @@ gsap.registerPlugin(ScrollTrigger);
 const Section3 = () => {
   const sectionRef = useRef(null);
   const imageRef = useRef(null);
-
   const label1Ref = useRef(null);
   const heading1Ref = useRef(null);
-
   const text2WrapperRef = useRef(null);
   const heading2Ref = useRef(null);
   const label2Ref = useRef(null);
@@ -28,7 +26,6 @@ const Section3 = () => {
       gsap.set(label2Ref.current, { y: 20 });
       gsap.set(".final-text-reveal-content", { xPercent: 100 });
       gsap.set(".imagereveal", { clipPath: "inset(0% 0% 0% 100%)" });
-
       gsap.set(".image-card-section", { xPercent: 50 });
 
       const tl = gsap.timeline({
@@ -252,15 +249,14 @@ const Section3 = () => {
               ref={heading2Ref}
               className="text-[clamp(3rem,7vw,7.5rem)] leading-none font-satoshi font-black tracking-tighter text-center text-[#17133D] drop-shadow-[0_4px_20px_rgba(255,255,255,0.25)]"
             >
-              BUILD YOUR PATH.
+              PICK YOUR GOAL.
             </h1>
 
             <p
               ref={label2Ref}
               className="text-lg md:text-2xl font-inter font-[500] text-[#5B587A] text-center max-w-3xl leading-[1.5] text-balance"
             >
-              Start with the role you want, discover the skills it demands, and
-              turn them into a clear path forward.
+              Choose the role you want. We’ll map the way there.
             </p>
           </div>
         </div>
@@ -291,17 +287,19 @@ const Section3 = () => {
       </div>
 
       <div className="final-text-reveal h-full w-full absolute top-0 z-20">
-        <div className="imagereveal w-full h-full">
+        <div className="imagereveal w-full h-full overflow-hidden">
           <img
             className="w-full h-full object-cover"
-            src="/images/section3-images/initial-image.jpg"
+            style={{ clipPath: "ellipse(120% 100% at 50% 0%)" }}
+            src="/images/section3-images/stripe-image.png"
             alt=""
           />
         </div>
+
         <div className="final-text-reveal-content h-full w-full absolute top-0 z-30 flex items-center justify-center bg-black/20">
-          <h2 className="text-[clamp(3.5rem,8vw,8rem)] leading-[1.1] font-satoshi font-black tracking-tight text-center text-[#FFFFFF] drop-shadow-[0_6px_28px_rgba(0,0,0,0.45)] px-4 text-balance">
-            YOUR GOAL IS CLEAR.<br className="hidden md:block" /> NOW BUILD THE
-            PATH.
+          <h2 className="text-[clamp(2.8rem,6vw,6rem)] leading-[1.1] font-satoshi font-black tracking-tight text-center text-[#FFFFFF] drop-shadow-[0_6px_28px_rgba(0,0,0,0.45)] px-4 text-balance">
+            YOUR PATH IS CLEAR.<br className="hidden md:block" /> NOW START YOUR
+            JOURNEY.
           </h2>
         </div>
       </div>
