@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import { motion } from "motion/react";
-import Section2Marquee from "./Section2Marquee";
+// import Section2Marquee from "./Section2Marquee";
 import ButtonThree from "../buttons/ButtonThree";
 import ButtonFour from "../buttons/ButtonFour";
 import gsap from "gsap";
@@ -183,7 +183,7 @@ const Section2 = () => {
       </div>
 
       <div className="s2-reveal-late mt-8 shrink-0 md:mt-10">
-        <Section2Marquee />
+        {/* <Section2Marquee /> */}
       </div>
     </section>
   );
