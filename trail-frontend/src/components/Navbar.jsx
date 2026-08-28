@@ -32,13 +32,13 @@ const Navbar = () => {
       }`}
     >
       <div className="flex items-center justify-between w-full max-w-7xl mx-auto">
-        <div className="shrink-0 cursor-pointer flex items-center gap-2">
-          <img
-            className="w-16 sm:w-24 md:w-28 object-contain transition-transform duration-300 hover:scale-105"
-            src="/images/logo.webp"
-            alt="TRAIL Logo"
-          />
-        </div>
+       <div className="shrink-0 cursor-pointer flex items-center gap-2">
+  <img
+    className="w-20 sm:w-28 md:w-32 object-contain transition-transform duration-300 hover:scale-105"
+    src="/images/traiilhd.webp"
+    alt="TRAIL Logo"
+  />
+</div>
 
         <div className="hidden lg:flex items-center gap-6 xl:gap-10 text-stone-600 font-medium">
           {navLinks.map((item) => (
