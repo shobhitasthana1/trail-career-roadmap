@@ -217,44 +217,46 @@ const Section3 = () => {
 
       <div className="strip-reveal absolute top-0 z-4 h-full w-full">
         <div className="strips flex h-full w-full">
+          {/* DARK Grid Backgrounds for Strips */}
           <div
-            className="strip h-full w-1/3 bg-no-repeat bg-size-[300%_100%] [clip-path:inset(0%_0%_0%_100%)] bg-position-[0%_50%]"
+            className="strip h-full w-1/3 bg-[#0a0a0a] [clip-path:inset(0%_0%_0%_100%)] border-r border-white/10"
             style={{
-              backgroundImage:
-                "url('/images/section3-images/stripe-image.png')",
+              backgroundImage: `linear-gradient(to right, rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.05) 1px, transparent 1px)`,
+              backgroundSize: "40px 40px",
             }}
           />
 
           <div
-            className="strip h-full w-1/3 bg-no-repeat bg-size-[300%_100%] [clip-path:inset(0%_0%_0%_100%)] bg-position-[50%_50%]"
+            className="strip h-full w-1/3 bg-[#0a0a0a] [clip-path:inset(0%_0%_0%_100%)] border-r border-white/10"
             style={{
-              backgroundImage:
-                "url('/images/section3-images/stripe-image.png')",
+              backgroundImage: `linear-gradient(to right, rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.05) 1px, transparent 1px)`,
+              backgroundSize: "40px 40px",
             }}
           />
 
           <div
-            className="strip h-full w-1/3 bg-no-repeat bg-size-[300%_100%] [clip-path:inset(0%_0%_0%_100%)] bg-position-[100%_50%]"
+            className="strip h-full w-1/3 bg-[#0a0a0a] [clip-path:inset(0%_0%_0%_100%)]"
             style={{
-              backgroundImage:
-                "url('/images/section3-images/stripe-image.png')",
+              backgroundImage: `linear-gradient(to right, rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.05) 1px, transparent 1px)`,
+              backgroundSize: "40px 40px",
             }}
           />
 
           <div
             ref={text2WrapperRef}
-            className="absolute inset-0 z-10 flex flex-col items-center justify-center pointer-events-none gap-6 px-4 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.95)_0%,rgba(255,255,255,0)_70%)]"
+            className="absolute inset-0 z-10 flex flex-col items-center justify-center pointer-events-none gap-6 px-4 bg-[radial-gradient(circle_at_center,rgba(10,10,10,0.95)_0%,rgba(10,10,10,0.7)_35%,rgba(10,10,10,0)_75%)]"
           >
+            {/* White Text to contrast the new dark grid */}
             <h1
               ref={heading2Ref}
-              className="text-[clamp(3rem,7vw,7.5rem)] leading-none font-satoshi font-black tracking-tighter text-center text-[#17133D] drop-shadow-[0_4px_20px_rgba(255,255,255,0.25)]"
+              className="text-[clamp(3rem,7vw,7.5rem)] leading-none font-satoshi font-black tracking-tighter text-center text-white drop-shadow-[0_4px_20px_rgba(255,255,255,0.1)]"
             >
               PICK YOUR GOAL.
             </h1>
 
             <p
               ref={label2Ref}
-              className="text-lg md:text-2xl font-inter font-[500] text-[#5B587A] text-center max-w-3xl leading-[1.5] text-balance"
+              className="text-lg md:text-2xl font-inter font-[500] text-slate-300 text-center max-w-3xl leading-[1.5] text-balance"
             >
               Choose the role you want. We’ll map the way there.
             </p>
@@ -265,21 +267,21 @@ const Section3 = () => {
       <div className="image-card-section h-full w-[200%] absolute top-0 z-[8] flex items-center justify-around px-8 pointer-events-none">
         <div className="card card1 w-[25%] flex items-center justify-center">
           <img
-            className="w-full h-[57vh] object-contain drop-shadow-2xl"
+            className="w-full h-[57vh] object-contain drop-shadow-[0_10px_40px_rgba(255,255,255,0.1)]"
             src="/images/section3-images/card1.png"
             alt=""
           />
         </div>
         <div className="card card2 w-[25%] flex items-center justify-center">
           <img
-            className="w-full h-[57vh] object-contain drop-shadow-2xl"
+            className="w-full h-[57vh] object-contain drop-shadow-[0_10px_40px_rgba(255,255,255,0.1)]"
             src="/images/section3-images/card2.png"
             alt=""
           />
         </div>
         <div className="card card3 w-[25%] flex items-center justify-center">
           <img
-            className="w-full h-[57vh] object-contain drop-shadow-2xl"
+            className="w-full h-[57vh] object-contain drop-shadow-[0_10px_40px_rgba(255,255,255,0.1)]"
             src="/images/section3-images/card3.png"
             alt=""
           />
@@ -287,17 +289,25 @@ const Section3 = () => {
       </div>
 
       <div className="final-text-reveal h-full w-full absolute top-0 z-20">
-        <div className="imagereveal w-full h-full overflow-hidden">
-          <img
-            className="w-full h-full object-cover"
-            style={{ clipPath: "ellipse(120% 100% at 50% 0%)" }}
-            src="/images/section3-images/stripe-image.png"
-            alt=""
+        <div className="imagereveal w-full h-full overflow-hidden relative">
+          
+          {/* PURE WHITE Background behind the curve */}
+          <div className="absolute inset-0 w-full h-full bg-white" />
+
+          {/* Dark Grid Background with curve cut out */}
+          <div
+            className="absolute inset-0 w-full h-full bg-[#0a0a0a]"
+            style={{
+              clipPath: "ellipse(120% 100% at 50% 0%)",
+              backgroundImage: `linear-gradient(to right, rgba(255,255,255,0.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.06) 1px, transparent 1px)`,
+              backgroundSize: "40px 40px",
+            }}
           />
         </div>
 
-        <div className="final-text-reveal-content h-full w-full absolute top-0 z-30 flex items-center justify-center bg-black/20">
-          <h2 className="text-[clamp(2.8rem,6vw,6rem)] leading-[1.1] font-satoshi font-black tracking-tight text-center text-[#FFFFFF] drop-shadow-[0_6px_28px_rgba(0,0,0,0.45)] px-4 text-balance">
+        {/* Removed bg-black/30 so it doesn't darken the pure white corners */}
+        <div className="final-text-reveal-content h-full w-full absolute top-0 z-30 flex items-center justify-center bg-transparent">
+          <h2 className="text-[clamp(2.8rem,6vw,6rem)] leading-[1.1] font-satoshi font-black tracking-tight text-center text-[#FFFFFF] drop-shadow-[0_4px_24px_rgba(0,0,0,0.6)] px-4 text-balance pointer-events-none">
             YOUR PATH IS CLEAR.<br className="hidden md:block" /> NOW START YOUR
             JOURNEY.
           </h2>
