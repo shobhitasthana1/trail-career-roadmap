@@ -24,103 +24,129 @@ const Navbar = () => {
   const navLinks = ["Home", "Explore", "Roadmap", "Progress", "Resources"];
 
   return (
-    <nav
-      className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ease-in-out px-4 sm:px-6 md:px-8 lg:px-10 py-3 sm:py-4 ${
-        isScrolled
-          ? "bg-white/85 backdrop-blur-md border-b border-stone-200/80 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)]"
-          : "bg-white/60 backdrop-blur-sm border-b border-stone-100"
-      }`}
-    >
-      <div className="flex items-center justify-between w-full max-w-7xl mx-auto">
-       <div className="shrink-0 cursor-pointer flex items-center gap-2">
-  <img
-    className="w-20 sm:w-28 md:w-32 object-contain transition-transform duration-300 hover:scale-105"
-    src="/images/traiilhd.webp"
-    alt="TRAIL Logo"
-  />
-</div>
-
-        <div className="hidden lg:flex items-center gap-6 xl:gap-10 text-stone-600 font-medium">
-          {navLinks.map((item) => (
-            <a
-              key={item}
-              href="#"
-              className="text-sm tracking-wide flex items-center gap-2 font-medium hover:text-[#7C3AED] transition-colors relative group py-1"
-            >
-              {item === "Roadmap" && (
-                <span className="w-2 h-2 rounded-full bg-purple-500 shadow-[0_0_8px_rgba(168,85,247,0.8)] animate-pulse"></span>
-              )}
-              {item}
-              <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-[#7C3AED] transition-all duration-300 group-hover:w-full rounded-full" />
-            </a>
-          ))}
-        </div>
-
-        <div className="hidden lg:flex items-center gap-6">
-          <div className="transition-transform duration-300 hover:scale-[1.03] active:scale-95">
-            <ButtonOne text="Get Started" />
+    <>
+      <nav
+        className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] px-5 sm:px-8 md:px-12 lg:px-16 ${
+          isScrolled && !mobileMenuOpen
+            ? "py-3 lg:py-4 bg-white/80 backdrop-blur-xl border-b border-stone-200/50 shadow-sm"
+            : "py-5 lg:py-8 bg-transparent border-b border-transparent"
+        }`}
+      >
+        <div className="flex items-center justify-between w-full max-w-[1400px] mx-auto">
+          <div className="shrink-0 cursor-pointer flex items-center gap-2 z-50">
+            <img
+              className="w-24 sm:w-28 lg:w-36 xl:w-40 object-contain transition-transform duration-500 hover:scale-105"
+              src="/images/traiilhd.webp"
+              alt="TRAIL Logo"
+            />
           </div>
-        </div>
 
-        <div className="flex lg:hidden items-center gap-4">
-          <button
-            onClick={() => setMobileMenuOpen((prev) => !prev)}
-            className="p-2 text-stone-800 rounded-xl bg-stone-100/80 hover:bg-stone-200/80 focus:outline-none transition-colors"
-            aria-label="Toggle Menu"
-            aria-expanded={mobileMenuOpen}
-          >
-            <svg
-              className="w-5 h-5 sm:w-6 sm:h-6"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              {mobileMenuOpen ? (
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              ) : (
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M4 6h16M4 12h16M4 18h16"
-                />
-              )}
-            </svg>
-          </button>
-        </div>
-      </div>
-
-      {mobileMenuOpen && (
-        <div className="absolute top-full left-0 w-full max-h-[calc(100vh-64px)] overflow-y-auto bg-white/95 backdrop-blur-xl border-b border-stone-200/80 shadow-2xl py-5 sm:py-6 px-4 sm:px-6 flex flex-col gap-2 sm:gap-3 lg:hidden transition-all duration-300">
-          {navLinks.map((item) => (
-            <a
-              key={item}
-              href="#"
-              onClick={() => setMobileMenuOpen(false)}
-              className="text-base font-semibold text-stone-700 hover:text-[#7C3AED] flex items-center justify-between py-3 px-4 rounded-xl hover:bg-purple-50/50 transition-all"
-            >
-              <span className="flex items-center gap-2.5">
+          <div className="hidden lg:flex items-center gap-10 xl:gap-14 text-stone-800">
+            {navLinks.map((item) => (
+              <a
+                key={item}
+                href="#"
+                className="text-base xl:text-lg tracking-tight flex items-center gap-2.5 font-bold hover:text-[#7C3AED] transition-colors relative group py-2"
+              >
                 {item === "Roadmap" && (
-                  <span className="w-2 h-2 rounded-full bg-purple-500 shadow-[0_0_8px_rgba(168,85,247,0.8)]"></span>
+                  <span className="w-2 h-2 xl:w-2.5 xl:h-2.5 rounded-full bg-[#7C3AED] shadow-[0_0_12px_rgba(124,58,237,0.8)] animate-pulse"></span>
                 )}
                 {item}
-              </span>
-              <svg className="w-4 h-4 text-stone-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-              </svg>
-            </a>
-          ))}
-          <div className="pt-3 w-full">
-            <ButtonOne text="Get Started" />
+                <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-[#7C3AED] transition-all duration-300 ease-out group-hover:w-full rounded-full" />
+              </a>
+            ))}
+          </div>
+
+          <div className="hidden lg:flex items-center gap-6 xl:scale-110 origin-right transition-transform">
+            <div className="transition-transform duration-300 hover:scale-[1.05] active:scale-95">
+              <ButtonOne text="Get Started" />
+            </div>
+          </div>
+
+          <div className="flex lg:hidden items-center z-50">
+            <button
+              onClick={() => setMobileMenuOpen((prev) => !prev)}
+              className="relative w-12 h-12 flex items-center justify-center rounded-full bg-stone-900 text-white hover:bg-[#7C3AED] transition-colors duration-300 active:scale-90"
+              aria-label="Toggle Menu"
+            >
+              <div className="w-5 h-5 flex flex-col justify-center items-center gap-[5px]">
+                <span
+                  className={`block h-[2px] w-full bg-current transition-all duration-300 ease-out ${
+                    mobileMenuOpen ? "rotate-45 translate-y-[7px]" : ""
+                  }`}
+                />
+                <span
+                  className={`block h-[2px] w-full bg-current transition-all duration-300 ease-out ${
+                    mobileMenuOpen ? "opacity-0" : "opacity-100"
+                  }`}
+                />
+                <span
+                  className={`block h-[2px] w-full bg-current transition-all duration-300 ease-out ${
+                    mobileMenuOpen ? "-rotate-45 -translate-y-[7px]" : ""
+                  }`}
+                />
+              </div>
+            </button>
           </div>
         </div>
-      )}
-    </nav>
+      </nav>
+
+      <div
+        className={`fixed inset-0 z-40 bg-[#050505] lg:hidden transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] flex flex-col ${
+          mobileMenuOpen
+            ? "opacity-100 pointer-events-auto clip-path-full"
+            : "opacity-0 pointer-events-none clip-path-top"
+        }`}
+        style={{
+          clipPath: mobileMenuOpen
+            ? "circle(150% at 90% 10%)"
+            : "circle(0% at 90% 10%)",
+        }}
+      >
+        <div className="absolute top-0 right-0 w-2/3 h-2/3 bg-[#7C3AED] opacity-20 blur-[100px] rounded-full mix-blend-screen pointer-events-none" />
+        
+        <div className="flex flex-col justify-center h-full px-6 sm:px-10 pt-24 pb-12 relative z-10">
+          <div className="flex flex-col gap-6 sm:gap-8">
+            {navLinks.map((item, index) => (
+              <a
+                key={item}
+                href="#"
+                onClick={() => setMobileMenuOpen(false)}
+                className={`group flex items-center text-4xl sm:text-5xl font-black tracking-tighter text-stone-300 hover:text-white transition-all duration-500 ease-out`}
+                style={{
+                  transform: mobileMenuOpen ? "translateY(0)" : "translateY(40px)",
+                  opacity: mobileMenuOpen ? 1 : 0,
+                  transitionDelay: `${index * 75 + 100}ms`,
+                }}
+              >
+                {item === "Roadmap" && (
+                  <span className="w-3 h-3 sm:w-4 sm:h-4 mr-4 sm:mr-6 rounded-full bg-[#7C3AED] shadow-[0_0_20px_rgba(124,58,237,1)]"></span>
+                )}
+                <span className="bg-clip-text transition-colors duration-300 group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:from-white group-hover:to-[#7C3AED]">
+                  {item}
+                </span>
+              </a>
+            ))}
+          </div>
+
+          <div 
+            className="mt-auto pt-10"
+            style={{
+              transform: mobileMenuOpen ? "translateY(0)" : "translateY(40px)",
+              opacity: mobileMenuOpen ? 1 : 0,
+              transitionDelay: "500ms",
+              transitionDuration: "700ms",
+            }}
+          >
+            <div className="w-full h-[1px] bg-white/10 mb-8" />
+            <div className="flex items-center justify-between">
+              <span className="text-stone-400 font-medium tracking-wide uppercase text-sm">Start your journey</span>
+              <ButtonOne text="Get Started" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
   );
 };
 
