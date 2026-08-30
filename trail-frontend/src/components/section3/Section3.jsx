@@ -25,8 +25,8 @@ const Section3 = () => {
       gsap.set(heading2Ref.current, { y: 40 });
       gsap.set(label2Ref.current, { y: 20 });
       gsap.set(".final-text-reveal-content", { xPercent: 100 });
-      gsap.set(".imagereveal", { clipPath: "inset(0% 0% 0% 100%)" });
       gsap.set(".image-card-section", { xPercent: 50 });
+      gsap.set(".imagereveal", { xPercent: 100 }); 
 
       const tl = gsap.timeline({
         defaults: { ease: "none" },
@@ -158,7 +158,7 @@ const Section3 = () => {
       tl.to(
         ".imagereveal",
         {
-          clipPath: "inset(0% 0% 0% 0%)",
+          xPercent: 0,
           duration: 4,
           ease: "power2.inOut",
         },
@@ -197,66 +197,65 @@ const Section3 = () => {
         className="absolute inset-0 w-full h-full object-cover object-[65%_60%] will-change-transform backface-hidden"
       />
 
-      <div className="absolute inset-0 bg-linear-to-b from-black/5 via-black/10 to-black/20 pointer-events-none" />
+      <div className="absolute inset-0 bg-linear-to-b from-[#0E0A1A]/10 via-[#0E0A1A]/30 to-[#0E0A1A]/50 pointer-events-none" />
 
       <div className="absolute inset-0 z-3 flex flex-col items-center justify-center pointer-events-none">
         <span
           ref={label1Ref}
-          className="mb-4 text-xs md:text-sm font-inter font-[600] uppercase tracking-[0.18em] text-[#F4EEFF] drop-shadow-[0_2px_4px_rgba(0,0,0,0.4)]"
+          className="mb-4 text-xs md:text-sm font-inter font-[600] uppercase tracking-[0.2em] text-[#E9D5FF] drop-shadow-[0_2px_10px_rgba(124,58,237,0.5)]"
         >
           THREE SIMPLE STEPS
         </span>
 
         <h1
           ref={heading1Ref}
-          className="text-[clamp(3rem,8vw,8rem)] leading-[0.9] font-satoshi font-black tracking-[-0.04em] text-center whitespace-nowrap text-[#FFFFFF] drop-shadow-[0_6px_24px_rgba(0,0,0,0.35)]"
+          className="text-[clamp(3rem,8vw,8rem)] leading-[0.9] font-satoshi font-black tracking-[-0.04em] text-center whitespace-nowrap text-white drop-shadow-[0_8px_32px_rgba(0,0,0,0.5)]"
         >
           HOW IT WORKS
         </h1>
       </div>
 
       <div className="strip-reveal absolute top-0 z-4 h-full w-full">
-        <div className="strips flex h-full w-full">
-          {/* DARK Grid Backgrounds for Strips */}
+        <div className="strips flex h-full w-full relative">
+          
           <div
-            className="strip h-full w-1/3 bg-[#0a0a0a] [clip-path:inset(0%_0%_0%_100%)] border-r border-white/10"
+            className="strip absolute left-0 h-full w-[33.5%] bg-[#0E0A1A] [clip-path:inset(0%_0%_0%_100%)]"
             style={{
-              backgroundImage: `linear-gradient(to right, rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.05) 1px, transparent 1px)`,
-              backgroundSize: "40px 40px",
+              backgroundImage: `linear-gradient(to right, rgba(124,58,237,0.08) 1px, transparent 1px), linear-gradient(to bottom, rgba(124,58,237,0.08) 1px, transparent 1px), radial-gradient(circle at bottom left, rgba(124,58,237,0.12) 0%, #0E0A1A 65%)`,
+              backgroundSize: "40px 40px, 40px 40px, 100% 100%",
             }}
           />
 
           <div
-            className="strip h-full w-1/3 bg-[#0a0a0a] [clip-path:inset(0%_0%_0%_100%)] border-r border-white/10"
+            className="strip absolute left-[33.33%] h-full w-[33.5%] bg-[#0E0A1A] [clip-path:inset(0%_0%_0%_100%)]"
             style={{
-              backgroundImage: `linear-gradient(to right, rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.05) 1px, transparent 1px)`,
-              backgroundSize: "40px 40px",
+              backgroundImage: `linear-gradient(to right, rgba(124,58,237,0.08) 1px, transparent 1px), linear-gradient(to bottom, rgba(124,58,237,0.08) 1px, transparent 1px), radial-gradient(circle at center, rgba(157,78,221,0.1) 0%, #0E0A1A 75%)`,
+              backgroundSize: "40px 40px, 40px 40px, 100% 100%",
             }}
           />
 
           <div
-            className="strip h-full w-1/3 bg-[#0a0a0a] [clip-path:inset(0%_0%_0%_100%)]"
+            className="strip absolute right-0 h-full w-[33.5%] bg-[#0E0A1A] [clip-path:inset(0%_0%_0%_100%)]"
             style={{
-              backgroundImage: `linear-gradient(to right, rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.05) 1px, transparent 1px)`,
-              backgroundSize: "40px 40px",
+              backgroundImage: `linear-gradient(to right, rgba(124,58,237,0.08) 1px, transparent 1px), linear-gradient(to bottom, rgba(124,58,237,0.08) 1px, transparent 1px), radial-gradient(circle at bottom right, rgba(124,58,237,0.12) 0%, #0E0A1A 65%)`,
+              backgroundSize: "40px 40px, 40px 40px, 100% 100%",
             }}
           />
 
           <div
             ref={text2WrapperRef}
-            className="absolute inset-0 z-10 flex flex-col items-center justify-center pointer-events-none gap-6 px-4 bg-[radial-gradient(circle_at_center,rgba(10,10,10,0.95)_0%,rgba(10,10,10,0.7)_35%,rgba(10,10,10,0)_75%)]"
+            className="absolute inset-0 z-10 flex flex-col items-center justify-center pointer-events-none gap-6 px-4 bg-[radial-gradient(circle_at_center,rgba(14,10,26,0.92)_0%,rgba(14,10,26,0.6)_40%,rgba(14,10,26,0)_80%)]"
           >
-            {/* White Text to contrast the new dark grid */}
             <h1
               ref={heading2Ref}
-              className="text-[clamp(3rem,7vw,7.5rem)] leading-none font-satoshi font-black tracking-tighter text-center text-white drop-shadow-[0_4px_20px_rgba(255,255,255,0.1)]"
+              className="text-[clamp(3rem,7vw,7.5rem)] leading-none font-satoshi font-black tracking-tighter text-center bg-clip-text text-transparent bg-gradient-to-br from-white via-white to-[#C4B5FD] drop-shadow-[0_4px_32px_rgba(124,58,237,0.2)]"
             >
               PICK YOUR GOAL.
             </h1>
 
             <p
               ref={label2Ref}
-              className="text-lg md:text-2xl font-inter font-[500] text-slate-300 text-center max-w-3xl leading-[1.5] text-balance"
+              className="text-lg md:text-2xl font-inter font-[500] text-[#E9D5FF] text-center max-w-3xl leading-[1.5] text-balance opacity-80"
             >
               Choose the role you want. We’ll map the way there.
             </p>
@@ -267,47 +266,44 @@ const Section3 = () => {
       <div className="image-card-section h-full w-[200%] absolute top-0 z-[8] flex items-center justify-around px-8 pointer-events-none">
         <div className="card card1 w-[25%] flex items-center justify-center">
           <img
-            className="w-full h-[57vh] object-contain drop-shadow-[0_10px_40px_rgba(255,255,255,0.1)]"
+            className="w-full h-[57vh] object-contain drop-shadow-[0_20px_50px_rgba(124,58,237,0.15)]"
             src="/images/section3-images/card1.png"
             alt=""
           />
         </div>
         <div className="card card2 w-[25%] flex items-center justify-center">
           <img
-            className="w-full h-[57vh] object-contain drop-shadow-[0_10px_40px_rgba(255,255,255,0.1)]"
+            className="w-full h-[57vh] object-contain drop-shadow-[0_20px_50px_rgba(124,58,237,0.15)]"
             src="/images/section3-images/card2.png"
             alt=""
           />
         </div>
         <div className="card card3 w-[25%] flex items-center justify-center">
           <img
-            className="w-full h-[57vh] object-contain drop-shadow-[0_10px_40px_rgba(255,255,255,0.1)]"
+            className="w-full h-[57vh] object-contain drop-shadow-[0_20px_50px_rgba(124,58,237,0.15)]"
             src="/images/section3-images/card3.png"
             alt=""
           />
         </div>
       </div>
 
-      <div className="final-text-reveal h-full w-full absolute top-0 z-20">
-        <div className="imagereveal w-full h-full overflow-hidden relative">
+      <div className="final-text-reveal h-full w-full absolute top-0 z-20 overflow-hidden">
+        <div className="imagereveal w-full h-full relative will-change-transform">
           
-          {/* PURE WHITE Background behind the curve */}
           <div className="absolute inset-0 w-full h-full bg-white" />
 
-          {/* Dark Grid Background with curve cut out */}
           <div
-            className="absolute inset-0 w-full h-full bg-[#0a0a0a]"
+            className="absolute inset-0 w-full h-full bg-[#0E0A1A]"
             style={{
               clipPath: "ellipse(120% 100% at 50% 0%)",
-              backgroundImage: `linear-gradient(to right, rgba(255,255,255,0.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.06) 1px, transparent 1px)`,
-              backgroundSize: "40px 40px",
+              backgroundImage: `linear-gradient(to right, rgba(124,58,237,0.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(124,58,237,0.06) 1px, transparent 1px), radial-gradient(ellipse at top center, rgba(124,58,237,0.25) 0%, rgba(78,42,221,0.1) 45%, #0E0A1A 100%)`,
+              backgroundSize: "40px 40px, 40px 40px, 100% 100%",
             }}
           />
         </div>
 
-        {/* Removed bg-black/30 so it doesn't darken the pure white corners */}
         <div className="final-text-reveal-content h-full w-full absolute top-0 z-30 flex items-center justify-center bg-transparent">
-          <h2 className="text-[clamp(2.8rem,6vw,6rem)] leading-[1.1] font-satoshi font-black tracking-tight text-center text-[#FFFFFF] drop-shadow-[0_4px_24px_rgba(0,0,0,0.6)] px-4 text-balance pointer-events-none">
+          <h2 className="text-[clamp(2.8rem,6vw,6rem)] leading-[1.1] font-satoshi font-black tracking-tight text-center text-white drop-shadow-[0_4px_32px_rgba(124,58,237,0.4)] px-4 text-balance pointer-events-none">
             YOUR PATH IS CLEAR.<br className="hidden md:block" /> NOW START YOUR
             JOURNEY.
           </h2>
