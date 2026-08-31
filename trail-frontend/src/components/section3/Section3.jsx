@@ -14,7 +14,14 @@ const Section3 = () => {
   const label2Ref = useRef(null);
 
   useEffect(() => {
-    const ctx = gsap.context(() => {
+    let ctx = gsap.context(() => {
+      // Check if mobile to dynamically adjust the GSAP slide math
+      const isMobile = window.innerWidth < 768;
+      
+      // If mobile (w-[400%]), 25% of 400 is 100vw (starts perfectly offscreen right)
+      // If desktop (w-[200%]), 50% of 200 is 100vw 
+      const startXPercent = isMobile ? 25 : 50;
+
       gsap.set(imageRef.current, {
         transformOrigin: "center center",
         force3D: true,
@@ -25,8 +32,8 @@ const Section3 = () => {
       gsap.set(heading2Ref.current, { y: 40 });
       gsap.set(label2Ref.current, { y: 20 });
       gsap.set(".final-text-reveal-content", { xPercent: 100 });
-      gsap.set(".image-card-section", { xPercent: 50 });
-      gsap.set(".imagereveal", { xPercent: 100 }); 
+      gsap.set(".imagereveal", { xPercent: 100 });
+      gsap.set(".image-card-section", { xPercent: startXPercent });
 
       const tl = gsap.timeline({
         defaults: { ease: "none" },
@@ -46,13 +53,11 @@ const Section3 = () => {
         imageRef.current,
         {
           scale: 0.9,
-          clipPath:
-            "polygon(22% 20%, 58% 6%, 97% 42%, 58% 94%, 20% 86%, 12% 55%)",
+          clipPath: "polygon(22% 20%, 58% 6%, 97% 42%, 58% 94%, 20% 86%, 12% 55%)",
         },
         {
           scale: 1,
-          clipPath:
-            "polygon(0% 0%, 100% 0%, 100% 100%, 100% 100%, 0% 100%, 0% 0%)",
+          clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 100% 100%, 0% 100%, 0% 0%)",
           duration: 1.4,
         }
       );
@@ -135,10 +140,11 @@ const Section3 = () => {
         "-=0.6"
       );
 
+      // Slides container perfectly offscreen left, regardless of mobile or desktop
       tl.to(
         ".image-card-section",
         {
-          xPercent: -100,
+          xPercent: -100, 
           duration: 12,
           ease: "none",
         },
@@ -197,7 +203,7 @@ const Section3 = () => {
         className="absolute inset-0 w-full h-full object-cover object-[65%_60%] will-change-transform backface-hidden"
       />
 
-      <div className="absolute inset-0 bg-linear-to-b from-[#0E0A1A]/10 via-[#0E0A1A]/30 to-[#0E0A1A]/50 pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-b from-[#0E0A1A]/10 via-[#0E0A1A]/30 to-[#0E0A1A]/50 pointer-events-none" />
 
       <div className="absolute inset-0 z-3 flex flex-col items-center justify-center pointer-events-none">
         <span
@@ -217,7 +223,6 @@ const Section3 = () => {
 
       <div className="strip-reveal absolute top-0 z-4 h-full w-full">
         <div className="strips flex h-full w-full relative">
-          
           <div
             className="strip absolute left-0 h-full w-[33.5%] bg-[#0E0A1A] [clip-path:inset(0%_0%_0%_100%)]"
             style={{
@@ -225,7 +230,6 @@ const Section3 = () => {
               backgroundSize: "40px 40px, 40px 40px, 100% 100%",
             }}
           />
-
           <div
             className="strip absolute left-[33.33%] h-full w-[33.5%] bg-[#0E0A1A] [clip-path:inset(0%_0%_0%_100%)]"
             style={{
@@ -233,7 +237,6 @@ const Section3 = () => {
               backgroundSize: "40px 40px, 40px 40px, 100% 100%",
             }}
           />
-
           <div
             className="strip absolute right-0 h-full w-[33.5%] bg-[#0E0A1A] [clip-path:inset(0%_0%_0%_100%)]"
             style={{
@@ -244,18 +247,17 @@ const Section3 = () => {
 
           <div
             ref={text2WrapperRef}
-            className="absolute inset-0 z-10 flex flex-col items-center justify-center pointer-events-none gap-6 px-4 bg-[radial-gradient(circle_at_center,rgba(14,10,26,0.92)_0%,rgba(14,10,26,0.6)_40%,rgba(14,10,26,0)_80%)]"
+            className="absolute inset-0 z-10 flex flex-col items-center justify-center pointer-events-none gap-4 md:gap-6 px-4 bg-[radial-gradient(circle_at_center,rgba(14,10,26,0.92)_0%,rgba(14,10,26,0.6)_40%,rgba(14,10,26,0)_80%)]"
           >
             <h1
               ref={heading2Ref}
-              className="text-[clamp(3rem,7vw,7.5rem)] leading-none font-satoshi font-black tracking-tighter text-center bg-clip-text text-transparent bg-gradient-to-br from-white via-white to-[#C4B5FD] drop-shadow-[0_4px_32px_rgba(124,58,237,0.2)]"
+              className="text-[clamp(2.5rem,8vw,7.5rem)] leading-none font-satoshi font-black tracking-tighter text-center bg-clip-text text-transparent bg-gradient-to-br from-white via-white to-[#C4B5FD] drop-shadow-[0_4px_32px_rgba(124,58,237,0.2)]"
             >
               PICK YOUR GOAL.
             </h1>
-
             <p
               ref={label2Ref}
-              className="text-lg md:text-2xl font-inter font-[500] text-[#E9D5FF] text-center max-w-3xl leading-[1.5] text-balance opacity-80"
+              className="text-base md:text-2xl font-inter font-[500] text-[#E9D5FF] text-center max-w-3xl leading-[1.5] text-balance opacity-80 px-2"
             >
               Choose the role you want. We’ll map the way there.
             </p>
@@ -263,35 +265,42 @@ const Section3 = () => {
         </div>
       </div>
 
-      <div className="image-card-section h-full w-[200%] absolute top-0 z-[8] flex items-center justify-around px-8 pointer-events-none">
-        <div className="card card1 w-[25%] flex items-center justify-center">
+      {/* RESPONSIVE CONTAINER FIX: 
+        Mobile -> w-[400%] (4 screens wide for smooth spacing)
+        Desktop -> w-[200%] (2 screens wide)
+      */}
+      <div className="image-card-section h-full w-[400%] md:w-[200%] absolute top-0 z-[8] flex items-center justify-evenly px-4 md:px-8 pointer-events-none">
+        
+        {/* RESPONSIVE CARDS: Use exact vw so they are large and legible on mobile */}
+        <div className="card w-[75vw] md:w-[32vw] flex items-center justify-center shrink-0">
           <img
-            className="w-full h-[57vh] object-contain drop-shadow-[0_20px_50px_rgba(124,58,237,0.15)]"
+            className="w-full h-[45vh] md:h-[57vh] object-contain drop-shadow-[0_20px_60px_rgba(124,58,237,0.3)] transition-transform duration-700 hover:scale-105"
             src="/images/section3-images/card1.png"
-            alt=""
+            alt="Search your role"
           />
         </div>
-        <div className="card card2 w-[25%] flex items-center justify-center">
+        
+        <div className="card w-[75vw] md:w-[32vw] flex items-center justify-center shrink-0">
           <img
-            className="w-full h-[57vh] object-contain drop-shadow-[0_20px_50px_rgba(124,58,237,0.15)]"
+            className="w-full h-[45vh] md:h-[57vh] object-contain drop-shadow-[0_20px_60px_rgba(124,58,237,0.3)] transition-transform duration-700 hover:scale-105"
             src="/images/section3-images/card2.png"
-            alt=""
+            alt="Get a living roadmap"
           />
         </div>
-        <div className="card card3 w-[25%] flex items-center justify-center">
+        
+        <div className="card w-[75vw] md:w-[32vw] flex items-center justify-center shrink-0">
           <img
-            className="w-full h-[57vh] object-contain drop-shadow-[0_20px_50px_rgba(124,58,237,0.15)]"
+            className="w-full h-[45vh] md:h-[57vh] object-contain drop-shadow-[0_20px_60px_rgba(124,58,237,0.3)] transition-transform duration-700 hover:scale-105"
             src="/images/section3-images/card3.png"
-            alt=""
+            alt="Track progress"
           />
         </div>
+
       </div>
 
       <div className="final-text-reveal h-full w-full absolute top-0 z-20 overflow-hidden">
         <div className="imagereveal w-full h-full relative will-change-transform">
-          
           <div className="absolute inset-0 w-full h-full bg-white" />
-
           <div
             className="absolute inset-0 w-full h-full bg-[#0E0A1A]"
             style={{
@@ -303,7 +312,7 @@ const Section3 = () => {
         </div>
 
         <div className="final-text-reveal-content h-full w-full absolute top-0 z-30 flex items-center justify-center bg-transparent">
-          <h2 className="text-[clamp(2.8rem,6vw,6rem)] leading-[1.1] font-satoshi font-black tracking-tight text-center text-white drop-shadow-[0_4px_32px_rgba(124,58,237,0.4)] px-4 text-balance pointer-events-none">
+          <h2 className="text-[clamp(2.5rem,6vw,6rem)] leading-[1.1] font-satoshi font-black tracking-tight text-center text-white drop-shadow-[0_4px_32px_rgba(124,58,237,0.4)] px-4 text-balance pointer-events-none">
             YOUR PATH IS CLEAR.<br className="hidden md:block" /> NOW START YOUR
             JOURNEY.
           </h2>
