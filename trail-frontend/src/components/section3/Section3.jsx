@@ -265,32 +265,28 @@ const Section3 = () => {
         </div>
       </div>
 
-      {/* RESPONSIVE CONTAINER FIX: 
-        Mobile -> w-[400%] (4 screens wide for smooth spacing)
-        Desktop -> w-[200%] (2 screens wide)
-      */}
       <div className="image-card-section h-full w-[400%] md:w-[200%] absolute top-0 z-[8] flex items-center justify-evenly px-4 md:px-8 pointer-events-none">
         
-        {/* RESPONSIVE CARDS: Use exact vw so they are large and legible on mobile */}
-        <div className="card w-[75vw] md:w-[32vw] flex items-center justify-center shrink-0">
+        {/* FIX: Increased desktop width back to w-[45vw] and height to h-[60vh] for that massive look */}
+        <div className="card w-[80vw] md:w-[45vw] flex items-center justify-center shrink-0">
           <img
-            className="w-full h-[45vh] md:h-[57vh] object-contain drop-shadow-[0_20px_60px_rgba(124,58,237,0.3)] transition-transform duration-700 hover:scale-105"
+            className="w-full h-[45vh] md:h-[60vh] object-contain drop-shadow-[0_20px_60px_rgba(124,58,237,0.3)] transition-transform duration-700 hover:scale-105"
             src="/images/section3-images/card1.png"
             alt="Search your role"
           />
         </div>
         
-        <div className="card w-[75vw] md:w-[32vw] flex items-center justify-center shrink-0">
+        <div className="card w-[80vw] md:w-[45vw] flex items-center justify-center shrink-0">
           <img
-            className="w-full h-[45vh] md:h-[57vh] object-contain drop-shadow-[0_20px_60px_rgba(124,58,237,0.3)] transition-transform duration-700 hover:scale-105"
+            className="w-full h-[45vh] md:h-[60vh] object-contain drop-shadow-[0_20px_60px_rgba(124,58,237,0.3)] transition-transform duration-700 hover:scale-105"
             src="/images/section3-images/card2.png"
             alt="Get a living roadmap"
           />
         </div>
         
-        <div className="card w-[75vw] md:w-[32vw] flex items-center justify-center shrink-0">
+        <div className="card w-[80vw] md:w-[45vw] flex items-center justify-center shrink-0">
           <img
-            className="w-full h-[45vh] md:h-[57vh] object-contain drop-shadow-[0_20px_60px_rgba(124,58,237,0.3)] transition-transform duration-700 hover:scale-105"
+            className="w-full h-[45vh] md:h-[60vh] object-contain drop-shadow-[0_20px_60px_rgba(124,58,237,0.3)] transition-transform duration-700 hover:scale-105"
             src="/images/section3-images/card3.png"
             alt="Track progress"
           />
