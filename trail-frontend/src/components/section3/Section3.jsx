@@ -15,11 +15,7 @@ const Section3 = () => {
 
   useEffect(() => {
     let ctx = gsap.context(() => {
-      // Check if mobile to dynamically adjust the GSAP slide math
       const isMobile = window.innerWidth < 768;
-      
-      // If mobile (w-[400%]), 25% of 400 is 100vw (starts perfectly offscreen right)
-      // If desktop (w-[200%]), 50% of 200 is 100vw 
       const startXPercent = isMobile ? 25 : 50;
 
       gsap.set(imageRef.current, {
@@ -140,7 +136,6 @@ const Section3 = () => {
         "-=0.6"
       );
 
-      // Slides container perfectly offscreen left, regardless of mobile or desktop
       tl.to(
         ".image-card-section",
         {
@@ -265,37 +260,30 @@ const Section3 = () => {
         </div>
       </div>
 
-      {/* RESPONSIVE CONTAINER FIX: 
-        Mobile -> w-[400%] (4 screens wide for smooth spacing)
-        Desktop -> w-[200%] (2 screens wide)
-      */}
       <div className="image-card-section h-full w-[400%] md:w-[200%] absolute top-0 z-[8] flex items-center justify-evenly px-4 md:px-8 pointer-events-none">
-        
-        {/* RESPONSIVE CARDS: Use exact vw so they are large and legible on mobile */}
-        <div className="card w-[75vw] md:w-[32vw] flex items-center justify-center shrink-0">
+        <div className="card w-[80vw] md:w-[45vw] flex items-center justify-center shrink-0">
           <img
-            className="w-full h-[45vh] md:h-[57vh] object-contain drop-shadow-[0_20px_60px_rgba(124,58,237,0.3)] transition-transform duration-700 hover:scale-105"
+            className="w-full h-[45vh] md:h-[60vh] object-contain drop-shadow-[0_20px_60px_rgba(124,58,237,0.3)] transition-transform duration-700 hover:scale-105"
             src="/images/section3-images/card1.png"
             alt="Search your role"
           />
         </div>
         
-        <div className="card w-[75vw] md:w-[32vw] flex items-center justify-center shrink-0">
+        <div className="card w-[80vw] md:w-[45vw] flex items-center justify-center shrink-0">
           <img
-            className="w-full h-[45vh] md:h-[57vh] object-contain drop-shadow-[0_20px_60px_rgba(124,58,237,0.3)] transition-transform duration-700 hover:scale-105"
+            className="w-full h-[45vh] md:h-[60vh] object-contain drop-shadow-[0_20px_60px_rgba(124,58,237,0.3)] transition-transform duration-700 hover:scale-105"
             src="/images/section3-images/card2.png"
             alt="Get a living roadmap"
           />
         </div>
         
-        <div className="card w-[75vw] md:w-[32vw] flex items-center justify-center shrink-0">
+        <div className="card w-[80vw] md:w-[45vw] flex items-center justify-center shrink-0">
           <img
-            className="w-full h-[45vh] md:h-[57vh] object-contain drop-shadow-[0_20px_60px_rgba(124,58,237,0.3)] transition-transform duration-700 hover:scale-105"
+            className="w-full h-[45vh] md:h-[60vh] object-contain drop-shadow-[0_20px_60px_rgba(124,58,237,0.3)] transition-transform duration-700 hover:scale-105"
             src="/images/section3-images/card3.png"
             alt="Track progress"
           />
         </div>
-
       </div>
 
       <div className="final-text-reveal h-full w-full absolute top-0 z-20 overflow-hidden">
