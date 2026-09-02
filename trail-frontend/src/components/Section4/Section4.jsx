@@ -53,8 +53,8 @@ const Section4 = () => {
             Where Trail Excels
           </span>
           
-          <h2 className="feature-reveal font-satoshi text-[clamp(1.8rem,3.5vw,3.5rem)] lg:text-[4rem] font-black tracking-tight text-[#0F172A] mt-2 md:whitespace-nowrap">
-            EXPLORE THE POWERFUL{" "}
+          <h2 className="feature-reveal font-sans text-[clamp(1.8rem,3.5vw,3.5rem)] lg:text-[4rem] font-bold tracking-tight text-[#0F172A] mt-2 md:whitespace-nowrap">
+            Explore the powerful{" "}
             <span className="bg-gradient-to-r from-[#7C3AED] to-[#A855F7] bg-clip-text text-transparent italic font-serif font-normal lowercase">
               features.
             </span>

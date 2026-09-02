@@ -27,6 +27,13 @@
 }
 
 @font-face {
+  font-family: "Geist";
+  src: url("/fonts/Geist-Regular.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
   font-family: "Inter";
   src: url("/fonts/Inter-VariableFont_opsz,wght.ttf") format("truetype");
   font-weight: 100 900;
@@ -56,6 +63,7 @@
 
 @theme {
   --font-satoshi: "Satoshi", sans-serif;
+  --font-geist: "Geist", sans-serif;
   --font-inter: "Inter", sans-serif;
   --font-exo: "Exo", sans-serif;
 

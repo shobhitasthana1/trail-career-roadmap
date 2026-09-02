@@ -79,7 +79,6 @@ const Section2 = () => {
   return (
     <section
       ref={sectionRef}
-      // Fixed: Changed rounded-t-[2.5rem] to rounded-none so top corners are completely flat and flush
       className="relative flex min-h-svh w-full flex-col overflow-hidden rounded-none bg-[#FAFAFA] pt-8"
     >
       <div className="pointer-events-none absolute inset-0 opacity-[0.06] [background:radial-gradient(circle_at_10%_20%,#6D3DF5_0,transparent_50%),radial-gradient(circle_at_90%_80%,#A855F7_0,transparent_50%)]" />
@@ -100,13 +99,19 @@ const Section2 = () => {
       <div className="relative mx-auto flex w-[90%] max-w-[1300px] flex-1 flex-col justify-center">
         <div className="grid w-full grid-cols-1 items-center gap-12 py-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-8 lg:py-6">
           <div className="flex flex-col items-start gap-5 lg:max-w-[500px] lg:gap-6">
+            
+            {/* Clean Tagline */}
             <span className="s2-reveal flex items-center font-exo text-[11px] font-bold uppercase tracking-[0.3em] text-[#6D3DF5] md:text-xs">
               Explore Your Path
             </span>
 
-            <h2 className="s2-reveal font-satoshi text-[clamp(1.8rem,3.5vw,3.5rem)] lg:text-[4rem] font-black leading-tight tracking-tight text-[#111827]">
-              FIND YOUR PERFECT{" "}
-              <span className="bg-gradient-to-r from-[#6D3DF5] to-[#A855F7] bg-clip-text text-transparent italic font-serif font-normal lowercase">
+            {/* Balanced Editorial Heading with Gradient & Italic Serif */}
+            <h2 className="s2-reveal font-satoshi text-[clamp(2.2rem,4vw,3.8rem)] font-black leading-[1.15] tracking-tight text-[#111827]">
+              <span>Find your</span>{" "}
+              <span className="font-serif italic font-normal text-[#111827]">
+                perfect{" "}
+              </span>
+              <span className="bg-gradient-to-r from-[#6D3DF5] to-[#A855F7] bg-clip-text text-transparent font-serif italic font-normal pb-1 inline-block">
                 path.
               </span>
             </h2>
