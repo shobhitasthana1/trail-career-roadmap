@@ -41,15 +41,15 @@ const Navbar = () => {
             />
           </div>
 
-          <div className="hidden lg:flex items-center gap-10 xl:gap-14 text-stone-800">
+          <div className="hidden lg:flex items-center gap-8 xl:gap-12 text-stone-600">
             {navLinks.map((item) => (
               <a
                 key={item}
                 href="#"
-                className="text-base xl:text-lg tracking-tight flex items-center gap-2.5 font-bold hover:text-[#7C3AED] transition-colors relative group py-2"
+                className="text-[15px] xl:text-[16px] flex items-center gap-2 font-medium hover:text-[#7C3AED] transition-colors duration-300 relative group py-2"
               >
-                {item === "Roadmap" && (
-                  <span className="w-2 h-2 xl:w-2.5 xl:h-2.5 rounded-full bg-[#7C3AED] shadow-[0_0_12px_rgba(124,58,237,0.8)] animate-pulse"></span>
+                {item === "Explore" && (
+                  <span className="w-1.5 h-1.5 xl:w-2 xl:h-2 rounded-full bg-[#7C3AED] shadow-[0_0_10px_rgba(124,58,237,0.8)] animate-pulse"></span>
                 )}
                 {item}
                 <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-[#7C3AED] transition-all duration-300 ease-out group-hover:w-full rounded-full" />
@@ -112,14 +112,14 @@ const Navbar = () => {
                 key={item}
                 href="#"
                 onClick={() => setMobileMenuOpen(false)}
-                className={`group flex items-center text-4xl sm:text-5xl font-black tracking-tighter text-stone-300 hover:text-white transition-all duration-500 ease-out`}
+                className={`group flex items-center text-4xl sm:text-5xl font-semibold tracking-tight text-stone-300 hover:text-white transition-all duration-500 ease-out`}
                 style={{
                   transform: mobileMenuOpen ? "translateY(0)" : "translateY(40px)",
                   opacity: mobileMenuOpen ? 1 : 0,
                   transitionDelay: `${index * 75 + 100}ms`,
                 }}
               >
-                {item === "Roadmap" && (
+                {item === "Explore" && (
                   <span className="w-3 h-3 sm:w-4 sm:h-4 mr-4 sm:mr-6 rounded-full bg-[#7C3AED] shadow-[0_0_20px_rgba(124,58,237,1)]"></span>
                 )}
                 <span className="bg-clip-text transition-colors duration-300 group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:from-white group-hover:to-[#7C3AED]">

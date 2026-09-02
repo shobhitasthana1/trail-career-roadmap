@@ -74,22 +74,19 @@ const FAQ = () => {
       ref={sectionRef}
       className="relative flex w-full flex-col items-center justify-center py-24 md:py-32 bg-[#FAFAFA] overflow-hidden" 
     >
-      
       <div className="pointer-events-none absolute inset-0 opacity-[0.4] [background:radial-gradient(ellipse_at_center,rgba(109,61,245,0.08)_0%,transparent_70%)]" />
 
-      {/* Increased max-width to accommodate 2 columns perfectly */}
       <div className="relative mx-auto flex w-[90%] max-w-[1200px] flex-col items-center z-10">
         
         {/* Header Section */}
         <div className="flex flex-col items-center text-center mb-12 md:mb-16">
-          <span className="faq-reveal mb-4 flex items-center gap-2 font-exo text-[11px] font-bold uppercase tracking-[0.3em] text-[#6D3DF5] md:text-xs">
-            Got Questions? <span className="text-sm">✦</span>
+          <span className="faq-reveal mb-4 flex items-center font-exo text-[11px] font-bold uppercase tracking-[0.3em] text-[#6D3DF5] md:text-xs">
+            Got Questions?
           </span>
-          <h2 className="faq-reveal font-satoshi text-[clamp(2.2rem,4vw,3.6rem)] font-black leading-[1.05] tracking-tight text-[#111827]">
-            FREQUENTLY ASKED
-            <br />
-            <span className="bg-gradient-to-r from-[#6D3DF5] to-[#A855F7] bg-clip-text text-transparent">
-              QUESTIONS.
+          <h2 className="faq-reveal font-satoshi text-[clamp(1.8rem,3.5vw,3.5rem)] lg:text-[4rem] font-black leading-tight tracking-tight text-[#111827]">
+            FREQUENTLY ASKED{" "}
+            <span className="bg-gradient-to-r from-[#6D3DF5] to-[#A855F7] bg-clip-text text-transparent italic font-serif font-normal lowercase">
+              Questions.
             </span>
           </h2>
         </div>
@@ -172,7 +169,7 @@ const FAQ = () => {
           {/* RIGHT COLUMN (Questions 4 to 6) */}
           <div className="flex w-full flex-col gap-4 md:gap-5">
             {FAQ_DATA.slice(3, 6).map((faq, i) => {
-              const index = i + 3; // Setting actual absolute index (3, 4, 5)
+              const index = i + 3;
               const isOpen = openIndex === index;
 
               return (
