@@ -105,8 +105,8 @@ const Section2 = () => {
               Explore Your Path
             </span>
 
-            {/* Balanced Editorial Heading with Gradient & Italic Serif */}
-            <h2 className="s2-reveal font-satoshi text-[clamp(2.2rem,4vw,3.8rem)] font-black leading-[1.15] tracking-tight text-[#111827]">
+            {/* Balanced Editorial Heading with font-geist */}
+            <h2 className="s2-reveal font-geist text-[clamp(2.2rem,4vw,3.8rem)] font-black leading-[1.15] tracking-tight text-[#111827]">
               <span>Find your</span>{" "}
               <span className="font-serif italic font-normal text-[#111827]">
                 perfect{" "}
@@ -127,7 +127,7 @@ const Section2 = () => {
                   className="group flex flex-col gap-1.5 rounded-2xl border border-white/60 bg-white/40 px-4 py-4 shadow-[0_8px_30px_rgba(0,0,0,0.03)] backdrop-blur-md transition-all duration-400 ease-out hover:-translate-y-1.5 hover:bg-white/80 hover:shadow-[0_20px_40px_-15px_rgba(109,61,245,0.15)] md:px-5"
                 >
                   <span className="h-1 w-8 rounded-full bg-gradient-to-r from-[#6D3DF5] to-[#A855F7] opacity-60 transition-all duration-300 group-hover:w-10 group-hover:opacity-100" />
-                  <span className="mt-1 font-satoshi text-2xl font-black text-[#111827] transition-colors duration-300 group-hover:text-[#6D3DF5] md:text-3xl">
+                  <span className="mt-1 font-geist text-2xl font-black text-[#111827] transition-colors duration-300 group-hover:text-[#6D3DF5] md:text-3xl">
                     {stat.value}
                   </span>
                   <span className="text-[10px] font-semibold uppercase tracking-wider text-[#64748B] md:text-xs">

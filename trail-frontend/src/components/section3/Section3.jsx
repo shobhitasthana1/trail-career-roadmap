@@ -215,10 +215,10 @@ const Section3 = () => {
           THREE SIMPLE STEPS
         </span>
 
-        {/* How It Works Heading - Kept Original Standard Style */}
+        {/* How It Works Heading - Kept Original Standard Style with font-geist */}
         <h1
           ref={heading1Ref}
-          className="text-[clamp(3rem,8vw,8rem)] leading-[0.9] font-satoshi font-black tracking-[-0.04em] text-center whitespace-nowrap text-white drop-shadow-[0_8px_32px_rgba(0,0,0,0.5)]"
+          className="text-[clamp(3rem,8vw,8rem)] leading-[0.9] font-geist font-black tracking-[-0.04em] text-center whitespace-nowrap text-white drop-shadow-[0_8px_32px_rgba(0,0,0,0.5)]"
         >
           HOW IT WORKS
         </h1>
@@ -252,10 +252,10 @@ const Section3 = () => {
             ref={text2WrapperRef}
             className="absolute inset-0 z-10 flex flex-col items-center justify-center pointer-events-none gap-4 md:gap-6 px-4 bg-[radial-gradient(circle_at_center,rgba(14,10,26,0.92)_0%,rgba(14,10,26,0.6)_40%,rgba(14,10,26,0)_80%)]"
           >
-            {/* Editorial Styled Second Heading */}
+            {/* Editorial Styled Second Heading with font-geist */}
             <h1
               ref={heading2Ref}
-              className="text-[clamp(2.2rem,6vw,6rem)] leading-[1.15] font-satoshi font-black tracking-tight text-center text-white drop-shadow-[0_4px_32px_rgba(124,58,237,0.2)]"
+              className="text-[clamp(2.2rem,6vw,6rem)] leading-[1.15] font-geist font-black tracking-tight text-center text-white drop-shadow-[0_4px_32px_rgba(124,58,237,0.2)]"
             >
               <span>Pick your</span>{" "}
               <span className="font-serif italic font-normal text-[#C4B5FD]">
@@ -312,8 +312,8 @@ const Section3 = () => {
         </div>
 
         <div className="final-text-reveal-content h-full w-full absolute top-0 z-30 flex items-center justify-center bg-transparent">
-          {/* Editorial Styled Final Reveal Heading */}
-          <h2 className="text-[clamp(2.2rem,5vw,5.5rem)] leading-[1.15] font-satoshi font-black tracking-tight text-center text-white drop-shadow-[0_4px_32px_rgba(124,58,237,0.4)] px-4 text-balance pointer-events-none">
+          {/* Editorial Styled Final Reveal Heading with font-geist */}
+          <h2 className="text-[clamp(2.2rem,5vw,5.5rem)] leading-[1.15] font-geist font-black tracking-tight text-center text-white drop-shadow-[0_4px_32px_rgba(124,58,237,0.4)] px-4 text-balance pointer-events-none">
             <span>Your path is clear.</span>{" "}
             <span className="font-serif italic font-normal text-[#C4B5FD]">
               Now start

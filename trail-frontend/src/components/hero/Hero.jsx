@@ -145,15 +145,15 @@ const Hero = () => {
               alt="Start Here"
             />
 
-            {/* Editorial Multi-Line Heading */}
+            {/* Editorial Multi-Line Heading with font-geist */}
             <div className="flex flex-col gap-1 w-full py-2">
-              <h1 className="w-full font-satoshi text-[11vw] sm:text-[8.5vw] md:text-[6vw] lg:text-[3.4vw] xl:text-[3.2vw] font-black leading-[1.1] tracking-tight text-[#111827] transition-all duration-500 ease-out lg:hover:text-[#7C3AED] lg:hover:translate-x-3 cursor-default">
+              <h1 className="w-full font-geist text-[11vw] sm:text-[8.5vw] md:text-[6vw] lg:text-[3.4vw] xl:text-[3.2vw] font-black leading-[1.1] tracking-tight text-[#111827] transition-all duration-500 ease-out lg:hover:text-[#7C3AED] lg:hover:translate-x-3 cursor-default">
                 Your journey.
               </h1>
               <h1 className="w-full font-serif italic font-normal text-[11vw] sm:text-[8.5vw] md:text-[6vw] lg:text-[3.4vw] xl:text-[3.2vw] leading-[1.1] tracking-tight text-[#111827] my-0.5 transition-all duration-500 ease-out lg:hover:text-[#A855F7] lg:hover:translate-x-3 cursor-default">
                 your roadmap.
               </h1>
-              <h1 className="w-full font-satoshi text-[11vw] sm:text-[8.5vw] md:text-[6vw] lg:text-[3.4vw] xl:text-[3.2vw] font-black leading-[1.1] tracking-tight bg-gradient-to-r from-[#7C3AED] to-[#A855F7] bg-clip-text text-transparent pb-1 transition-all duration-500 ease-out lg:hover:translate-x-3 cursor-default">
+              <h1 className="w-full font-geist text-[11vw] sm:text-[8.5vw] md:text-[6vw] lg:text-[3.4vw] xl:text-[3.2vw] font-black leading-[1.1] tracking-tight bg-gradient-to-r from-[#7C3AED] to-[#A855F7] bg-clip-text text-transparent pb-1 transition-all duration-500 ease-out lg:hover:translate-x-3 cursor-default">
                 your future.
               </h1>
             </div>

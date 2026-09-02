@@ -84,8 +84,8 @@ const FAQ = () => {
             Got Questions?
           </span>
 
-          {/* Editorial Styled Multi-Line Heading */}
-          <h2 className="faq-reveal font-satoshi text-[clamp(2.2rem,4vw,3.8rem)] font-black leading-[1.15] tracking-tight text-[#111827]">
+          {/* Editorial Styled Multi-Line Heading with font-geist */}
+          <h2 className="faq-reveal font-geist text-[clamp(2.2rem,4vw,3.8rem)] font-black leading-[1.15] tracking-tight text-[#111827]">
             <span>Frequently asked</span>{" "}
             <span className="bg-gradient-to-r from-[#6D3DF5] to-[#A855F7] bg-clip-text text-transparent font-serif italic font-normal pb-1 inline-block">
               questions.
@@ -116,7 +116,7 @@ const FAQ = () => {
                     className="flex w-full items-center justify-between gap-4 p-5 md:p-6 lg:p-7 text-left outline-none"
                   >
                     <span
-                      className={`font-satoshi text-base font-bold transition-colors duration-300 md:text-[18px] leading-snug pr-2 ${
+                      className={`font-geist text-base font-bold transition-colors duration-300 md:text-[18px] leading-snug pr-2 ${
                         isOpen ? "text-[#6D3DF5]" : "text-[#111827] group-hover:text-[#6D3DF5]"
                       }`}
                     >
@@ -189,7 +189,7 @@ const FAQ = () => {
                     className="flex w-full items-center justify-between gap-4 p-5 md:p-6 lg:p-7 text-left outline-none"
                   >
                     <span
-                      className={`font-satoshi text-base font-bold transition-colors duration-300 md:text-[18px] leading-snug pr-2 ${
+                      className={`font-geist text-base font-bold transition-colors duration-300 md:text-[18px] leading-snug pr-2 ${
                         isOpen ? "text-[#6D3DF5]" : "text-[#111827] group-hover:text-[#6D3DF5]"
                       }`}
                     >
