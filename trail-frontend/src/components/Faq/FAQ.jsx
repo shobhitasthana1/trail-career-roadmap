@@ -83,10 +83,12 @@ const FAQ = () => {
           <span className="faq-reveal mb-4 flex items-center font-exo text-[11px] font-bold uppercase tracking-[0.3em] text-[#6D3DF5] md:text-xs">
             Got Questions?
           </span>
-          <h2 className="faq-reveal font-satoshi text-[clamp(1.8rem,3.5vw,3.5rem)] lg:text-[4rem] font-black leading-tight tracking-tight text-[#111827]">
-            FREQUENTLY ASKED{" "}
-            <span className="bg-gradient-to-r from-[#6D3DF5] to-[#A855F7] bg-clip-text text-transparent italic font-serif font-normal lowercase">
-              Questions.
+
+          {/* Editorial Styled Multi-Line Heading */}
+          <h2 className="faq-reveal font-satoshi text-[clamp(2.2rem,4vw,3.8rem)] font-black leading-[1.15] tracking-tight text-[#111827]">
+            <span>Frequently asked</span>{" "}
+            <span className="bg-gradient-to-r from-[#6D3DF5] to-[#A855F7] bg-clip-text text-transparent font-serif italic font-normal pb-1 inline-block">
+              questions.
             </span>
           </h2>
         </div>
