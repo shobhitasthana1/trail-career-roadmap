@@ -7,6 +7,7 @@ gsap.registerPlugin(ScrollTrigger);
 const Section3 = () => {
   const sectionRef = useRef(null);
   const imageRef = useRef(null);
+  const gradientRef = useRef(null); 
   const label1Ref = useRef(null);
   const heading1Ref = useRef(null);
   const text2WrapperRef = useRef(null);
@@ -18,7 +19,8 @@ const Section3 = () => {
       const isMobile = window.innerWidth < 768;
       const startXPercent = isMobile ? 25 : 50;
 
-      gsap.set(imageRef.current, {
+      // Animating both image and gradient exactly the same way
+      gsap.set([imageRef.current, gradientRef.current], {
         transformOrigin: "center center",
         force3D: true,
         willChange: "transform, clip-path",
@@ -45,8 +47,9 @@ const Section3 = () => {
         },
       });
 
+      // Clipping both the image AND the gradient so the background stays pure #F8F8FA
       tl.fromTo(
-        imageRef.current,
+        [imageRef.current, gradientRef.current],
         {
           scale: 0.9,
           clipPath: "polygon(22% 20%, 58% 6%, 97% 42%, 58% 94%, 20% 86%, 12% 55%)",
@@ -189,7 +192,8 @@ const Section3 = () => {
   return (
     <section
       ref={sectionRef}
-      className="relative w-full h-screen overflow-hidden bg-white border-t border-stone-200/60 shadow-[0_-12px_40px_-5px_rgba(0,0,0,0.05)] z-30"
+      
+      className="relative w-full h-screen overflow-hidden bg-[#F8F8FA] z-30"
     >
       <img
         ref={imageRef}
@@ -198,7 +202,10 @@ const Section3 = () => {
         className="absolute inset-0 w-full h-full object-cover object-[65%_60%] will-change-transform backface-hidden"
       />
 
-      <div className="absolute inset-0 bg-gradient-to-b from-[#0E0A1A]/10 via-[#0E0A1A]/30 to-[#0E0A1A]/50 pointer-events-none" />
+      <div 
+        ref={gradientRef}
+        className="absolute inset-0 bg-gradient-to-b from-[#0E0A1A]/10 via-[#0E0A1A]/30 to-[#0E0A1A]/50 pointer-events-none will-change-transform backface-hidden" 
+      />
 
       <div className="absolute inset-0 z-3 flex flex-col items-center justify-center pointer-events-none">
         <span
@@ -288,7 +295,8 @@ const Section3 = () => {
 
       <div className="final-text-reveal h-full w-full absolute top-0 z-20 overflow-hidden">
         <div className="imagereveal w-full h-full relative will-change-transform">
-          <div className="absolute inset-0 w-full h-full bg-white" />
+         
+          <div className="absolute inset-0 w-full h-full bg-[#F8F8FA]" />
           <div
             className="absolute inset-0 w-full h-full bg-[#0E0A1A]"
             style={{

@@ -79,7 +79,8 @@ const Section2 = () => {
   return (
     <section
       ref={sectionRef}
-      className="relative flex min-h-svh w-full flex-col overflow-hidden rounded-t-[2.5rem] bg-[#FAFAFA] pt-8"
+      // Fixed: Changed rounded-t-[2.5rem] to rounded-none so top corners are completely flat and flush
+      className="relative flex min-h-svh w-full flex-col overflow-hidden rounded-none bg-[#FAFAFA] pt-8"
     >
       <div className="pointer-events-none absolute inset-0 opacity-[0.06] [background:radial-gradient(circle_at_10%_20%,#6D3DF5_0,transparent_50%),radial-gradient(circle_at_90%_80%,#A855F7_0,transparent_50%)]" />
 
@@ -99,16 +100,14 @@ const Section2 = () => {
       <div className="relative mx-auto flex w-[90%] max-w-[1300px] flex-1 flex-col justify-center">
         <div className="grid w-full grid-cols-1 items-center gap-12 py-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-8 lg:py-6">
           <div className="flex flex-col items-start gap-5 lg:max-w-[500px] lg:gap-6">
-            <span className="s2-reveal flex items-center gap-3 rounded-full border border-[#6D3DF5]/20 bg-[#6D3DF5]/[0.03] px-4 py-1.5 font-exo text-[11px] font-bold uppercase tracking-[0.3em] text-[#6D3DF5] shadow-sm md:text-xs">
-              <span className="h-1.5 w-1.5 rounded-full bg-[#6D3DF5]" />
+            <span className="s2-reveal flex items-center font-exo text-[11px] font-bold uppercase tracking-[0.3em] text-[#6D3DF5] md:text-xs">
               Explore Your Path
             </span>
 
-            <h2 className="s2-reveal font-satoshi text-[clamp(2.5rem,4.5vw,4.2rem)] font-black leading-[1.05] tracking-tight text-[#111827]">
-              FIND YOUR
-              <br />
-              <span className="bg-gradient-to-r from-[#6D3DF5] to-[#A855F7] bg-clip-text text-transparent">
-                PERFECT PATH.
+            <h2 className="s2-reveal font-satoshi text-[clamp(1.8rem,3.5vw,3.5rem)] lg:text-[4rem] font-black leading-tight tracking-tight text-[#111827]">
+              FIND YOUR PERFECT{" "}
+              <span className="bg-gradient-to-r from-[#6D3DF5] to-[#A855F7] bg-clip-text text-transparent italic font-serif font-normal lowercase">
+                path.
               </span>
             </h2>
 

@@ -34,7 +34,7 @@ const Section4 = () => {
   return (
     <section 
       ref={sectionRef} 
-      className="relative flex w-full flex-col items-center justify-center py-16 sm:py-20 lg:py-24 bg-[#F9FAFB] overflow-hidden"
+      className="relative flex w-full flex-col items-center justify-center py-16 sm:py-20 lg:py-24 bg-[#FFFFFF] overflow-hidden"
     >
       <div 
         className="absolute inset-0 z-0 opacity-[0.4]"
@@ -49,12 +49,15 @@ const Section4 = () => {
       <div className="relative z-10 mx-auto flex w-full max-w-[1400px] flex-col items-center px-4 sm:px-6 md:px-8">
         
         <div className="flex flex-col items-center text-center mb-10 md:mb-14 w-full">
-          <span className="feature-reveal mb-4 text-[10px] md:text-xs font-bold tracking-[0.25em] text-[#7C3AED] uppercase bg-[#7C3AED]/10 px-4 py-1.5 rounded-full">
-            Why Trail Works
+          <span className="feature-reveal mb-4 flex items-center font-exo text-[11px] font-bold uppercase tracking-[0.3em] text-[#6D3DF5] md:text-xs">
+            Where Trail Excels
           </span>
           
-          <h2 className="feature-reveal font-satoshi text-[clamp(1.5rem,3.5vw,3rem)] lg:text-[3.8rem] font-black leading-tight tracking-tight text-[#0F172A] mt-2 md:whitespace-nowrap">
-            EXPLORE THE POWERFUL <span className="bg-gradient-to-r from-[#7C3AED] to-[#A855F7] bg-clip-text text-transparent italic font-serif lowercase pr-1">features.</span>
+          <h2 className="feature-reveal font-satoshi text-[clamp(1.8rem,3.5vw,3.5rem)] lg:text-[4rem] font-black tracking-tight text-[#0F172A] mt-2 md:whitespace-nowrap">
+            EXPLORE THE POWERFUL{" "}
+            <span className="bg-gradient-to-r from-[#7C3AED] to-[#A855F7] bg-clip-text text-transparent italic font-serif font-normal lowercase">
+              features.
+            </span>
           </h2>
           
           <p className="feature-reveal mt-5 text-sm md:text-base lg:text-lg font-medium text-slate-500 w-full md:w-max leading-relaxed text-center mx-auto">
