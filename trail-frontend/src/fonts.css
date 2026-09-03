@@ -61,11 +61,20 @@
   font-style: italic;
 }
 
+/* New Iowan Old Style Italic Font */
+@font-face {
+  font-family: "Iowan Old Style";
+  src: url("/fonts/Iowan-Old-Style-Italic.otf") format("opentype");
+  font-weight: 400;
+  font-style: italic;
+}
+
 @theme {
   --font-satoshi: "Satoshi", sans-serif;
   --font-geist: "Geist", sans-serif;
   --font-inter: "Inter", sans-serif;
   --font-exo: "Exo", sans-serif;
+  --font-iowan: "Iowan Old Style", serif;
 
   --color-brand-ink: #111827;
   --color-brand-body: #64748b;

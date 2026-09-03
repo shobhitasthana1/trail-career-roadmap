@@ -79,7 +79,7 @@ const Section2 = () => {
   return (
     <section
       ref={sectionRef}
-      className="relative flex min-h-svh w-full flex-col overflow-hidden rounded-none bg-[#FAFAFA] pt-8"
+      className="relative flex w-full flex-col overflow-hidden rounded-none bg-[#FAFAFA] py-16 md:py-24"
     >
       <div className="pointer-events-none absolute inset-0 opacity-[0.06] [background:radial-gradient(circle_at_10%_20%,#6D3DF5_0,transparent_50%),radial-gradient(circle_at_90%_80%,#A855F7_0,transparent_50%)]" />
 
@@ -96,27 +96,22 @@ const Section2 = () => {
         }}
       />
 
-      <div className="relative mx-auto flex w-[90%] max-w-[1300px] flex-1 flex-col justify-center">
-        <div className="grid w-full grid-cols-1 items-center gap-12 py-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-8 lg:py-6">
+      <div className="relative mx-auto flex w-[90%] max-w-[1300px] flex-col justify-center">
+        <div className="grid w-full grid-cols-1 items-center gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-8">
           <div className="flex flex-col items-start gap-5 lg:max-w-[500px] lg:gap-6">
             
-            {/* Clean Tagline */}
             <span className="s2-reveal flex items-center font-exo text-[11px] font-bold uppercase tracking-[0.3em] text-[#6D3DF5] md:text-xs">
               Explore Your Path
             </span>
 
-            {/* Balanced Editorial Heading with font-geist */}
-            <h2 className="s2-reveal font-geist text-[clamp(2.2rem,4vw,3.8rem)] font-black leading-[1.15] tracking-tight text-[#111827]">
-              <span>Find your</span>{" "}
-              <span className="font-serif italic font-normal text-[#111827]">
-                perfect{" "}
-              </span>
-              <span className="bg-gradient-to-r from-[#6D3DF5] to-[#A855F7] bg-clip-text text-transparent font-serif italic font-normal pb-1 inline-block">
-                path.
+            <h2 className="s2-reveal font-geist text-[clamp(2.2rem,4vw,3.8rem)] font-bold tracking-[-0.045em] leading-[0.96] text-[#111827]">
+              <span className="block mb-1">Find your</span>
+              <span className="bg-gradient-to-r from-[#6D3DF5] to-[#A855F7] bg-clip-text text-transparent font-iowan italic font-normal pb-1 inline-block">
+                ideal path.
               </span>
             </h2>
 
-            <p className="s2-reveal max-w-[460px] font-inter text-[15px] leading-relaxed text-[#475569] md:text-[17px]">
+            <p className="s2-reveal max-w-[460px] font-inter text-[15px] leading-relaxed text-[#475569] md:text-[17px] mt-2">
               Explore career paths, uncover the skills that matter, and follow a roadmap built entirely around your goals.
             </p>
 
@@ -143,7 +138,7 @@ const Section2 = () => {
             </div>
           </div>
 
-          <div className="flex h-full w-full flex-col items-center justify-center px-4 py-10 md:px-8 lg:translate-x-12 lg:py-0 xl:translate-x-20">
+          <div className="flex h-full w-full flex-col items-center justify-center px-4 md:px-8 lg:translate-x-12 xl:translate-x-20">
             <div className="s2-cylinder-stage relative aspect-square w-full max-w-[650px] h-[min(55vh,650px)] sm:h-[min(60vh,650px)] lg:h-[min(65vh,650px)]">
               <div className="animate-glow-pulse pointer-events-none absolute inset-0 scale-125 [background:radial-gradient(circle,rgba(109,61,245,0.12),transparent_60%)]" />
 
@@ -179,14 +174,14 @@ const Section2 = () => {
           </div>
         </div>
 
-        <div className="s2-reveal-late flex items-center justify-center gap-4 pb-4 pt-8">
+        <div className="s2-reveal-late flex items-center justify-center gap-4 pt-12 md:pt-16">
           <span className="h-px w-20 bg-gradient-to-r from-transparent to-[#6D3DF5]/30 md:w-32" />
           <span className="text-xs text-[#6D3DF5]/50">✦</span>
           <span className="h-px w-20 bg-gradient-to-l from-transparent to-[#6D3DF5]/30 md:w-32" />
         </div>
       </div>
 
-      <div className="s2-reveal-late mt-8 shrink-0 md:mt-10">
+      <div className="s2-reveal-late shrink-0">
         {/* <Section2Marquee /> */}
       </div>
     </section>
