@@ -1,297 +1,315 @@
-import React, { useRef, useEffect, useState } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import HeroRight, {
-  setHeroFrameProgress,
-  initHeroFrame,
-} from "./HeroRight";
+import React from "react";
 
-gsap.registerPlugin(ScrollTrigger);
-
-const roadmapSteps = [
-  { id: "01", subtitle: "DISCOVER", title: "Find the right career path.", pos: 12.5 },
-  { id: "02", subtitle: "EXPLORE", title: "Discover the skills that matter.", pos: 37.5 },
-  { id: "03", subtitle: "BUILD", title: "Follow your roadmap and build skills.", pos: 62.5 },
-  { id: "04", subtitle: "GROW", title: "Track your progress and goals.", pos: 87.5 },
+const topItems = [
+  { text: "FIND YOUR PATH", tier: "primary" },
+  { text: "LEARN WHAT EMPLOYERS WANT", tier: "secondary" },
+  { text: "TRACK YOUR PROGRESS", tier: "primary" },
+  { text: "REACH YOUR NEXT ROLE", tier: "secondary" },
 ];
 
-const DESKTOP_MEDIA_QUERY = "(min-width: 1024px)";
+const bottomItems = [
+  { text: "KNOW WHERE TO GO", tier: "primary" },
+  { text: "KNOW WHAT TO LEARN", tier: "secondary" },
+  { text: "FOLLOW THE SIGNAL", tier: "primary" },
+  { text: "BUILD YOUR NEXT MOVE", tier: "secondary" },
+];
 
-const Hero = () => {
-  const heroSectionRef = useRef(null);
-  const progressDotRef = useRef(null);
-  const progressLineRef = useRef(null);
-  const stepRefs = useRef([]);
-  const [isDesktop, setIsDesktop] = useState(
-    typeof window !== "undefined"
-      ? window.matchMedia(DESKTOP_MEDIA_QUERY).matches
-      : true
-  );
+const REPEATS_PER_TRACK = 6;
 
-  stepRefs.current = roadmapSteps.map(
-    (_, i) => stepRefs.current[i] ?? { dot: null, subtitle: null, title: null, card: null }
-  );
+const topPalette = {
+  primaryText: "#F6F2FF",
+  secondaryText: "#B9A6F2",
+  sparkColor: "rgba(199, 182, 255, 0.85)",
+  dotGlow: "0 0 10px rgba(168, 139, 250, 0.85), 0 0 2px rgba(255,255,255,0.6)",
+  textShadow: "0 1px 2px rgba(0,0,0,0.65), 0 0 18px rgba(139,92,246,0.18)",
+};
 
-  useEffect(() => {
-    const mql = window.matchMedia(DESKTOP_MEDIA_QUERY);
-    const handleChange = (e) => setIsDesktop(e.matches);
-    mql.addEventListener("change", handleChange);
-    return () => mql.removeEventListener("change", handleChange);
-  }, []);
+const bottomPalette = {
+  primaryText: "#FFFFFF",
+  secondaryText: "#F3E8FF",
+  sparkColor: "rgba(255, 255, 255, 0.9)",
+  dotGlow: "0 0 10px rgba(255,255,255,0.9), 0 0 2px rgba(255,255,255,0.6)",
+  textShadow: "0 1px 2px rgba(29,15,60,0.45), 0 0 16px rgba(29,15,60,0.15)",
+};
 
-  useEffect(() => {
-    let ctx = gsap.context(() => {
-      gsap.fromTo(
-        ".hero-line",
-        { opacity: 0, y: 60, scale: 0.98 },
-        { opacity: 1, y: 0, scale: 1, duration: 1.2, stagger: 0.15, ease: "expo.out", delay: 0.1 }
-      );
-      gsap.fromTo(
-        ".hero-fade",
-        { opacity: 0, y: 20 },
-        { opacity: 1, y: 0, duration: 1, stagger: 0.15, ease: "power3.out", delay: 0.6 }
-      );
-    }, heroSectionRef);
-    return () => ctx.revert();
-  }, []);
-
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      const applyStepState = (dotPosition) => {
-        stepRefs.current.forEach((step, index) => {
-          const isReached = dotPosition >= roadmapSteps[index].pos;
-
-          if (step.subtitle) {
-            gsap.to(step.subtitle, {
-              color: isReached ? "#9577F4" : "#a8a29e",
-              duration: 0.3,
-              overwrite: "auto",
-            });
-          }
-          if (step.title) {
-            gsap.to(step.title, {
-              color: isReached ? "#111827" : "#78716c",
-              opacity: isReached ? 1 : 0.5,
-              duration: 0.3,
-              overwrite: "auto",
-            });
-          }
-          if (step.dot) {
-            gsap.to(step.dot, {
-              backgroundColor: isReached ? "#9577F4" : "#ffffff",
-              borderColor: isReached ? "#9577F4" : "#e7e5e4",
-              duration: 0.3,
-              overwrite: "auto",
-            });
-          }
-          if (step.card) {
-            gsap.to(step.card, {
-              borderColor: isReached ? "rgba(149,119,244,0.3)" : "rgba(231,229,228,1)",
-              boxShadow: isReached
-                ? "0 10px 30px -10px rgba(149,119,244,0.15)"
-                : "0 4px 20px -4px rgba(0,0,0,0.03)",
-              y: isReached ? -4 : 0,
-              duration: 0.4,
-              ease: "power2.out",
-              overwrite: "auto",
-            });
-          }
-        });
-      };
-
-      if (isDesktop) {
-        ScrollTrigger.create({
-          id: "hero-pin",
-          trigger: heroSectionRef.current,
-          start: "top top",
-          end: "+=3000",
-          pin: true,
-          pinSpacing: true,
-          scrub: 0.05,
-          anticipatePin: 1,
-          invalidateOnRefresh: true,
-          onUpdate: (self) => {
-            const progress = self.progress;
-            setHeroFrameProgress(progress);
-
-            const dotPosition = 12.5 + progress * 75;
-
-            if (progressDotRef.current) {
-              progressDotRef.current.style.left = `${dotPosition}%`;
-            }
-            if (progressLineRef.current) {
-              progressLineRef.current.style.width = `${dotPosition}%`;
-            }
-
-            applyStepState(dotPosition);
-          },
-        });
-      }
-
-      initHeroFrame();
-
-      if (progressDotRef.current) progressDotRef.current.style.left = "12.5%";
-      if (progressLineRef.current) progressLineRef.current.style.width = "12.5%";
-
-      if (stepRefs.current[0].subtitle) {
-        gsap.set(stepRefs.current[0].subtitle, { color: "#9577F4" });
-        gsap.set(stepRefs.current[0].title, { color: "#111827", opacity: 1 });
-        gsap.set(stepRefs.current[0].card, {
-          borderColor: "rgba(149,119,244,0.3)",
-          boxShadow: "0 10px 30px -10px rgba(149,119,244,0.15)",
-          y: -4,
-        });
-      }
-    }, heroSectionRef);
-
-    return () => ctx.revert();
-  }, [isDesktop]);
-
-  return (
-    <div
-      ref={heroSectionRef}
-      className="w-full min-h-screen lg:h-screen lg:max-h-screen px-5 sm:px-8 md:px-12 lg:px-20 pt-16 sm:pt-20 md:pt-20 lg:pt-16 pb-0 font-inter bg-white flex flex-col justify-center gap-6 lg:gap-8 overflow-x-hidden"
-    >
-      <div className="w-full max-w-[1400px] mx-auto flex flex-col justify-center flex-1">
-        <div className="flex flex-col w-full lg:flex-row lg:justify-between lg:items-center gap-6 lg:gap-4">
-          <div className="flex flex-col items-center text-center lg:items-start lg:text-left w-full max-w-[600px] mx-auto lg:mx-0 lg:max-w-none mt-6 sm:mt-8 lg:mt-10 lg:w-[50%] relative z-10">
-            <img
-              className="w-[28vw] sm:w-[20vw] md:w-[16vw] lg:w-[14vw] max-w-[130px] sm:max-w-[150px] lg:max-w-[180px] mb-1.5 sm:mb-2 lg:mb-2 transition-transform duration-300 hover:scale-105 cursor-pointer"
-              src="/images/hero-images/01-Start-Here.png"
-              alt="Start Here"
-            />
-
-            <h1 className="w-full mt-1 lg:mt-2 max-w-[650px] text-[clamp(2.2rem,10vw,3.2rem)] leading-[0.9] tracking-[-0.055em] sm:text-5xl lg:text-[72px] text-[#111827] cursor-default">
-              <span className="hero-line block whitespace-nowrap font-geist font-black transition-all duration-500 ease-out lg:hover:text-[#7C3AED] lg:hover:translate-x-3">
-                Your journey.
+const TrackContent = ({ items, palette }) => (
+  <>
+    {Array.from({ length: REPEATS_PER_TRACK }).map((_, r) =>
+      items.map((item, i) => {
+        const useSpark = (r * items.length + i) % 3 === 0;
+        const isPrimary = item.tier === "primary";
+        return (
+          <div key={`${r}-${i}`} className="flex items-center">
+            <span
+              className={
+                "mx-4 sm:mx-6 md:mx-8 lg:mx-10 font-geist uppercase whitespace-nowrap " +
+                (isPrimary
+                  ? "text-base sm:text-lg md:text-xl font-bold tracking-[0.18em]"
+                  : "text-sm sm:text-base md:text-lg font-semibold tracking-[0.14em]")
+              }
+              style={{
+                color: isPrimary ? palette.primaryText : palette.secondaryText,
+                textShadow: palette.textShadow,
+                opacity: isPrimary ? 1 : 0.9,
+              }}
+            >
+              {item.text}
+            </span>
+            {useSpark ? (
+              <span
+                aria-hidden="true"
+                className="trail-spark select-none text-xs"
+                style={{ color: palette.sparkColor }}
+              >
+                ✦
               </span>
-              <span className="hero-line block whitespace-nowrap font-iowan font-normal italic tracking-[-0.04em] my-1 lg:my-0.5 transition-all duration-500 ease-out lg:hover:text-[#A855F7] lg:hover:translate-x-3">
-                your roadmap.
-              </span>
-              <span className="hero-line block whitespace-nowrap font-geist font-black bg-gradient-to-r from-[#7C3AED] to-[#A855F7] bg-clip-text text-transparent pb-2 transition-all duration-500 ease-out lg:hover:translate-x-3">
-                your future.
-              </span>
-            </h1>
-
-            <p className="hero-fade w-full mt-2 sm:mt-2.5 lg:mt-3 text-sm sm:text-base lg:text-[17px] leading-relaxed text-gray-600 max-w-[420px] lg:max-w-none lg:w-[85%] font-inter">
-              TRAIL helps you discover the right career path, learn the skills
-              that matter, follow a structured roadmap and track your progress —
-              all in one place.
-            </p>
-
-            <div className="hero-fade mt-2 sm:mt-2.5 lg:mt-3 w-fit">
-              <img
-                className="w-[56vw] sm:w-[40vw] md:w-[34vw] lg:w-[32vw] xl:w-[28vw] max-w-[260px] sm:max-w-[300px] lg:max-w-[320px] transition-all duration-300 hover:scale-105 hover:brightness-105 active:scale-95 cursor-pointer"
-                src="/images/hero-images/Explore-Your-Roadmap.png"
-                alt="Explore Your Roadmap"
+            ) : (
+              <span
+                aria-hidden="true"
+                className="h-1.5 w-1.5 sm:h-2 sm:w-2 rounded-full trail-dot"
+                style={{ boxShadow: palette.dotGlow }}
               />
-            </div>
+            )}
           </div>
+        );
+      })
+    )}
+  </>
+);
 
-          <div className="flex items-center justify-center w-full lg:w-[50%] relative z-0">
-            <HeroRight />
+export default function Section1Marquee() {
+  return (
+    <div className="trail-stage relative flex w-full flex-col items-center justify-center overflow-hidden bg-transparent">
+      <style>{`
+        @keyframes trail-marquee-left {
+          0%   { transform: translateX(0); }
+          100% { transform: translateX(-50%); }
+        }
+        @keyframes trail-marquee-right {
+          0%   { transform: translateX(-50%); }
+          100% { transform: translateX(0); }
+        }
+
+        @keyframes trail-sheen-sweep {
+          0%   { background-position: -170% 0; }
+          100% { background-position: 170% 0; }
+        }
+
+        @keyframes trail-shade-turn {
+          0%, 100% { background-position: 0% 0%; }
+          50%      { background-position: 0% 14%; }
+        }
+
+        @keyframes trail-spark-spin {
+          from { transform: rotate(0deg); }
+          to   { transform: rotate(360deg); }
+        }
+
+        .trail-stage {
+          height: 130px;
+          margin-top: -24px;
+          z-index: 20;
+        }
+        @media (min-width: 640px) {
+          .trail-stage { height: 165px; }
+        }
+        @media (min-width: 768px) {
+          .trail-stage { height: 200px; margin-top: -48px; }
+        }
+
+        .trail-ribbon-shell {
+          position: absolute;
+          width: 112vw;
+          left: -6vw;
+        }
+
+        .trail-ribbon {
+          position: relative;
+          isolation: isolate;
+          overflow: hidden;
+          display: flex;
+          align-items: center;
+          padding-top: 0.875rem;
+          padding-bottom: 0.875rem;
+          transform: scale(1);
+          transition: transform 0.35s ease, filter 0.35s ease, box-shadow 0.35s ease;
+        }
+        @media (min-width: 768px) {
+          .trail-ribbon { padding-top: 1.25rem; padding-bottom: 1.25rem; }
+        }
+
+        .trail-ribbon--top {
+          background-image: linear-gradient(112deg, #110C1C 0%, #1D1830 22%, #2C2350 50%, #1D1830 76%, #130E20 100%);
+          box-shadow:
+            inset 0 1px 0 rgba(255,255,255,0.16),
+            inset 0 -14px 22px -14px rgba(0,0,0,0.75),
+            0 18px 45px -18px rgba(0,0,0,0.7),
+            0 6px 24px rgba(0,0,0,0.35);
+        }
+        .trail-ribbon--top:hover {
+          filter: brightness(1.1) saturate(1.08);
+          box-shadow:
+            inset 0 1px 0 rgba(255,255,255,0.26),
+            inset 0 -14px 22px -14px rgba(0,0,0,0.8),
+            0 22px 55px -16px rgba(109,61,245,0.4),
+            0 8px 28px rgba(0,0,0,0.45);
+        }
+
+        .trail-ribbon--bottom {
+          background-image: linear-gradient(112deg, #5A2EDD 0%, #6D3DF5 20%, #7C3AED 45%, #8B5CF6 65%, #7C3AED 85%, #6427D6 100%);
+          box-shadow:
+            inset 0 1px 0 rgba(255,255,255,0.45),
+            inset 0 -14px 22px -14px rgba(30,10,70,0.6),
+            0 20px 55px -16px rgba(109,61,245,0.55),
+            0 6px 26px rgba(124,58,237,0.35);
+        }
+        .trail-ribbon--bottom:hover {
+          filter: brightness(1.06) saturate(1.1);
+          box-shadow:
+            inset 0 1px 0 rgba(255,255,255,0.6),
+            inset 0 -14px 22px -14px rgba(30,10,70,0.65),
+            0 26px 65px -14px rgba(139,92,246,0.65),
+            0 10px 32px rgba(124,58,237,0.5);
+        }
+
+        .trail-ribbon:hover {
+          transform: scale(1.015);
+        }
+
+        .trail-shade {
+          position: absolute;
+          inset: 0;
+          pointer-events: none;
+          background-repeat: no-repeat;
+          background-size: 100% 170%;
+          animation: trail-shade-turn 9s ease-in-out infinite;
+        }
+        .trail-ribbon--top .trail-shade {
+          background-image: linear-gradient(
+            to bottom,
+            rgba(255,255,255,0.30) 0%,
+            rgba(255,255,255,0.07) 10%,
+            rgba(255,255,255,0.00) 26%,
+            rgba(0,0,0,0.00) 55%,
+            rgba(0,0,0,0.24) 78%,
+            rgba(0,0,0,0.5) 100%
+          );
+        }
+        .trail-ribbon--bottom .trail-shade {
+          background-image: linear-gradient(
+            to bottom,
+            rgba(255,255,255,0.5) 0%,
+            rgba(255,255,255,0.14) 12%,
+            rgba(255,255,255,0.00) 30%,
+            rgba(0,0,0,0.00) 56%,
+            rgba(0,0,0,0.2) 80%,
+            rgba(0,0,0,0.38) 100%
+          );
+        }
+
+        .trail-sheen {
+          position: absolute;
+          inset: 0;
+          pointer-events: none;
+          background-repeat: no-repeat;
+          background-size: 260% 100%;
+          mix-blend-mode: screen;
+        }
+        .trail-ribbon--top .trail-sheen {
+          background-image: linear-gradient(
+            100deg,
+            transparent 0%, transparent 42%,
+            rgba(196,181,253,0.35) 48.5%,
+            rgba(255,255,255,0.62) 50%,
+            rgba(196,181,253,0.35) 51.5%,
+            transparent 58%, transparent 100%
+          );
+          animation: trail-sheen-sweep 6.5s linear infinite;
+        }
+        .trail-ribbon--bottom .trail-sheen {
+          background-image: linear-gradient(
+            100deg,
+            transparent 0%, transparent 40%,
+            rgba(255,255,255,0.4) 48%,
+            rgba(255,255,255,0.85) 50%,
+            rgba(255,255,255,0.4) 52%,
+            transparent 60%, transparent 100%
+          );
+          animation: trail-sheen-sweep 5.5s linear infinite;
+          animation-delay: -2s;
+        }
+        .trail-ribbon:hover .trail-sheen {
+          animation-duration: 2.4s;
+        }
+
+        .trail-track {
+          position: relative;
+          z-index: 2;
+        }
+        .trail-scroll-left {
+          animation: trail-marquee-left 36s linear infinite;
+          will-change: transform;
+        }
+        .trail-scroll-right {
+          animation: trail-marquee-right 32s linear infinite;
+          will-change: transform;
+        }
+
+        .trail-spark {
+          display: inline-block;
+          animation: trail-spark-spin 6s linear infinite;
+        }
+        .trail-ribbon:hover .trail-spark {
+          animation-duration: 2.4s;
+        }
+        .trail-dot {
+          display: inline-block;
+          background: currentColor;
+        }
+        .trail-ribbon--top .trail-dot { background: #C4B5FD; }
+        .trail-ribbon--bottom .trail-dot { background: #FFFFFF; }
+
+        @media (prefers-reduced-motion: reduce) {
+          .trail-scroll-left,
+          .trail-scroll-right,
+          .trail-spark,
+          .trail-sheen,
+          .trail-shade {
+            animation: none !important;
+          }
+          .trail-ribbon,
+          .trail-ribbon:hover {
+            transform: none !important;
+            transition: none !important;
+          }
+        }
+      `}</style>
+
+      <div
+        className="trail-ribbon-shell absolute z-10"
+        style={{ transform: "perspective(900px) rotateX(6deg) rotateZ(-2.5deg)" }}
+      >
+        <div className="trail-ribbon trail-ribbon--top">
+          <span aria-hidden="true" className="trail-shade" />
+          <span aria-hidden="true" className="trail-sheen" />
+          <div className="trail-track flex w-max trail-scroll-left whitespace-nowrap">
+            <TrackContent items={topItems} palette={topPalette} />
           </div>
         </div>
+      </div>
 
-        <div className="w-full pb-0 mt-6 lg:mt-8 relative z-10">
-          <div className="hidden lg:block relative w-full pt-1">
-            <div className="absolute top-0 left-0 w-full h-2">
-              <div className="absolute top-1/2 left-0 right-0 h-[2px] bg-stone-100 -translate-y-1/2 rounded-full" />
-
-              <div
-                ref={progressLineRef}
-                className="absolute top-1/2 left-0 h-[2px] bg-[#9577F4] -translate-y-1/2 rounded-full z-0"
-              />
-
-              {roadmapSteps.map((step, index) => (
-                <div
-                  key={`dot-${step.id}`}
-                  ref={(el) => (stepRefs.current[index].dot = el)}
-                  className="absolute top-1/2 -translate-x-1/2 -translate-y-1/2 w-3 h-3 rounded-full bg-white border-2 border-stone-200 z-10 transition-colors"
-                  style={{ left: `${step.pos}%` }}
-                />
-              ))}
-
-              <div
-                ref={progressDotRef}
-                className="absolute top-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center w-5 h-5 rounded-full bg-[#9577F4] shadow-[0_0_0_5px_rgba(149,119,244,0.15),0_0_18px_rgba(149,119,244,0.55)] z-20"
-              >
-                <div className="w-[7px] h-[7px] rounded-full bg-white" />
-              </div>
-            </div>
-
-            <div className="grid grid-cols-4 w-full pt-5">
-              {roadmapSteps.map((step, index) => (
-                <div key={step.id} className="w-full px-1 xl:px-2">
-                  <div
-                    ref={(el) => (stepRefs.current[index].card = el)}
-                    className="flex flex-col gap-1 xl:gap-2 h-full p-3 xl:p-4 bg-white border border-stone-200 rounded-2xl shadow-[0_4px_20px_-4px_rgba(0,0,0,0.03)]"
-                  >
-                    <h4
-                      ref={(el) => (stepRefs.current[index].subtitle = el)}
-                      className="text-[10px] xl:text-xs font-bold tracking-[0.2em] text-stone-400 uppercase font-exo"
-                    >
-                      {step.id} — {step.subtitle}
-                    </h4>
-                    <h5
-                      ref={(el) => (stepRefs.current[index].title = el)}
-                      className="text-sm xl:text-[15px] leading-tight font-semibold text-stone-500 font-satoshi opacity-50"
-                    >
-                      {step.title}
-                    </h5>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="lg:hidden flex flex-col gap-3 pt-2 pb-4">
-            {roadmapSteps.map((step, index) => (
-              <div key={`mob-${step.id}`} className="flex gap-3">
-                <div className="flex flex-col items-center pt-2">
-                  <div
-                    className={`flex items-center justify-center w-4 h-4 rounded-full shrink-0 ${
-                      index === 0
-                        ? "bg-[#9577F4] shadow-[0_0_0_4px_rgba(149,119,244,0.15)]"
-                        : "bg-white border-2 border-stone-200"
-                    }`}
-                  >
-                    {index === 0 && <div className="w-[6px] h-[6px] rounded-full bg-white" />}
-                  </div>
-                  {index !== roadmapSteps.length - 1 && (
-                    <div className="w-[2px] flex-1 bg-stone-100 my-1 rounded-full" />
-                  )}
-                </div>
-
-                <div
-                  className={`flex-1 flex flex-col gap-1.5 p-3 sm:p-4 bg-white border rounded-xl min-w-0 ${
-                    index === 0
-                      ? "border-[#9577F4]/30 shadow-[0_8px_24px_-8px_rgba(149,119,244,0.2)]"
-                      : "border-stone-200 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.03)]"
-                  }`}
-                >
-                  <h4
-                    className={`text-[10px] sm:text-[11px] font-bold tracking-[0.2em] uppercase font-exo ${
-                      index === 0 ? "text-[#9577F4]" : "text-stone-400"
-                    }`}
-                  >
-                    {step.id} — {step.subtitle}
-                  </h4>
-                  <h5
-                    className={`text-sm sm:text-base font-semibold font-satoshi break-words ${
-                      index === 0 ? "text-[#111827]" : "text-stone-500"
-                    }`}
-                  >
-                    {step.title}
-                  </h5>
-                </div>
-              </div>
-            ))}
+      <div
+        className="trail-ribbon-shell absolute z-20"
+        style={{ transform: "perspective(900px) rotateX(-6deg) rotateZ(2.5deg)" }}
+      >
+        <div className="trail-ribbon trail-ribbon--bottom">
+          <span aria-hidden="true" className="trail-shade" />
+          <span aria-hidden="true" className="trail-sheen" />
+          <div className="trail-track flex w-max trail-scroll-right whitespace-nowrap">
+            <TrackContent items={bottomItems} palette={bottomPalette} />
           </div>
         </div>
       </div>
     </div>
   );
-};
-
-export default Hero;
+}
