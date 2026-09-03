@@ -79,7 +79,7 @@ const Section2 = () => {
   return (
     <section
       ref={sectionRef}
-      className="relative flex w-full flex-col overflow-hidden rounded-none bg-[#FAFAFA] pt-8 pb-16 md:pt-12 md:pb-24"
+      className="relative flex w-full flex-col overflow-hidden rounded-none bg-[#FAFAFA] py-16 md:py-24"
     >
       <div className="pointer-events-none absolute inset-0 opacity-[0.06] [background:radial-gradient(circle_at_10%_20%,#6D3DF5_0,transparent_50%),radial-gradient(circle_at_90%_80%,#A855F7_0,transparent_50%)]" />
 
@@ -104,8 +104,8 @@ const Section2 = () => {
               Explore Your Path
             </span>
 
-            <h2 className="s2-reveal font-geist text-[clamp(2.2rem,4vw,3.8rem)] font-bold tracking-[-0.045em] leading-[0.96] text-[#111827] whitespace-nowrap">
-              <span>Find your</span>{" "}
+            <h2 className="s2-reveal font-geist text-[clamp(2.2rem,4vw,3.8rem)] font-bold tracking-[-0.045em] leading-[0.96] text-[#111827]">
+              <span className="block mb-1">Find your</span>
               <span className="bg-gradient-to-r from-[#6D3DF5] to-[#A855F7] bg-clip-text text-transparent font-iowan italic font-normal pb-1 inline-block">
                 ideal path.
               </span>

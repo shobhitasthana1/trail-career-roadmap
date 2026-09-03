@@ -43,13 +43,13 @@ const Hero = () => {
     let ctx = gsap.context(() => {
       gsap.fromTo(
         ".hero-line",
-        { opacity: 0, y: 30 },
-        { opacity: 1, y: 0, duration: 1, stagger: 0.12, ease: "power3.out", delay: 0.1 }
+        { opacity: 0, y: 60, scale: 0.98 },
+        { opacity: 1, y: 0, scale: 1, duration: 1.2, stagger: 0.15, ease: "expo.out", delay: 0.1 }
       );
       gsap.fromTo(
         ".hero-fade",
         { opacity: 0, y: 20 },
-        { opacity: 1, y: 0, duration: 0.9, stagger: 0.12, ease: "power3.out", delay: 0.5 }
+        { opacity: 1, y: 0, duration: 1, stagger: 0.15, ease: "power3.out", delay: 0.6 }
       );
     }, heroSectionRef);
     return () => ctx.revert();
@@ -154,21 +154,21 @@ const Hero = () => {
     >
       <div className="w-full max-w-[1400px] mx-auto flex flex-col justify-center flex-1">
         <div className="flex flex-col w-full lg:flex-row lg:justify-between lg:items-center gap-6 lg:gap-4">
-          <div className="flex flex-col items-center text-center lg:items-start lg:text-left w-full max-w-[620px] mx-auto lg:mx-0 lg:max-w-none mt-6 sm:mt-8 lg:mt-10 lg:w-[50%] relative z-10">
+          <div className="flex flex-col items-center text-center lg:items-start lg:text-left w-full max-w-[600px] mx-auto lg:mx-0 lg:max-w-none mt-6 sm:mt-8 lg:mt-10 lg:w-[50%] relative z-10">
             <img
               className="w-[28vw] sm:w-[20vw] md:w-[16vw] lg:w-[14vw] max-w-[130px] sm:max-w-[150px] lg:max-w-[180px] mb-1.5 sm:mb-2 lg:mb-2 transition-transform duration-300 hover:scale-105 cursor-pointer"
               src="/images/hero-images/01-Start-Here.png"
               alt="Start Here"
             />
 
-            <h1 className="w-full mt-1 lg:mt-2 max-w-[620px] text-[clamp(2.1rem,12vw,3rem)] font-bold leading-[0.96] tracking-[-0.055em] sm:text-6xl lg:text-[72px] text-[#111827] cursor-default antialiased">
-              <span className="hero-line block whitespace-nowrap font-geist font-bold transition-all duration-500 ease-out lg:hover:text-[#7C3AED] lg:hover:translate-x-3">
+            <h1 className="w-full mt-1 lg:mt-2 max-w-[650px] text-[clamp(2.2rem,10vw,3.2rem)] leading-[0.9] tracking-[-0.055em] sm:text-5xl lg:text-[72px] text-[#111827] cursor-default">
+              <span className="hero-line block whitespace-nowrap font-geist font-black transition-all duration-500 ease-out lg:hover:text-[#7C3AED] lg:hover:translate-x-3">
                 Your journey.
               </span>
               <span className="hero-line block whitespace-nowrap font-iowan font-normal italic tracking-[-0.04em] my-1 lg:my-0.5 transition-all duration-500 ease-out lg:hover:text-[#A855F7] lg:hover:translate-x-3">
                 your roadmap.
               </span>
-              <span className="hero-line block whitespace-nowrap font-geist font-bold bg-gradient-to-r from-[#7C3AED] to-[#A855F7] bg-clip-text text-transparent pb-2 transition-all duration-500 ease-out lg:hover:translate-x-3">
+              <span className="hero-line block whitespace-nowrap font-geist font-black bg-gradient-to-r from-[#7C3AED] to-[#A855F7] bg-clip-text text-transparent pb-2 transition-all duration-500 ease-out lg:hover:translate-x-3">
                 your future.
               </span>
             </h1>
