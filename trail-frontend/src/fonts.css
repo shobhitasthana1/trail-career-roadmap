@@ -1,21 +1,21 @@
 @font-face {
   font-family: "Satoshi";
   src: url("/fonts/Satoshi-Regular.otf") format("opentype");
-  font-weight: 400;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "Satoshi";
-  src: url("/fonts/Satoshi-Medium.otf") format("opentype");
   font-weight: 500;
   font-style: normal;
 }
 
 @font-face {
   font-family: "Satoshi";
+  src: url("/fonts/Satoshi-Medium.otf") format("opentype");
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Satoshi";
   src: url("/fonts/Satoshi-Bold.otf") format("opentype");
-  font-weight: 700;
+  font-weight: 800;
   font-style: normal;
 }
 
@@ -28,8 +28,15 @@
 
 @font-face {
   font-family: "Geist";
-  src: url("/fonts/Geist-Regular.otf") format("opentype");
-  font-weight: 400;
+  src: url("/fonts/Geist-Regular.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Geist";
+  src: url("/fonts/Geist-Bold.otf") format("opentype");
+  font-weight: 800;
   font-style: normal;
 }
 
@@ -61,11 +68,11 @@
   font-style: italic;
 }
 
-/* New Iowan Old Style Italic Font */
+/* Iowan Old Style Italic */
 @font-face {
   font-family: "Iowan Old Style";
   src: url("/fonts/Iowan-Old-Style-Italic.otf") format("opentype");
-  font-weight: 400;
+  font-weight: 500;
   font-style: italic;
 }
 

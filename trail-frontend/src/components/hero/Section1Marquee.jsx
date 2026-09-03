@@ -79,7 +79,7 @@ const TrackContent = ({ items, palette }) => (
 
 export default function Section1Marquee() {
   return (
-    <div className="trail-stage relative flex w-full flex-col items-center justify-center overflow-hidden bg-transparent">
+    <div className="trail-stage relative flex w-full flex-col items-center justify-center overflow-hidden bg-transparent my-2">
       <style>{`
         @keyframes trail-marquee-left {
           0%   { transform: translateX(0); }
@@ -106,15 +106,15 @@ export default function Section1Marquee() {
         }
 
         .trail-stage {
-          height: 130px;
-          margin-top: -24px;
-          z-index: 20;
+          height: 110px;
+          z-index: 10;
+          overflow: visible;
         }
         @media (min-width: 640px) {
-          .trail-stage { height: 165px; }
+          .trail-stage { height: 130px; }
         }
         @media (min-width: 768px) {
-          .trail-stage { height: 200px; margin-top: -48px; }
+          .trail-stage { height: 150px; }
         }
 
         .trail-ribbon-shell {
@@ -129,47 +129,33 @@ export default function Section1Marquee() {
           overflow: hidden;
           display: flex;
           align-items: center;
-          padding-top: 0.875rem;
-          padding-bottom: 0.875rem;
+          padding-top: 0.75rem;
+          padding-bottom: 0.75rem;
           transform: scale(1);
           transition: transform 0.35s ease, filter 0.35s ease, box-shadow 0.35s ease;
         }
         @media (min-width: 768px) {
-          .trail-ribbon { padding-top: 1.25rem; padding-bottom: 1.25rem; }
+          .trail-ribbon { padding-top: 1rem; padding-bottom: 1rem; }
         }
 
         .trail-ribbon--top {
           background-image: linear-gradient(112deg, #110C1C 0%, #1D1830 22%, #2C2350 50%, #1D1830 76%, #130E20 100%);
           box-shadow:
-            inset 0 1px 0 rgba(255,255,255,0.16),
-            inset 0 -14px 22px -14px rgba(0,0,0,0.75),
-            0 18px 45px -18px rgba(0,0,0,0.7),
-            0 6px 24px rgba(0,0,0,0.35);
+            inset 0 1px 0 rgba(255,255,255,0.12),
+            0 10px 30px -10px rgba(0,0,0,0.5);
         }
         .trail-ribbon--top:hover {
           filter: brightness(1.1) saturate(1.08);
-          box-shadow:
-            inset 0 1px 0 rgba(255,255,255,0.26),
-            inset 0 -14px 22px -14px rgba(0,0,0,0.8),
-            0 22px 55px -16px rgba(109,61,245,0.4),
-            0 8px 28px rgba(0,0,0,0.45);
         }
 
         .trail-ribbon--bottom {
           background-image: linear-gradient(112deg, #5A2EDD 0%, #6D3DF5 20%, #7C3AED 45%, #8B5CF6 65%, #7C3AED 85%, #6427D6 100%);
           box-shadow:
-            inset 0 1px 0 rgba(255,255,255,0.45),
-            inset 0 -14px 22px -14px rgba(30,10,70,0.6),
-            0 20px 55px -16px rgba(109,61,245,0.55),
-            0 6px 26px rgba(124,58,237,0.35);
+            inset 0 1px 0 rgba(255,255,255,0.3),
+            0 12px 35px -10px rgba(109,61,245,0.4);
         }
         .trail-ribbon--bottom:hover {
           filter: brightness(1.06) saturate(1.1);
-          box-shadow:
-            inset 0 1px 0 rgba(255,255,255,0.6),
-            inset 0 -14px 22px -14px rgba(30,10,70,0.65),
-            0 26px 65px -14px rgba(139,92,246,0.65),
-            0 10px 32px rgba(124,58,237,0.5);
         }
 
         .trail-ribbon:hover {
@@ -187,23 +173,21 @@ export default function Section1Marquee() {
         .trail-ribbon--top .trail-shade {
           background-image: linear-gradient(
             to bottom,
-            rgba(255,255,255,0.30) 0%,
-            rgba(255,255,255,0.07) 10%,
-            rgba(255,255,255,0.00) 26%,
-            rgba(0,0,0,0.00) 55%,
-            rgba(0,0,0,0.24) 78%,
-            rgba(0,0,0,0.5) 100%
+            rgba(255,255,255,0.2) 0%,
+            rgba(255,255,255,0.05) 10%,
+            transparent 30%,
+            transparent 70%,
+            rgba(0,0,0,0.3) 100%
           );
         }
         .trail-ribbon--bottom .trail-shade {
           background-image: linear-gradient(
             to bottom,
-            rgba(255,255,255,0.5) 0%,
-            rgba(255,255,255,0.14) 12%,
-            rgba(255,255,255,0.00) 30%,
-            rgba(0,0,0,0.00) 56%,
-            rgba(0,0,0,0.2) 80%,
-            rgba(0,0,0,0.38) 100%
+            rgba(255,255,255,0.3) 0%,
+            rgba(255,255,255,0.1) 10%,
+            transparent 30%,
+            transparent 70%,
+            rgba(0,0,0,0.2) 100%
           );
         }
 
@@ -238,9 +222,6 @@ export default function Section1Marquee() {
           animation: trail-sheen-sweep 5.5s linear infinite;
           animation-delay: -2s;
         }
-        .trail-ribbon:hover .trail-sheen {
-          animation-duration: 2.4s;
-        }
 
         .trail-track {
           position: relative;
@@ -259,35 +240,18 @@ export default function Section1Marquee() {
           display: inline-block;
           animation: trail-spark-spin 6s linear infinite;
         }
-        .trail-ribbon:hover .trail-spark {
-          animation-duration: 2.4s;
-        }
         .trail-dot {
           display: inline-block;
           background: currentColor;
         }
         .trail-ribbon--top .trail-dot { background: #C4B5FD; }
         .trail-ribbon--bottom .trail-dot { background: #FFFFFF; }
-
-        @media (prefers-reduced-motion: reduce) {
-          .trail-scroll-left,
-          .trail-scroll-right,
-          .trail-spark,
-          .trail-sheen,
-          .trail-shade {
-            animation: none !important;
-          }
-          .trail-ribbon,
-          .trail-ribbon:hover {
-            transform: none !important;
-            transition: none !important;
-          }
-        }
       `}</style>
 
+      {/* back ribbon */}
       <div
         className="trail-ribbon-shell absolute z-10"
-        style={{ transform: "perspective(900px) rotateX(6deg) rotateZ(-2.5deg)" }}
+        style={{ transform: "perspective(900px) rotateX(4deg) rotateZ(-2deg)", backfaceVisibility: "hidden" }}
       >
         <div className="trail-ribbon trail-ribbon--top">
           <span aria-hidden="true" className="trail-shade" />
@@ -298,9 +262,10 @@ export default function Section1Marquee() {
         </div>
       </div>
 
+      {/* front ribbon */}
       <div
         className="trail-ribbon-shell absolute z-20"
-        style={{ transform: "perspective(900px) rotateX(-6deg) rotateZ(2.5deg)" }}
+        style={{ transform: "perspective(900px) rotateX(-4deg) rotateZ(2deg)", backfaceVisibility: "hidden" }}
       >
         <div className="trail-ribbon trail-ribbon--bottom">
           <span aria-hidden="true" className="trail-shade" />
