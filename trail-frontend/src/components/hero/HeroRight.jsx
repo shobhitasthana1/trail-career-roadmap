@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from "react";
 
-const TOTAL_FRAMES = 300;
+const TOTAL_FRAMES = 150;
 const START_FRAME = 1;
 
 const FRAME_PATH = (index) =>

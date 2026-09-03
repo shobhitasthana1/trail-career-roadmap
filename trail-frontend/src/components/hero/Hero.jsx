@@ -104,7 +104,7 @@ const Hero = () => {
           id: "hero-pin",
           trigger: heroSectionRef.current,
           start: "top top",
-          end: "+=3000",
+          end: "+=400", // <--- Sirf 400px kar diya hai (lagbhag 1 scroll)
           pin: true,
           pinSpacing: true,
           scrub: 0.05,
