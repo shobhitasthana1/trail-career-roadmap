@@ -72,31 +72,27 @@ const FAQ = () => {
   return (
     <section
       ref={sectionRef}
-      className="relative flex w-full flex-col items-center justify-center py-24 md:py-32 bg-[#FAFAFA] overflow-hidden" 
+      className="relative flex w-full flex-col items-center justify-center py-16 md:py-20 bg-[#FAFAFA] overflow-hidden" 
     >
       <div className="pointer-events-none absolute inset-0 opacity-[0.4] [background:radial-gradient(ellipse_at_center,rgba(109,61,245,0.08)_0%,transparent_70%)]" />
 
       <div className="relative mx-auto flex w-[90%] max-w-[1200px] flex-col items-center z-10">
         
-        {/* Header Section */}
-        <div className="flex flex-col items-center text-center mb-12 md:mb-16">
-          <span className="faq-reveal mb-4 flex items-center font-exo text-[11px] font-bold uppercase tracking-[0.3em] text-[#6D3DF5] md:text-xs">
+        <div className="flex flex-col items-center text-center mb-10 md:mb-12">
+          <span className="faq-reveal mb-3 flex items-center font-exo text-[11px] font-bold uppercase tracking-[0.3em] text-[#6D3DF5] md:text-xs">
             Got Questions?
           </span>
 
-          {/* Editorial Styled Multi-Line Heading with font-geist */}
-          <h2 className="faq-reveal font-geist text-[clamp(2.2rem,4vw,3.8rem)] font-black leading-[1.15] tracking-tight text-[#111827]">
+          <h2 className="faq-reveal font-geist text-[clamp(2.2rem,4vw,3.8rem)] font-bold leading-[0.96] tracking-[-0.045em] text-[#111827]">
             <span>Frequently asked</span>{" "}
-            <span className="bg-gradient-to-r from-[#6D3DF5] to-[#A855F7] bg-clip-text text-transparent font-serif italic font-normal pb-1 inline-block">
+            <span className="bg-gradient-to-r from-[#6D3DF5] to-[#A855F7] bg-clip-text text-transparent font-iowan italic font-normal pb-1 inline-block">
               questions.
             </span>
           </h2>
         </div>
 
-        {/* FAQs 2-Column Grid */}
         <div className="faq-reveal w-full grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 items-start">
           
-          {/* LEFT COLUMN (Questions 1 to 3) */}
           <div className="flex w-full flex-col gap-4 md:gap-5">
             {FAQ_DATA.slice(0, 3).map((faq, index) => {
               const isOpen = openIndex === index;
@@ -168,7 +164,6 @@ const FAQ = () => {
             })}
           </div>
 
-          {/* RIGHT COLUMN (Questions 4 to 6) */}
           <div className="flex w-full flex-col gap-4 md:gap-5">
             {FAQ_DATA.slice(3, 6).map((faq, i) => {
               const index = i + 3;

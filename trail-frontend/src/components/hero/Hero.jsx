@@ -40,6 +40,22 @@ const Hero = () => {
   }, []);
 
   useEffect(() => {
+    let ctx = gsap.context(() => {
+      gsap.fromTo(
+        ".hero-line",
+        { opacity: 0, y: 60, scale: 0.98 },
+        { opacity: 1, y: 0, scale: 1, duration: 1.2, stagger: 0.15, ease: "expo.out", delay: 0.1 }
+      );
+      gsap.fromTo(
+        ".hero-fade",
+        { opacity: 0, y: 20 },
+        { opacity: 1, y: 0, duration: 1, stagger: 0.15, ease: "power3.out", delay: 0.6 }
+      );
+    }, heroSectionRef);
+    return () => ctx.revert();
+  }, []);
+
+  useEffect(() => {
     const ctx = gsap.context(() => {
       const applyStepState = (dotPosition) => {
         stepRefs.current.forEach((step, index) => {
@@ -134,37 +150,36 @@ const Hero = () => {
   return (
     <div
       ref={heroSectionRef}
-      className="w-full min-h-screen lg:h-screen lg:max-h-screen px-5 sm:px-8 md:px-12 lg:px-20 pt-20 sm:pt-24 md:pt-24 lg:pt-20 pb-0 font-inter bg-white flex flex-col justify-center gap-4 lg:gap-0 overflow-x-hidden"
+      className="w-full min-h-screen lg:h-screen lg:max-h-screen px-5 sm:px-8 md:px-12 lg:px-20 pt-16 sm:pt-20 md:pt-20 lg:pt-16 pb-0 font-inter bg-white flex flex-col justify-center gap-6 lg:gap-8 overflow-x-hidden"
     >
       <div className="w-full max-w-[1400px] mx-auto flex flex-col justify-center flex-1">
         <div className="flex flex-col w-full lg:flex-row lg:justify-between lg:items-center gap-6 lg:gap-4">
-          <div className="flex flex-col items-center text-center lg:items-start lg:text-left w-full max-w-[560px] mx-auto lg:mx-0 lg:max-w-none mt-1 sm:mt-2 lg:w-[45%] relative z-10">
+          <div className="flex flex-col items-center text-center lg:items-start lg:text-left w-full max-w-[600px] mx-auto lg:mx-0 lg:max-w-none mt-6 sm:mt-8 lg:mt-10 lg:w-[50%] relative z-10">
             <img
-              className="w-[28vw] sm:w-[20vw] md:w-[16vw] lg:w-[14vw] max-w-[130px] sm:max-w-[150px] lg:max-w-[180px] mb-2 sm:mb-3 lg:mb-2 transition-transform duration-300 hover:scale-105 cursor-pointer"
+              className="w-[28vw] sm:w-[20vw] md:w-[16vw] lg:w-[14vw] max-w-[130px] sm:max-w-[150px] lg:max-w-[180px] mb-1.5 sm:mb-2 lg:mb-2 transition-transform duration-300 hover:scale-105 cursor-pointer"
               src="/images/hero-images/01-Start-Here.png"
               alt="Start Here"
             />
 
-            {/* Editorial Multi-Line Heading with font-geist */}
-            <div className="flex flex-col gap-1 w-full py-2">
-              <h1 className="w-full font-geist text-[11vw] sm:text-[8.5vw] md:text-[6vw] lg:text-[3.4vw] xl:text-[3.2vw] font-black leading-[1.1] tracking-tight text-[#111827] transition-all duration-500 ease-out lg:hover:text-[#7C3AED] lg:hover:translate-x-3 cursor-default">
+            <h1 className="w-full mt-1 lg:mt-2 max-w-[650px] text-[clamp(2.2rem,10vw,3.2rem)] leading-[0.9] tracking-[-0.055em] sm:text-5xl lg:text-[72px] text-[#111827] cursor-default">
+              <span className="hero-line block whitespace-nowrap font-geist font-black transition-all duration-500 ease-out lg:hover:text-[#7C3AED] lg:hover:translate-x-3">
                 Your journey.
-              </h1>
-              <h1 className="w-full font-serif italic font-normal text-[11vw] sm:text-[8.5vw] md:text-[6vw] lg:text-[3.4vw] xl:text-[3.2vw] leading-[1.1] tracking-tight text-[#111827] my-0.5 transition-all duration-500 ease-out lg:hover:text-[#A855F7] lg:hover:translate-x-3 cursor-default">
+              </span>
+              <span className="hero-line block whitespace-nowrap font-iowan font-normal italic tracking-[-0.04em] my-1 lg:my-0.5 transition-all duration-500 ease-out lg:hover:text-[#A855F7] lg:hover:translate-x-3">
                 your roadmap.
-              </h1>
-              <h1 className="w-full font-geist text-[11vw] sm:text-[8.5vw] md:text-[6vw] lg:text-[3.4vw] xl:text-[3.2vw] font-black leading-[1.1] tracking-tight bg-gradient-to-r from-[#7C3AED] to-[#A855F7] bg-clip-text text-transparent pb-1 transition-all duration-500 ease-out lg:hover:translate-x-3 cursor-default">
+              </span>
+              <span className="hero-line block whitespace-nowrap font-geist font-black bg-gradient-to-r from-[#7C3AED] to-[#A855F7] bg-clip-text text-transparent pb-2 transition-all duration-500 ease-out lg:hover:translate-x-3">
                 your future.
-              </h1>
-            </div>
+              </span>
+            </h1>
 
-            <p className="w-full mt-3 sm:mt-4 lg:mt-3 text-sm sm:text-base lg:text-base leading-snug text-gray-600 max-w-[420px] lg:max-w-none lg:w-4/5 font-inter">
+            <p className="hero-fade w-full mt-2 sm:mt-2.5 lg:mt-3 text-sm sm:text-base lg:text-[17px] leading-relaxed text-gray-600 max-w-[420px] lg:max-w-none lg:w-[85%] font-inter">
               TRAIL helps you discover the right career path, learn the skills
               that matter, follow a structured roadmap and track your progress —
               all in one place.
             </p>
 
-            <div className="mt-4 sm:mt-5 lg:mt-3 w-fit">
+            <div className="hero-fade mt-2 sm:mt-2.5 lg:mt-3 w-fit">
               <img
                 className="w-[56vw] sm:w-[40vw] md:w-[34vw] lg:w-[32vw] xl:w-[28vw] max-w-[260px] sm:max-w-[300px] lg:max-w-[320px] transition-all duration-300 hover:scale-105 hover:brightness-105 active:scale-95 cursor-pointer"
                 src="/images/hero-images/Explore-Your-Roadmap.png"
@@ -173,12 +188,12 @@ const Hero = () => {
             </div>
           </div>
 
-          <div className="flex items-center justify-center w-full lg:w-[52%] relative z-0">
+          <div className="flex items-center justify-center w-full lg:w-[50%] relative z-0">
             <HeroRight />
           </div>
         </div>
 
-        <div className="w-full pb-0 mt-0 lg:mt-0 relative z-10">
+        <div className="w-full pb-0 mt-6 lg:mt-8 relative z-10">
           <div className="hidden lg:block relative w-full pt-1">
             <div className="absolute top-0 left-0 w-full h-2">
               <div className="absolute top-1/2 left-0 right-0 h-[2px] bg-stone-100 -translate-y-1/2 rounded-full" />
