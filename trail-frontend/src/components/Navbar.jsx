@@ -33,6 +33,7 @@ const Navbar = () => {
         }`}
       >
         <div className="flex items-center justify-between w-full max-w-[1400px] mx-auto">
+          {/* Logo */}
           <div className="shrink-0 cursor-pointer flex items-center gap-2 z-50">
             <img
               className="w-24 sm:w-28 lg:w-36 xl:w-40 object-contain transition-transform duration-500 hover:scale-105"
@@ -41,32 +42,52 @@ const Navbar = () => {
             />
           </div>
 
-          <div className="hidden lg:flex items-center gap-8 xl:gap-12 text-stone-600">
+          {/* Desktop Nav Links - Ultra Premium Animation */}
+          <div className="hidden lg:flex items-center gap-8 xl:gap-12">
             {navLinks.map((item) => (
               <a
                 key={item}
                 href="#"
-                className="text-[15px] xl:text-[16px] flex items-center gap-2 font-medium hover:text-[#7C3AED] transition-colors duration-300 relative group py-2"
+                className="group relative flex items-center gap-2 px-1 py-2 font-medium text-[15px] xl:text-[16px] overflow-hidden"
               >
+                {/* Explore Ping Dot */}
                 {item === "Explore" && (
-                  <span className="w-1.5 h-1.5 xl:w-2 xl:h-2 rounded-full bg-[#7C3AED] shadow-[0_0_10px_rgba(124,58,237,0.8)] animate-pulse"></span>
+                  <span className="relative flex h-1.5 w-1.5 xl:h-2 xl:w-2 items-center justify-center">
+                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#7C3AED] opacity-75"></span>
+                    <span className="relative inline-flex h-1.5 w-1.5 xl:h-2 xl:w-2 rounded-full bg-[#7C3AED]"></span>
+                  </span>
                 )}
-                {item}
-                <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-[#7C3AED] transition-all duration-300 ease-out group-hover:w-full rounded-full" />
+                
+                {/* 3D Rolling Text Magic */}
+                <span className="relative block h-[24px] overflow-hidden leading-[24px]">
+                  <span className="flex flex-col transition-transform duration-500 ease-[cubic-bezier(0.76,0,0.24,1)] group-hover:-translate-y-[24px]">
+                    <span className="h-[24px] flex items-center text-stone-600">
+                      {item}
+                    </span>
+                    <span className="h-[24px] flex items-center text-[#7C3AED]">
+                      {item}
+                    </span>
+                  </span>
+                </span>
+
+                {/* Sweeping Underline */}
+                <span className="absolute bottom-1 left-0 h-[2px] w-full origin-right scale-x-0 rounded-full bg-[#7C3AED] transition-transform duration-500 ease-[cubic-bezier(0.76,0,0.24,1)] group-hover:origin-left group-hover:scale-x-100" />
               </a>
             ))}
           </div>
 
+          {/* Desktop CTA Button */}
           <div className="hidden lg:flex items-center gap-6 xl:scale-110 origin-right transition-transform">
             <div className="transition-transform duration-300 hover:scale-[1.05] active:scale-95">
               <ButtonOne text="Get Started" />
             </div>
           </div>
 
+          {/* Mobile Menu Toggle */}
           <div className="flex lg:hidden items-center z-50">
             <button
               onClick={() => setMobileMenuOpen((prev) => !prev)}
-              className="relative w-12 h-12 flex items-center justify-center rounded-full bg-stone-900 text-white hover:bg-[#7C3AED] transition-colors duration-300 active:scale-90"
+              className="relative w-12 h-12 flex items-center justify-center rounded-full bg-stone-900 text-white hover:bg-[#7C3AED] transition-colors duration-300 active:scale-90 cursor-pointer"
               aria-label="Toggle Menu"
             >
               <div className="w-5 h-5 flex flex-col justify-center items-center gap-[5px]">
@@ -91,6 +112,7 @@ const Navbar = () => {
         </div>
       </nav>
 
+      {/* Mobile Menu Overlay */}
       <div
         className={`fixed inset-0 z-40 bg-[#050505] lg:hidden transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] flex flex-col ${
           mobileMenuOpen
