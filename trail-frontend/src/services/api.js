@@ -1353,3 +1353,55 @@ export async function exportRoadmapData(slug) {
   if (!res.ok) throw new Error("Failed to export roadmap data");
   return res.json();
 }
+
+/**
+ * Resource Bookmarks (per-user storage in localStorage via service layer)
+ */
+export function getStoredBookmarkedResourceIds() {
+  const userId = getCurrentUserId();
+  if (userId === "guest") return [];
+  try {
+    const raw = localStorage.getItem(`trail_saved_resources_${userId}`);
+    return raw ? JSON.parse(raw) : [];
+  } catch {
+    return [];
+  }
+}
+
+export async function toggleBookmarkResource(resourceId) {
+  const userId = getCurrentUserId();
+  if (userId === "guest") {
+    throw new Error("Login to save resources");
+  }
+  const current = getStoredBookmarkedResourceIds();
+  let updated;
+  let isBookmarked;
+  if (current.includes(resourceId)) {
+    updated = current.filter((id) => id !== resourceId);
+    isBookmarked = false;
+  } else {
+    updated = [...current, resourceId];
+    isBookmarked = true;
+  }
+  localStorage.setItem(`trail_saved_resources_${userId}`, JSON.stringify(updated));
+  return { isBookmarked, bookmarkedIds: updated };
+}
+
+export async function fetchBookmarkedResourceIds() {
+  if (USE_MOCK) {
+    await delay(80);
+    return getStoredBookmarkedResourceIds();
+  }
+  try {
+    const res = await fetch(`${API_BASE}/resources/bookmarks`, {
+      headers: getAuthHeaders(),
+    });
+    if (!res.ok) {
+      return getStoredBookmarkedResourceIds();
+    }
+    return await res.json();
+  } catch {
+    return getStoredBookmarkedResourceIds();
+  }
+}
+

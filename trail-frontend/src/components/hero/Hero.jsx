@@ -1,4 +1,5 @@
 import { useRef, useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import HeroRight from "./HeroRight";
@@ -176,11 +177,13 @@ const Hero = () => {
             </p>
 
             <div className="hero-fade mt-2 sm:mt-2.5 lg:mt-3 w-fit">
-              <img
-                className="w-[56vw] sm:w-[40vw] md:w-[34vw] lg:w-[32vw] xl:w-[28vw] max-w-[260px] sm:max-w-[300px] lg:max-w-[320px] transition-all duration-300 hover:scale-105 hover:brightness-105 active:scale-95 cursor-pointer"
-                src="/images/hero-images/Explore-Your-Roadmap.png"
-                alt="Explore Your Roadmap"
-              />
+              <Link to="/roadmap" className="inline-block cursor-pointer">
+                <img
+                  className="w-[56vw] sm:w-[40vw] md:w-[34vw] lg:w-[32vw] xl:w-[28vw] max-w-[260px] sm:max-w-[300px] lg:max-w-[320px] transition-all duration-300 hover:scale-105 hover:brightness-105 active:scale-95 cursor-pointer"
+                  src="/images/hero-images/Explore-Your-Roadmap.png"
+                  alt="Explore Your Roadmap"
+                />
+              </Link>
             </div>
           </div>
 

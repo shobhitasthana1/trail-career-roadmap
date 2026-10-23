@@ -13,13 +13,14 @@ import {
 import { useAuth } from "../context/AuthContext";
 import RoadmapCanvas from "../components/roadmap/RoadmapCanvas";
 import Footer from "../components/footer/Footer";
+import LockScreen from "../components/LockScreen";
 import {
   PREBUILT_ROLES,
   generateRoadmap,
   fetchRoadmapBySlug,
 } from "../services/api";
 
-const Explore = () => {
+const ExploreContent = () => {
   const { slug } = useParams();
   const navigate = useNavigate();
   const { user } = useAuth();
@@ -407,4 +408,34 @@ const Explore = () => {
   );
 };
 
+/* ── Explore Page Auth Guard Wrapper ───────────────────────────────── */
+const Explore = () => {
+  const { isAuthenticated, loading } = useAuth();
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-[#FAFAFA] flex items-center justify-center">
+        <div className="w-9 h-9 border-2 border-[#6D3DF5] border-t-transparent rounded-full animate-spin" />
+      </div>
+    );
+  }
+
+  if (!isAuthenticated) {
+    return (
+      <LockScreen
+        badge="Explore Locked"
+        titlePrefix="Explore is"
+        titleHighlight="locked."
+        message="Please log in to explore roadmaps and track your learning journey."
+        loginText="Login"
+        signupText="Create Account"
+        previewType="explore"
+      />
+    );
+  }
+
+  return <ExploreContent />;
+};
+
 export default Explore;
+
