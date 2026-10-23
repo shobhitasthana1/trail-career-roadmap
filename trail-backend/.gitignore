@@ -1,2 +1,6 @@
-node_modules/ 
+node_modules/
 
+# Environment files: real .env files must never be committed.
+.env
+.env.*
+!.env.example
