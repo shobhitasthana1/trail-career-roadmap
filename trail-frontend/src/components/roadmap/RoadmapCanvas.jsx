@@ -306,22 +306,14 @@ const RoadmapCanvas = ({
     <div className="relative w-full rounded-3xl border border-stone-200/90 bg-white overflow-hidden shadow-[0_15px_45px_-12px_rgba(17,24,39,0.06)]">
       {/* ── Top Header Controls Bar (Light Theme) ─────────────────────────── */}
       <div className="relative z-20 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4 p-5 sm:p-6 border-b border-stone-200/80 bg-white/95 backdrop-blur-md">
-        {/* Left: Role info & badge */}
+        {/* Left: Role info */}
         <div>
-          <div className="flex items-center gap-2 mb-1.5 flex-wrap">
-            <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#6D3DF5]/[0.08] border border-[#6D3DF5]/20 text-[11px] font-bold text-[#6D3DF5] uppercase tracking-wider font-exo">
-              <span className="h-1.5 w-1.5 rounded-full bg-[#6D3DF5] animate-pulse" />
-              Interactive Roadmap
-            </span>
-
-            <span className="text-xs text-stone-500 font-medium">
-              Based on live job market demand
-            </span>
-          </div>
-
           <h2 className="text-xl sm:text-2xl font-geist font-bold text-[#111827] tracking-tight">
             {roleName}
           </h2>
+          <p className="text-xs text-stone-500 font-medium mt-0.5">
+            Based on live job market demand
+          </p>
         </div>
 
         {/* Right: Progress bar & Actions */}
@@ -482,6 +474,16 @@ const RoadmapCanvas = ({
         onStatusChange={handleStatusChange}
         isLoggedIn={isLoggedIn}
         roadmapSlug={slug}
+        allNodes={roadmapData?.nodes || []}
+        allEdges={roadmapData?.edges || []}
+        roleName={roleName}
+        onSelectSkill={(skillId) => {
+          const found = (roadmapData?.nodes || []).find((n) => n.id === skillId);
+          if (found) setSelectedSkill(found);
+        }}
+        hasStartedJourney={hasStartedJourney}
+        onStartJourney={handleStartJourney}
+        startingJourney={startingJourney}
       />
     </div>
   );

@@ -145,9 +145,9 @@ const Login = ({ initialMode }) => {
       <style>{`
         .trail-auth-wrapper {
           position: relative;
-          width: 920px;
-          max-width: 100%;
-          height: 600px;
+          width: 930px;
+          max-width: 94vw;
+          height: 550px;
           background: #ffffff;
           border-radius: 32px;
           box-shadow: 0 25px 70px -15px rgba(109, 61, 245, 0.16), 0 0 0 1px rgba(109, 61, 245, 0.08);
@@ -163,7 +163,7 @@ const Login = ({ initialMode }) => {
           display: flex;
           align-items: center;
           justify-content: center;
-          padding: 36px 44px;
+          padding: 28px 40px;
           z-index: 1;
           transition: right 0.65s ease-in-out 1.1s, visibility 0s 0.95s, opacity 0.35s ease 0.95s;
         }
@@ -224,7 +224,7 @@ const Login = ({ initialMode }) => {
           justify-content: center;
           align-items: center;
           text-align: center;
-          padding: 0 42px;
+          padding: 0 38px;
           z-index: 3;
           pointer-events: auto;
           transition: 0.65s ease-in-out;
@@ -252,7 +252,7 @@ const Login = ({ initialMode }) => {
 
         @media screen and (max-width: 768px) {
           .trail-auth-wrapper {
-            height: 780px;
+            height: 740px;
             border-radius: 26px;
           }
 
@@ -260,7 +260,7 @@ const Login = ({ initialMode }) => {
             bottom: 0;
             width: 100%;
             height: 72%;
-            padding: 24px 24px;
+            padding: 20px 22px;
             transition: bottom 0.65s ease-in-out 1.05s, visibility 0s 0.9s, opacity 0.35s ease 0.9s;
           }
 
@@ -336,33 +336,30 @@ const Login = ({ initialMode }) => {
             className="w-full max-w-[340px]"
             noValidate
           >
-            <div className="mb-6 text-center">
-              <span className="inline-block mb-1.5 font-exo text-[10px] font-bold uppercase tracking-[0.24em] text-[#6D3DF5]">
-                Welcome Back
-              </span>
+            <div className="mb-5 text-center">
               <h1 className="font-geist text-3xl sm:text-[34px] font-bold text-[#111827] tracking-[-0.04em]">
                 Login
               </h1>
-              <p className="mt-1 text-xs sm:text-sm text-[#64748B]">
+              <p className="mt-1.5 text-xs sm:text-sm text-[#64748B]">
                 Sign in to continue your career roadmap
               </p>
             </div>
 
             {apiError && !isRegisterMode && (
-              <div className="mb-4 rounded-xl border border-red-200 bg-red-50 px-3.5 py-2.5 text-xs font-medium text-red-600 text-left">
+              <div className="mb-3 rounded-xl border border-red-200 bg-red-50 px-3.5 py-2.5 text-xs font-medium text-red-600 text-left">
                 {apiError}
               </div>
             )}
 
             {/* Email Input */}
-            <div className="mb-4 text-left">
+            <div className="mb-3.5 text-left">
               <div className="relative">
                 <input
                   type="email"
                   value={loginForm.email}
                   onChange={setLoginField("email")}
                   placeholder="Email Address"
-                  className={`w-full rounded-xl bg-[#F3F4F8] pl-4 pr-11 py-3.5 text-sm font-medium text-[#111827] placeholder-[#8E96A8] border outline-none transition-all duration-300 focus:bg-white ${
+                  className={`w-full rounded-xl bg-[#F3F4F8] pl-4 pr-11 py-3 text-sm font-medium text-[#111827] placeholder-[#8E96A8] border outline-none transition-all duration-300 focus:bg-white ${
                     loginErrors.email
                       ? "border-red-400 focus:ring-4 focus:ring-red-500/10"
                       : "border-transparent focus:border-[#6D3DF5] focus:ring-4 focus:ring-[#6D3DF5]/10"
@@ -389,7 +386,7 @@ const Login = ({ initialMode }) => {
                   value={loginForm.password}
                   onChange={setLoginField("password")}
                   placeholder="Password"
-                  className={`w-full rounded-xl bg-[#F3F4F8] pl-4 pr-11 py-3.5 text-sm font-medium text-[#111827] placeholder-[#8E96A8] border outline-none transition-all duration-300 focus:bg-white ${
+                  className={`w-full rounded-xl bg-[#F3F4F8] pl-4 pr-11 py-3 text-sm font-medium text-[#111827] placeholder-[#8E96A8] border outline-none transition-all duration-300 focus:bg-white ${
                     loginErrors.password
                       ? "border-red-400 focus:ring-4 focus:ring-red-500/10"
                       : "border-transparent focus:border-[#6D3DF5] focus:ring-4 focus:ring-[#6D3DF5]/10"
@@ -419,7 +416,7 @@ const Login = ({ initialMode }) => {
               )}
             </div>
 
-            <div className="mb-5 text-center">
+            <div className="mb-4 text-center">
               <Link
                 to="/explore"
                 className="text-xs font-medium text-[#64748B] hover:text-[#6D3DF5] transition-colors"
@@ -431,12 +428,12 @@ const Login = ({ initialMode }) => {
             <button
               type="submit"
               disabled={loading}
-              className="w-full h-12 rounded-xl bg-gradient-to-r from-[#6D3DF5] via-[#7C3AED] to-[#9577F4] text-white font-geist text-sm font-semibold tracking-wide shadow-[0_10px_25px_-5px_rgba(109,61,245,0.45)] transition-all duration-300 hover:shadow-[0_14px_30px_-5px_rgba(109,61,245,0.6)] hover:-translate-y-0.5 active:scale-[0.98] disabled:opacity-60 cursor-pointer"
+              className="w-full h-11 rounded-xl bg-gradient-to-r from-[#6D3DF5] via-[#7C3AED] to-[#9577F4] text-white font-geist text-sm font-semibold tracking-wide shadow-[0_10px_25px_-5px_rgba(109,61,245,0.45)] transition-all duration-300 hover:shadow-[0_14px_30px_-5px_rgba(109,61,245,0.6)] hover:-translate-y-0.5 active:scale-[0.98] disabled:opacity-60 cursor-pointer"
             >
               {loading && !isRegisterMode ? "Signing in..." : "Login"}
             </button>
 
-            <p className="mt-5 mb-3 text-xs text-[#94A3B8] text-center">
+            <p className="mt-4 mb-2.5 text-xs text-[#94A3B8] text-center">
               or continue with social platforms
             </p>
 
@@ -484,33 +481,30 @@ const Login = ({ initialMode }) => {
             className="w-full max-w-[340px]"
             noValidate
           >
-            <div className="mb-4 text-center">
-              <span className="inline-block mb-1 font-exo text-[10px] font-bold uppercase tracking-[0.24em] text-[#6D3DF5]">
-                Start Here
-              </span>
+            <div className="mb-3 text-center">
               <h1 className="font-geist text-2xl sm:text-[30px] font-bold text-[#111827] tracking-[-0.04em]">
                 Registration
               </h1>
-              <p className="mt-0.5 text-xs text-[#64748B]">
+              <p className="mt-1 text-xs text-[#64748B]">
                 Build your personalized career roadmap
               </p>
             </div>
 
             {apiError && isRegisterMode && (
-              <div className="mb-3 rounded-xl border border-red-200 bg-red-50 px-3 py-2 text-xs font-medium text-red-600 text-left">
+              <div className="mb-2.5 rounded-xl border border-red-200 bg-red-50 px-3 py-2 text-xs font-medium text-red-600 text-left">
                 {apiError}
               </div>
             )}
 
             {/* Full Name */}
-            <div className="mb-3 text-left">
+            <div className="mb-2.5 text-left">
               <div className="relative">
                 <input
                   type="text"
                   value={signupForm.name}
                   onChange={setSignupField("name")}
                   placeholder="Full Name"
-                  className={`w-full rounded-xl bg-[#F3F4F8] pl-4 pr-11 py-3 text-sm font-medium text-[#111827] placeholder-[#8E96A8] border outline-none transition-all duration-300 focus:bg-white ${
+                  className={`w-full rounded-xl bg-[#F3F4F8] pl-4 pr-11 py-2.5 text-sm font-medium text-[#111827] placeholder-[#8E96A8] border outline-none transition-all duration-300 focus:bg-white ${
                     signupErrors.name
                       ? "border-red-400 focus:ring-4 focus:ring-red-500/10"
                       : "border-transparent focus:border-[#6D3DF5] focus:ring-4 focus:ring-[#6D3DF5]/10"
@@ -523,21 +517,21 @@ const Login = ({ initialMode }) => {
                 </span>
               </div>
               {signupErrors.name && (
-                <p className="mt-1 text-[11px] font-medium text-red-500">
+                <p className="mt-0.5 text-[11px] font-medium text-red-500">
                   {signupErrors.name}
                 </p>
               )}
             </div>
 
             {/* Email */}
-            <div className="mb-3 text-left">
+            <div className="mb-2.5 text-left">
               <div className="relative">
                 <input
                   type="email"
                   value={signupForm.email}
                   onChange={setSignupField("email")}
                   placeholder="Email Address"
-                  className={`w-full rounded-xl bg-[#F3F4F8] pl-4 pr-11 py-3 text-sm font-medium text-[#111827] placeholder-[#8E96A8] border outline-none transition-all duration-300 focus:bg-white ${
+                  className={`w-full rounded-xl bg-[#F3F4F8] pl-4 pr-11 py-2.5 text-sm font-medium text-[#111827] placeholder-[#8E96A8] border outline-none transition-all duration-300 focus:bg-white ${
                     signupErrors.email
                       ? "border-red-400 focus:ring-4 focus:ring-red-500/10"
                       : "border-transparent focus:border-[#6D3DF5] focus:ring-4 focus:ring-[#6D3DF5]/10"
@@ -550,21 +544,21 @@ const Login = ({ initialMode }) => {
                 </span>
               </div>
               {signupErrors.email && (
-                <p className="mt-1 text-[11px] font-medium text-red-500">
+                <p className="mt-0.5 text-[11px] font-medium text-red-500">
                   {signupErrors.email}
                 </p>
               )}
             </div>
 
             {/* Password */}
-            <div className="mb-3 text-left">
+            <div className="mb-2.5 text-left">
               <div className="relative">
                 <input
                   type={showSignupPass ? "text" : "password"}
                   value={signupForm.password}
                   onChange={setSignupField("password")}
                   placeholder="Password (Min. 8 chars)"
-                  className={`w-full rounded-xl bg-[#F3F4F8] pl-4 pr-11 py-3 text-sm font-medium text-[#111827] placeholder-[#8E96A8] border outline-none transition-all duration-300 focus:bg-white ${
+                  className={`w-full rounded-xl bg-[#F3F4F8] pl-4 pr-11 py-2.5 text-sm font-medium text-[#111827] placeholder-[#8E96A8] border outline-none transition-all duration-300 focus:bg-white ${
                     signupErrors.password
                       ? "border-red-400 focus:ring-4 focus:ring-red-500/10"
                       : "border-transparent focus:border-[#6D3DF5] focus:ring-4 focus:ring-[#6D3DF5]/10"
@@ -581,7 +575,7 @@ const Login = ({ initialMode }) => {
                 </button>
               </div>
               {signupForm.password.length > 0 && (
-                <div className="mt-1.5 flex items-center gap-1">
+                <div className="mt-1 flex items-center gap-1">
                   {[1, 2, 3].map((lvl) => (
                     <span
                       key={lvl}
@@ -593,21 +587,21 @@ const Login = ({ initialMode }) => {
                 </div>
               )}
               {signupErrors.password && (
-                <p className="mt-1 text-[11px] font-medium text-red-500">
+                <p className="mt-0.5 text-[11px] font-medium text-red-500">
                   {signupErrors.password}
                 </p>
               )}
             </div>
 
             {/* Confirm Password */}
-            <div className="mb-4 text-left">
+            <div className="mb-3 text-left">
               <div className="relative">
                 <input
                   type={showConfirmPass ? "text" : "password"}
                   value={signupForm.confirmPassword}
                   onChange={setSignupField("confirmPassword")}
                   placeholder="Confirm Password"
-                  className={`w-full rounded-xl bg-[#F3F4F8] pl-4 pr-11 py-3 text-sm font-medium text-[#111827] placeholder-[#8E96A8] border outline-none transition-all duration-300 focus:bg-white ${
+                  className={`w-full rounded-xl bg-[#F3F4F8] pl-4 pr-11 py-2.5 text-sm font-medium text-[#111827] placeholder-[#8E96A8] border outline-none transition-all duration-300 focus:bg-white ${
                     signupErrors.confirmPassword
                       ? "border-red-400 focus:ring-4 focus:ring-red-500/10"
                       : "border-transparent focus:border-[#6D3DF5] focus:ring-4 focus:ring-[#6D3DF5]/10"
@@ -624,7 +618,7 @@ const Login = ({ initialMode }) => {
                 </button>
               </div>
               {signupErrors.confirmPassword && (
-                <p className="mt-1 text-[11px] font-medium text-red-500">
+                <p className="mt-0.5 text-[11px] font-medium text-red-500">
                   {signupErrors.confirmPassword}
                 </p>
               )}
@@ -644,9 +638,6 @@ const Login = ({ initialMode }) => {
         <div className="trail-curve-box">
           {/* Left Panel (Shown during Login) */}
           <div className="trail-side-panel side-left">
-            <span className="mb-2 inline-flex items-center gap-1.5 rounded-full border border-white/25 bg-white/10 px-3 py-1 font-exo text-[10px] font-bold uppercase tracking-[0.22em] text-white">
-              Trail Platform
-            </span>
             <h2 className="font-geist text-3xl sm:text-4xl font-bold tracking-tight text-white">
               Hello,{" "}
               <span className="font-iowan italic font-normal text-[#E9D5FF]">
@@ -667,9 +658,6 @@ const Login = ({ initialMode }) => {
 
           {/* Right Panel (Shown during Registration) */}
           <div className="trail-side-panel side-right">
-            <span className="mb-2 inline-flex items-center gap-1.5 rounded-full border border-white/25 bg-white/10 px-3 py-1 font-exo text-[10px] font-bold uppercase tracking-[0.22em] text-white">
-              Trail Platform
-            </span>
             <h2 className="font-geist text-3xl sm:text-4xl font-bold tracking-tight text-white">
               Welcome{" "}
               <span className="font-iowan italic font-normal text-[#E9D5FF]">

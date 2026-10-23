@@ -3,7 +3,7 @@ import { motion } from "motion/react";
 import { FiLock } from "react-icons/fi";
 
 const LockScreen = ({
-  badge = "Explore Locked",
+  _badge = "Explore Locked",
   titlePrefix = "Explore is",
   titleHighlight = "locked.",
   message = "Please log in to explore roadmaps and track your learning journey.",
@@ -99,16 +99,11 @@ const LockScreen = ({
         <div className="relative overflow-hidden rounded-[28px] border border-stone-200/90 bg-white/90 backdrop-blur-2xl p-8 sm:p-10 text-center shadow-[0_24px_60px_-15px_rgba(17,24,39,0.08),0_0_0_1px_rgba(255,255,255,0.9)_inset]">
           <div className="absolute top-0 inset-x-0 h-[3px] bg-gradient-to-r from-[#6D3DF5] via-[#9577F4] to-[#A855F7]" />
 
-          <div className="mx-auto w-20 h-20 rounded-2xl bg-gradient-to-br from-[#6D3DF5]/10 to-[#A855F7]/10 border border-[#6D3DF5]/20 flex items-center justify-center mb-6 shadow-[0_12px_30px_-8px_rgba(109,61,245,0.2)]">
+          <div className="mx-auto w-20 h-20 rounded-2xl bg-gradient-to-br from-[#6D3DF5]/10 to-[#A855F7]/10 border border-[#6D3DF5]/20 flex items-center justify-center mb-5 shadow-[0_12px_30px_-8px_rgba(109,61,245,0.2)]">
             <FiLock className="w-9 h-9 text-[#6D3DF5]" />
           </div>
 
-          <span className="mb-2 inline-flex items-center gap-1.5 rounded-full border border-[#6D3DF5]/15 bg-[#6D3DF5]/[0.06] px-3 py-1 font-exo text-[10px] font-bold uppercase tracking-[0.22em] text-[#6D3DF5]">
-            <span className="h-1.5 w-1.5 rounded-full bg-[#6D3DF5]" />
-            {badge}
-          </span>
-
-          <h1 className="mt-1 font-geist text-[28px] sm:text-[34px] font-bold text-[#111827] tracking-[-0.04em] leading-[1.08]">
+          <h1 className="font-geist text-[28px] sm:text-[34px] font-bold text-[#111827] tracking-[-0.04em] leading-[1.08]">
             {titlePrefix}{" "}
             <span className="font-iowan italic font-normal bg-gradient-to-r from-[#6D3DF5] to-[#A855F7] bg-clip-text text-transparent pr-1">
               {titleHighlight}

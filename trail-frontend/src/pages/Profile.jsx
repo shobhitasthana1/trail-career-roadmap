@@ -228,10 +228,6 @@ const Profile = () => {
           {/* Top Page Header */}
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
             <div>
-              <span className="inline-flex items-center gap-1.5 rounded-full border border-[#6D3DF5]/15 bg-[#6D3DF5]/[0.06] px-3 py-1 font-exo text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.25em] text-[#6D3DF5] mb-3">
-                <span className="h-1.5 w-1.5 rounded-full bg-[#6D3DF5]" />
-                Your Profile
-              </span>
               <h1 className="font-geist text-[clamp(2.1rem,4vw,3.2rem)] font-bold tracking-[-0.045em] leading-[0.98] text-[#111827]">
                 Account{" "}
                 <span className="bg-gradient-to-r from-[#6D3DF5] to-[#A855F7] bg-clip-text text-transparent font-iowan italic font-normal pr-1">
