@@ -1,4 +1,3 @@
-import React from "react";
 
 const topItems = [
   { text: "FIND YOUR PATH", tier: "primary" },

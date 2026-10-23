@@ -1,8 +1,9 @@
-import React, {
+import {
   useRef,
   useImperativeHandle,
   forwardRef,
   useEffect,
+  useCallback,
 } from "react";
 import gsap from "gsap";
 
@@ -33,6 +34,18 @@ const roadmapSteps = [
   },
 ];
 
+
+const COLORS = {
+  purple: "#7C3AED",
+  purpleLight: "#9577F4",
+  navy: "#111827",
+  darkGray: "#374151",
+  muted: "#9CA3AF",
+  border: "#E7E5E4",
+  white: "#FFFFFF",
+  track: "#D6D3D1",
+  };
+
 const RoadmapTimeline = forwardRef((props, ref) => {
   const progressDotRef = useRef(null);
   const progressLineRef = useRef(null);
@@ -59,18 +72,8 @@ const RoadmapTimeline = forwardRef((props, ref) => {
     );
   }
 
-  const COLORS = {
-    purple: "#7C3AED",
-    purpleLight: "#9577F4",
-    navy: "#111827",
-    darkGray: "#374151",
-    muted: "#9CA3AF",
-    border: "#E7E5E4",
-    white: "#FFFFFF",
-    track: "#D6D3D1",
-  };
 
-  const applyStepState = (index, reached, active) => {
+  const applyStepState = useCallback((index, reached, active) => {
     const step = stepRefs.current[index];
     if (!step) return;
 
@@ -206,7 +209,7 @@ const RoadmapTimeline = forwardRef((props, ref) => {
         overwrite: true,
       });
     }
-  };
+  }, []);
 
   useEffect(() => {
     if (progressDotRef.current) {
@@ -244,7 +247,7 @@ const RoadmapTimeline = forwardRef((props, ref) => {
         ])
       );
     };
-  }, []);
+  }, [applyStepState]);
 
   useImperativeHandle(ref, () => ({
     updateProgress: (progress) => {

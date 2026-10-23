@@ -1,4 +1,3 @@
-import React from "react";
 import { motion } from "motion/react";
 
 const CAREERS = ["FRONTEND", "FULL STACK", "AI / ML", "UI / UX", "BACKEND"];

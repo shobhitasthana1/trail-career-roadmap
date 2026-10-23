@@ -1,4 +1,3 @@
-import React from "react";
 import { FiArrowUpRight } from "react-icons/fi";
 
 const ButtonThree = ({ text }) => {
