@@ -1,10 +1,8 @@
-import React, { useRef, useEffect, useState } from "react";
+import { useRef, useEffect, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import HeroRight, {
-  setHeroFrameProgress,
-  initHeroFrame,
-} from "./HeroRight";
+import HeroRight from "./HeroRight";
+import { setHeroFrameProgress, initHeroFrame } from "./heroFrame";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -21,15 +19,13 @@ const Hero = () => {
   const heroSectionRef = useRef(null);
   const progressDotRef = useRef(null);
   const progressLineRef = useRef(null);
-  const stepRefs = useRef([]);
+  const stepRefs = useRef(
+    roadmapSteps.map(() => ({ dot: null, subtitle: null, title: null, card: null }))
+  );
   const [isDesktop, setIsDesktop] = useState(
     typeof window !== "undefined"
       ? window.matchMedia(DESKTOP_MEDIA_QUERY).matches
       : true
-  );
-
-  stepRefs.current = roadmapSteps.map(
-    (_, i) => stepRefs.current[i] ?? { dot: null, subtitle: null, title: null, card: null }
   );
 
   useEffect(() => {
