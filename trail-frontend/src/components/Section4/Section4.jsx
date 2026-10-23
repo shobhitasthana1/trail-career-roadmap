@@ -49,11 +49,7 @@ const Section4 = () => {
       <div className="relative z-10 mx-auto flex w-full max-w-[1400px] flex-col items-center px-4 sm:px-6 md:px-8">
 
         <div className="flex flex-col items-center text-center mb-8 md:mb-10 w-full">
-          <span className="feature-reveal mb-3 flex items-center font-exo text-[11px] font-bold uppercase tracking-[0.3em] text-[#6D3DF5] md:text-xs">
-            Where Trail Excels
-          </span>
-
-          <h2 className="feature-reveal font-geist text-[clamp(1.8rem,3.5vw,3.5rem)] lg:text-[4rem] font-bold leading-[0.96] tracking-[-0.045em] text-[#0F172A] mt-2 md:whitespace-nowrap">
+          <h2 className="feature-reveal font-geist text-[clamp(1.8rem,3.5vw,3.5rem)] lg:text-[4rem] font-bold leading-[0.96] tracking-[-0.045em] text-[#0F172A] md:whitespace-nowrap">
             Explore the powerful{" "}
             <span className="bg-gradient-to-r from-[#7C3AED] to-[#A855F7] bg-clip-text text-transparent font-iowan italic font-normal lowercase pb-1 inline-block">
               features.

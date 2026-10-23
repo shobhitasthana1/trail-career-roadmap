@@ -101,7 +101,7 @@ const MOCK_ROADMAPS = {
     roadmap: {
       role: "Frontend Developer",
       slug: "frontend-developer",
-      source: "verified",
+      source: "prebuilt",
       description: "Master modern client-side engineering: core foundations, component architecture, type safety, and production delivery.",
     },
     nodes: [
@@ -201,7 +201,7 @@ const MOCK_ROADMAPS = {
     roadmap: {
       role: "Backend Developer",
       slug: "backend-developer",
-      source: "verified",
+      source: "prebuilt",
       description: "Engineer resilient server architectures, high-throughput APIs, fault-tolerant databases, and cloud services.",
     },
     nodes: [
@@ -317,7 +317,7 @@ const MOCK_ROADMAPS = {
     roadmap: {
       role: "Full Stack Developer",
       slug: "full-stack-developer",
-      source: "verified",
+      source: "prebuilt",
       description: "Build complete end-to-end products: responsive clients, typed backends, relational databases, and edge deployments.",
     },
     nodes: [
@@ -426,7 +426,7 @@ const MOCK_ROADMAPS = {
     roadmap: {
       role: "Data Analyst",
       slug: "data-analyst",
-      source: "verified",
+      source: "prebuilt",
       description: "Extract insights from raw data: query relational databases, perform exploratory analysis, and build executive dashboards.",
     },
     nodes: [
@@ -526,7 +526,7 @@ const MOCK_ROADMAPS = {
     roadmap: {
       role: "Data Scientist",
       slug: "data-scientist",
-      source: "verified",
+      source: "prebuilt",
       description: "Harness mathematical foundations, statistical modeling, machine learning, and deep neural networks to build intelligent software.",
     },
     nodes: [
@@ -635,7 +635,7 @@ const MOCK_ROADMAPS = {
     roadmap: {
       role: "DevOps Engineer",
       slug: "devops-engineer",
-      source: "verified",
+      source: "prebuilt",
       description: "Design automated delivery pipelines, container orchestrations, immutable infrastructure, and bulletproof production uptime.",
     },
     nodes: [
@@ -740,43 +740,6 @@ const MOCK_ROADMAPS = {
   },
 };
 
-// Curated resources generator for skills
-const MOCK_RESOURCES = {
-  default: [
-    {
-      id: "res-1",
-      title: "Comprehensive Documentation & Standard Specifications",
-      type: "Documentation",
-      platform: "Official Docs",
-      url: "https://developer.mozilla.org",
-      duration: "Reference",
-    },
-    {
-      id: "res-2",
-      title: "Interactive Full-Length Course & Hands-On Labs",
-      type: "Course",
-      platform: "freeCodeCamp",
-      url: "https://www.freecodecamp.org",
-      duration: "6 hours",
-    },
-    {
-      id: "res-3",
-      title: "Deep Dive Architecture Guide & Production Patterns",
-      type: "Article",
-      platform: "Dev.to & Medium",
-      url: "https://github.com",
-      duration: "25 min read",
-    },
-    {
-      id: "res-4",
-      title: "Complete Video Breakdown & Real-World Projects",
-      type: "Video",
-      platform: "YouTube",
-      url: "https://www.youtube.com",
-      duration: "45 mins",
-    },
-  ],
-};
 
 // ─────────────────────────────────────────────────────────────────────────────
 // LOCALSTORAGE PROGRESS HELPERS (Mock Persistence)
@@ -869,26 +832,43 @@ export async function fetchRoadmaps() {
 }
 
 /**
- * Fetch a roadmap by slug
+ * Fetch a roadmap by slug (Static roadmaps for the 6 roles only)
  */
 export async function fetchRoadmapBySlug(slug) {
   if (USE_MOCK) {
-    await delay(350);
+    await delay(200);
     const normalizedSlug = slug?.toLowerCase().trim();
-    const found = MOCK_ROADMAPS[normalizedSlug];
-    if (found) {
-      return found;
+    let found = MOCK_ROADMAPS[normalizedSlug];
+    if (!found) {
+      // Try finding by role match
+      const matchedRole = PREBUILT_ROLES.find(
+        (r) => r.slug === normalizedSlug || r.role.toLowerCase() === normalizedSlug
+      );
+      if (matchedRole && MOCK_ROADMAPS[matchedRole.slug]) {
+        found = MOCK_ROADMAPS[matchedRole.slug];
+      }
     }
 
-    // Try finding by role match
-    const matchedRole = PREBUILT_ROLES.find(
-      (r) => r.slug === normalizedSlug || r.role.toLowerCase() === normalizedSlug
-    );
-    if (matchedRole && MOCK_ROADMAPS[matchedRole.slug]) {
-      return MOCK_ROADMAPS[matchedRole.slug];
+    if (!found) {
+      throw new Error(`Roadmap not found for slug: ${slug}`);
     }
 
-    throw new Error(`Roadmap not found for slug: ${slug}`);
+    // Sync with removed skills from progress if any
+    const allProgress = getStoredProgressState();
+    const removedSkills = allProgress[found.roadmap.slug]?.removedSkills || [];
+    if (removedSkills.length > 0) {
+      const activeNodes = found.nodes.filter((n) => !removedSkills.includes(n.id));
+      const activeEdges = found.edges.filter(
+        (e) => !removedSkills.includes(e.source) && !removedSkills.includes(e.target)
+      );
+      return {
+        ...found,
+        nodes: activeNodes,
+        edges: activeEdges,
+      };
+    }
+
+    return found;
   }
 
   const res = await fetch(`${API_BASE}/roadmaps/${slug}`, {
@@ -899,11 +879,11 @@ export async function fetchRoadmapBySlug(slug) {
 }
 
 /**
- * Generate or retrieve a roadmap for a given role query
+ * Generate or retrieve a roadmap for a given role query (Static prebuilt only)
  */
 export async function generateRoadmap(roleName) {
   if (USE_MOCK) {
-    await delay(600); // Simulate market analysis delay
+    await delay(300);
     const cleanRole = (roleName || "").trim().toLowerCase();
 
     // Direct match against prebuilt
@@ -916,85 +896,10 @@ export async function generateRoadmap(roleName) {
     );
 
     if (matched && MOCK_ROADMAPS[matched.slug]) {
-      return MOCK_ROADMAPS[matched.slug];
+      return fetchRoadmapBySlug(matched.slug);
     }
 
-    // Fallback: Generate a clean dynamic roadmap for custom queries
-    const customSlug = cleanRole.replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "") || "custom-role";
-    const formattedTitle = roleName
-      .split(" ")
-      .map((w) => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase())
-      .join(" ");
-
-    const dynamicRoadmap = {
-      roadmap: {
-        role: formattedTitle,
-        slug: customSlug,
-        source: "ai-generated",
-        description: `Custom generated roadmap for ${formattedTitle} based on current tech job requirements.`,
-      },
-      nodes: [
-        {
-          id: `${customSlug}-foundations`,
-          label: `${formattedTitle} Foundations`,
-          marketDemand: "92%",
-          stage: "Foundation",
-          description: `Fundamental principles, prerequisite syntax, and core toolchains required for ${formattedTitle}.`,
-        },
-        {
-          id: `${customSlug}-git-tooling`,
-          label: "Version Control & CLI Workflows",
-          marketDemand: "88%",
-          stage: "Foundation",
-          description: "Git branching models, repository governance, command-line automation, and environment setups.",
-        },
-        {
-          id: `${customSlug}-core-architecture`,
-          label: `Core Architecture & Design`,
-          marketDemand: "95%",
-          stage: "Core",
-          description: `Industry standard frameworks, state workflows, and component designs for ${formattedTitle}.`,
-        },
-        {
-          id: `${customSlug}-data-apis`,
-          label: "Data Schemas & API Integration",
-          marketDemand: "90%",
-          stage: "Database",
-          description: "Data modeling, asynchronous endpoints, caching strategies, and database query optimizations.",
-        },
-        {
-          id: `${customSlug}-advanced-patterns`,
-          label: "Advanced Engineering Patterns",
-          marketDemand: "89%",
-          stage: "Advanced",
-          description: "Performance scaling, secure session layers, architectural isolation, and error tolerance.",
-        },
-        {
-          id: `${customSlug}-testing-deployment`,
-          label: "Testing, CI/CD & Cloud Delivery",
-          marketDemand: "87%",
-          stage: "Tools & Deployment",
-          description: "Automated test coverage, pipeline scripts, container packaging, and cloud production release.",
-        },
-      ],
-      edges: [
-        { id: `e-1`, source: `${customSlug}-foundations`, target: `${customSlug}-core-architecture` },
-        { id: `e-2`, source: `${customSlug}-git-tooling`, target: `${customSlug}-core-architecture` },
-        { id: `e-3`, source: `${customSlug}-core-architecture`, target: `${customSlug}-data-apis` },
-        { id: `e-4`, source: `${customSlug}-data-apis`, target: `${customSlug}-advanced-patterns` },
-        { id: `e-5`, source: `${customSlug}-advanced-patterns`, target: `${customSlug}-testing-deployment` },
-      ],
-    };
-
-    try {
-      const cached = JSON.parse(localStorage.getItem("trail_custom_roadmaps") || "{}");
-      cached[customSlug] = dynamicRoadmap;
-      localStorage.setItem("trail_custom_roadmaps", JSON.stringify(cached));
-    } catch {
-      // ignore
-    }
-
-    return dynamicRoadmap;
+    throw new Error(`No roadmap found for '${roleName}'`);
   }
 
   const res = await fetch(`${API_BASE}/roadmaps/generate`, {
@@ -1062,7 +967,7 @@ export async function startJourney(slug) {
  */
 export async function fetchMyJourneys() {
   if (USE_MOCK) {
-    await delay(200);
+    await delay(180);
     const journeys = getStoredJourneys();
     const allProgress = getStoredProgressState();
     const savedSlugs = getStoredSavedRoadmaps();
@@ -1071,25 +976,19 @@ export async function fetchMyJourneys() {
     for (const slug of journeys) {
       let rData = MOCK_ROADMAPS[slug];
       if (!rData) {
-        try {
-          const cached = JSON.parse(localStorage.getItem("trail_custom_roadmaps") || "{}");
-          rData = cached[slug];
-        } catch {
-          // ignore
-        }
-      }
-      if (!rData) {
         const p = PREBUILT_ROLES.find((x) => x.slug === slug);
         if (p) rData = MOCK_ROADMAPS[p.slug];
       }
 
       if (rData) {
-        const totalNodes = rData.nodes.length;
+        const removedSkills = allProgress[slug]?.removedSkills || [];
+        const activeNodes = rData.nodes.filter((node) => !removedSkills.includes(node.id));
+        const totalNodes = activeNodes.length;
         const skillsMap = allProgress[slug]?.skills || {};
         let completedCount = 0;
         let inProgressCount = 0;
 
-        const enrichedNodes = rData.nodes.map((node) => {
+        const enrichedNodes = activeNodes.map((node) => {
           const st = skillsMap[node.id] || "not-started";
           if (st === "completed") completedCount++;
           else if (st === "in-progress") inProgressCount++;
@@ -1113,6 +1012,7 @@ export async function fetchMyJourneys() {
           completed: stagesMap[stgName].filter((s) => s.status === "completed").length,
         }));
 
+        // Guard against divide-by-zero: never NaN%
         const progressPct = totalNodes > 0 ? Math.round((completedCount / totalNodes) * 100) : 0;
 
         result.push({
@@ -1147,37 +1047,34 @@ export async function fetchMyJourneys() {
  */
 export async function fetchProgress(roadmapSlug) {
   if (USE_MOCK) {
-    await delay(150);
+    await delay(120);
     const normalizedSlug = roadmapSlug?.toLowerCase().trim();
     const allProgress = getStoredProgressState();
-    const userRoadmapProgress = allProgress[normalizedSlug] || { skills: {} };
+    const userRoadmapProgress = allProgress[normalizedSlug] || { skills: {}, removedSkills: [] };
+    const removedSkills = userRoadmapProgress.removedSkills || [];
 
     // Get nodes of this roadmap to calculate counts
     let roadmapData = MOCK_ROADMAPS[normalizedSlug];
     if (!roadmapData) {
-      try {
-        const cached = JSON.parse(localStorage.getItem("trail_custom_roadmaps") || "{}");
-        roadmapData = cached[normalizedSlug];
-      } catch {
-        // ignore
-      }
+      const p = PREBUILT_ROLES.find((x) => x.slug === normalizedSlug);
+      if (p) roadmapData = MOCK_ROADMAPS[p.slug];
     }
 
-    const totalNodes = roadmapData?.nodes?.length || 10;
+    const allNodes = roadmapData?.nodes || [];
+    const activeNodes = allNodes.filter((n) => !removedSkills.includes(n.id));
+    const totalNodes = activeNodes.length;
     const skillsMap = userRoadmapProgress.skills || {};
 
     const completed = [];
     const inProgress = [];
     const notStarted = [];
 
-    if (roadmapData?.nodes) {
-      roadmapData.nodes.forEach((n) => {
-        const status = skillsMap[n.id] || "not-started";
-        if (status === "completed") completed.push(n.id);
-        else if (status === "in-progress") inProgress.push(n.id);
-        else notStarted.push(n.id);
-      });
-    }
+    activeNodes.forEach((n) => {
+      const status = skillsMap[n.id] || "not-started";
+      if (status === "completed") completed.push(n.id);
+      else if (status === "in-progress") inProgress.push(n.id);
+      else notStarted.push(n.id);
+    });
 
     const completedCount = completed.length;
     const progressPct = totalNodes > 0 ? Math.round((completedCount / totalNodes) * 100) : 0;
@@ -1197,6 +1094,121 @@ export async function fetchProgress(roadmapSlug) {
     headers: getAuthHeaders(),
   });
   if (!res.ok) throw new Error(`Failed to fetch progress for ${roadmapSlug}`);
+  return res.json();
+}
+
+/**
+ * Remove an entire learning journey
+ */
+export async function removeJourney(slug) {
+  const normSlug = slug?.toLowerCase().trim();
+  if (USE_MOCK) {
+    await delay(120);
+    const journeys = getStoredJourneys();
+    const updated = journeys.filter((s) => s !== normSlug);
+    saveStoredJourneys(updated);
+
+    const allProgress = getStoredProgressState();
+    if (allProgress[normSlug]) {
+      delete allProgress[normSlug];
+      saveStoredProgressState(allProgress);
+    }
+    return { success: true, removed: true, slug: normSlug };
+  }
+
+  const res = await fetch(`${API_BASE}/roadmaps/${normSlug}/journey`, {
+    method: "DELETE",
+    headers: getAuthHeaders(),
+  });
+  if (!res.ok) throw new Error("Failed to remove journey");
+  return res.json();
+}
+
+/**
+ * Remove an individual skill from a journey
+ */
+export async function removeSkillFromJourney(roadmapSlug, skillId) {
+  const normSlug = roadmapSlug?.toLowerCase().trim();
+  if (USE_MOCK) {
+    await delay(100);
+    const allProgress = getStoredProgressState();
+    if (!allProgress[normSlug]) {
+      allProgress[normSlug] = {
+        startedAt: new Date().toISOString(),
+        skills: {},
+        removedSkills: [],
+      };
+    }
+    allProgress[normSlug].removedSkills = allProgress[normSlug].removedSkills || [];
+    if (!allProgress[normSlug].removedSkills.includes(skillId)) {
+      allProgress[normSlug].removedSkills.push(skillId);
+    }
+    if (allProgress[normSlug].skills && allProgress[normSlug].skills[skillId]) {
+      delete allProgress[normSlug].skills[skillId];
+    }
+    allProgress[normSlug].lastUpdated = new Date().toISOString();
+    saveStoredProgressState(allProgress);
+    return { success: true, slug: normSlug, skillId };
+  }
+
+  const res = await fetch(`${API_BASE}/progress/${roadmapSlug}/skills/${skillId}`, {
+    method: "DELETE",
+    headers: getAuthHeaders(),
+  });
+  if (!res.ok) throw new Error("Failed to remove skill");
+  return res.json();
+}
+
+/**
+ * Restore a previously removed skill to a journey (Undo)
+ */
+export async function restoreSkillToJourney(roadmapSlug, skillId, previousStatus = "not-started") {
+  const normSlug = roadmapSlug?.toLowerCase().trim();
+  if (USE_MOCK) {
+    await delay(100);
+    const allProgress = getStoredProgressState();
+    if (allProgress[normSlug]) {
+      if (allProgress[normSlug].removedSkills) {
+        allProgress[normSlug].removedSkills = allProgress[normSlug].removedSkills.filter((id) => id !== skillId);
+      }
+      allProgress[normSlug].skills = allProgress[normSlug].skills || {};
+      allProgress[normSlug].skills[skillId] = previousStatus;
+      allProgress[normSlug].lastUpdated = new Date().toISOString();
+      saveStoredProgressState(allProgress);
+    }
+    return { success: true, slug: normSlug, skillId, status: previousStatus };
+  }
+
+  const res = await fetch(`${API_BASE}/progress/${roadmapSlug}/skills/${skillId}/restore`, {
+    method: "POST",
+    headers: getAuthHeaders(),
+    body: JSON.stringify({ status: previousStatus }),
+  });
+  if (!res.ok) throw new Error("Failed to restore skill");
+  return res.json();
+}
+
+/**
+ * Reset and restore all original skills for a journey
+ */
+export async function resetJourneySkills(roadmapSlug) {
+  const normSlug = roadmapSlug?.toLowerCase().trim();
+  if (USE_MOCK) {
+    await delay(120);
+    const allProgress = getStoredProgressState();
+    if (allProgress[normSlug]) {
+      allProgress[normSlug].removedSkills = [];
+      allProgress[normSlug].lastUpdated = new Date().toISOString();
+      saveStoredProgressState(allProgress);
+    }
+    return { success: true, slug: normSlug };
+  }
+
+  const res = await fetch(`${API_BASE}/progress/${roadmapSlug}/reset-skills`, {
+    method: "POST",
+    headers: getAuthHeaders(),
+  });
+  if (!res.ok) throw new Error("Failed to reset skills");
   return res.json();
 }
 
@@ -1317,21 +1329,6 @@ export async function fetchSavedRoadmaps() {
   return res.json();
 }
 
-/**
- * Fetch curated resources for a specific skill node
- */
-export async function fetchResources(skillId) {
-  if (USE_MOCK) {
-    await delay(150);
-    return MOCK_RESOURCES[skillId] || MOCK_RESOURCES.default;
-  }
-
-  const res = await fetch(`${API_BASE}/resources?skill=${skillId}`, {
-    headers: getAuthHeaders(),
-  });
-  if (!res.ok) throw new Error("Failed to fetch resources");
-  return res.json();
-}
 
 /**
  * Export roadmap data payload for download / sharing

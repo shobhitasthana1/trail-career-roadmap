@@ -8,6 +8,7 @@ import {
   FiCheck,
   FiX,
   FiTrendingUp,
+  FiLock,
 } from "react-icons/fi";
 
 import { useAuth } from "../context/AuthContext";
@@ -16,9 +17,70 @@ import Footer from "../components/footer/Footer";
 import LockScreen from "../components/LockScreen";
 import {
   PREBUILT_ROLES,
-  generateRoadmap,
   fetchRoadmapBySlug,
 } from "../services/api";
+
+/* ── Alias map: common search terms → slug ─────────────────────────── */
+const ROLE_ALIASES = {
+  "frontend": "frontend-developer",
+  "front-end": "frontend-developer",
+  "front end": "frontend-developer",
+  "frontend dev": "frontend-developer",
+  "frontend developer": "frontend-developer",
+  "backend": "backend-developer",
+  "back-end": "backend-developer",
+  "back end": "backend-developer",
+  "backend dev": "backend-developer",
+  "backend developer": "backend-developer",
+  "fullstack": "full-stack-developer",
+  "full-stack": "full-stack-developer",
+  "full stack": "full-stack-developer",
+  "fullstack dev": "full-stack-developer",
+  "fullstack developer": "full-stack-developer",
+  "full-stack developer": "full-stack-developer",
+  "full stack developer": "full-stack-developer",
+  "data analyst": "data-analyst",
+  "data analysis": "data-analyst",
+  "analyst": "data-analyst",
+  "data science": "data-scientist",
+  "data scientist": "data-scientist",
+  "ml engineer": "data-scientist",
+  "machine learning": "data-scientist",
+  "devops": "devops-engineer",
+  "dev ops": "devops-engineer",
+  "devops engineer": "devops-engineer",
+  "dev-ops": "devops-engineer",
+  "sre": "devops-engineer",
+  "site reliability": "devops-engineer",
+};
+
+/**
+ * Resolve a user query to one of the 6 static roles.
+ * Returns the matching PREBUILT_ROLES entry or null.
+ */
+function resolveStaticRole(query) {
+  const clean = (query || "").trim().toLowerCase();
+  if (!clean) return null;
+
+  // 1. Direct slug match
+  const bySlug = PREBUILT_ROLES.find((r) => r.slug === clean);
+  if (bySlug) return bySlug;
+
+  // 2. Alias map
+  const aliasSlug = ROLE_ALIASES[clean];
+  if (aliasSlug) return PREBUILT_ROLES.find((r) => r.slug === aliasSlug) || null;
+
+  // 3. Partial match: role name contains query or query contains role name
+  const byPartial = PREBUILT_ROLES.find(
+    (p) =>
+      p.role.toLowerCase().includes(clean) ||
+      clean.includes(p.role.toLowerCase()) ||
+      p.slug.includes(clean)
+  );
+  if (byPartial) return byPartial;
+
+  return null;
+}
 
 const ExploreContent = () => {
   const { slug } = useParams();
@@ -36,8 +98,7 @@ const ExploreContent = () => {
 
   const searchInputRef = useRef(null);
 
-  // If slug is in URL (e.g. /explore/frontend-developer), auto-load that roadmap on mount.
-  // If NO slug in URL (visiting /explore), do NOT pre-load anything; show empty state.
+  // If slug is in URL, auto-load — static only, no API
   useEffect(() => {
     if (!slug) {
       setRoadmapData(null);
@@ -58,20 +119,10 @@ const ExploreContent = () => {
         }
       })
       .catch(() => {
-        generateRoadmap(slug)
-          .then((data) => {
-            if (isMounted) {
-              setRoadmapData(data);
-              setActiveRoleName(data.roadmap.role);
-              setLoading(false);
-            }
-          })
-          .catch((err) => {
-            if (isMounted) {
-              setSearchError(err.message || "Failed to load roadmap");
-              setLoading(false);
-            }
-          });
+        if (isMounted) {
+          setSearchError(`No roadmap found for '${slug}'`);
+          setLoading(false);
+        }
       });
 
     return () => {
@@ -79,7 +130,7 @@ const ExploreContent = () => {
     };
   }, [slug]);
 
-  // Handle typing suggestions
+  // Handle typing suggestions — static match only
   const handleInputChange = (e) => {
     const val = e.target.value;
     setQuery(val);
@@ -89,29 +140,38 @@ const ExploreContent = () => {
     }
 
     const filtered = PREBUILT_ROLES.filter((p) =>
-      p.role.toLowerCase().includes(val.toLowerCase())
+      p.role.toLowerCase().includes(val.toLowerCase()) ||
+      p.slug.includes(val.toLowerCase())
     );
     setSuggestions(filtered);
   };
 
-  // Perform search / selection
+  // Perform static selection — NO API call
   const handleSelectRole = async (roleName, roleSlug = null) => {
     setQuery("");
     setSuggestions([]);
     setIsFocused(false);
-    setLoading(true);
     setSearchError("");
     setActiveRoleName(roleName);
 
-    try {
-      const data = await generateRoadmap(roleName);
-      setRoadmapData(data);
-      const newSlug = roleSlug || data.roadmap.slug;
-      navigate(`/explore/${newSlug}`, { replace: false });
-    } catch (err) {
-      setSearchError(err.message || "Could not analyze role at this time.");
-    } finally {
-      setLoading(false);
+    // Resolve to one of the 6 static roles
+    const resolved = resolveStaticRole(roleSlug || roleName);
+
+    if (resolved) {
+      setLoading(true);
+      try {
+        const data = await fetchRoadmapBySlug(resolved.slug);
+        setRoadmapData(data);
+        navigate(`/explore/${resolved.slug}`, { replace: false });
+      } catch {
+        setSearchError(`Failed to load roadmap for '${roleName}'`);
+      } finally {
+        setLoading(false);
+      }
+    } else {
+      // Not one of the 6 — show clean "not found" state
+      setRoadmapData(null);
+      setSearchError(`No roadmap found for '${roleName}'`);
     }
   };
 
@@ -149,17 +209,6 @@ const ExploreContent = () => {
           transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
           className="text-center max-w-3xl mx-auto mb-10 sm:mb-12"
         >
-          {/* Badge */}
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#6D3DF5]/[0.06] border border-[#6D3DF5]/15 mb-4 backdrop-blur-md">
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#6D3DF5] opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-[#6D3DF5]"></span>
-            </span>
-            <span className="text-xs font-bold uppercase tracking-[0.2em] text-[#6D3DF5] font-exo">
-              Live Career Discovery
-            </span>
-          </div>
-
           <h1 className="font-geist text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-[#111827] mb-4 leading-[1.1]">
             Explore Tech Roadmaps &{" "}
             <span className="bg-gradient-to-r from-[#6D3DF5] via-[#7C3AED] to-[#A855F7] bg-clip-text text-transparent font-iowan italic font-normal">
@@ -233,7 +282,7 @@ const ExploreContent = () => {
                 className="absolute top-full left-0 right-0 mt-2 z-40 bg-white rounded-2xl border border-stone-200/90 shadow-[0_20px_50px_rgba(0,0,0,0.12)] overflow-hidden"
               >
                 <div className="px-4 py-2 bg-stone-50 border-b border-stone-100 text-[11px] font-bold uppercase tracking-wider text-stone-500 font-exo">
-                  Suggested Ready Roadmaps
+                  Available Roadmaps
                 </div>
                 <div className="py-1">
                   {suggestions.map((p) => (
@@ -305,25 +354,27 @@ const ExploreContent = () => {
               </div>
             </div>
             <h3 className="font-geist text-lg sm:text-xl font-bold text-[#111827] mb-1">
-              Analyzing live job market for{" "}
-              <span className="text-[#6D3DF5]">{activeRoleName || "role"}</span>…
+              Loading roadmap for{" "}
+              <span className="text-[#6D3DF5]">{activeRoleName || "role"}</span>...
             </h3>
             <p className="text-sm text-stone-500 font-inter">
-              Synthesizing industry requirements, skill prerequisites, and graph hierarchy.
+              Preparing skill prerequisites and graph hierarchy.
             </p>
           </div>
         )}
 
-        {/* ── Error State ────────────────────────────────────────────────── */}
+        {/* ── No-Result / Error State ──────────────────────────────────── */}
         {!loading && searchError && (
-          <div className="max-w-xl mx-auto my-12 p-8 rounded-3xl bg-white border border-red-200/80 text-center shadow-lg">
-            <div className="w-12 h-12 rounded-2xl bg-red-50 text-red-500 flex items-center justify-center mx-auto mb-4 border border-red-100">
-              <FiCompass className="w-6 h-6" />
+          <div className="max-w-xl mx-auto my-12 p-8 rounded-3xl bg-white border border-stone-200/80 text-center shadow-lg">
+            <div className="w-12 h-12 rounded-2xl bg-[#6D3DF5]/10 text-[#6D3DF5] flex items-center justify-center mx-auto mb-4 border border-[#6D3DF5]/20">
+              <FiSearch className="w-6 h-6" />
             </div>
             <h3 className="font-geist text-lg font-bold text-stone-800 mb-2">
-              No roadmap generated yet
+              {searchError}
             </h3>
-            <p className="text-sm text-stone-500 mb-6">{searchError}</p>
+            <p className="text-sm text-stone-500 mb-6">
+              Right now only these roadmaps are available — more roles are coming soon.
+            </p>
             <div className="flex flex-wrap justify-center gap-2">
               {PREBUILT_ROLES.map((r) => (
                 <button
@@ -351,7 +402,7 @@ const ExploreContent = () => {
             </div>
 
             <h2 className="font-geist text-2xl sm:text-3xl font-bold text-[#111827] mb-3 tracking-tight">
-              Search any role above to generate its interactive roadmap
+              Search any role above to view its interactive roadmap
             </h2>
 
             <p className="text-stone-500 font-inter text-sm sm:text-base max-w-lg mx-auto mb-8 leading-relaxed">
@@ -438,4 +489,3 @@ const Explore = () => {
 };
 
 export default Explore;
-
