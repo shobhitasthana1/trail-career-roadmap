@@ -48,6 +48,15 @@ const Roadmap = () => {
     });
   }, [searchQuery, activeCategory]);
 
+  const totalModulesCount = useMemo(
+    () =>
+      (PREBUILT_ROLES || []).reduce(
+        (acc, curr) => acc + (Number(curr.totalSkills) || 0),
+        0
+      ),
+    []
+  );
+
   return (
     <div className="relative min-h-screen w-full bg-[#FAFAFA] text-[#111827] overflow-x-hidden font-inter selection:bg-[#7C3AED]/15 selection:text-[#6D3DF5]">
       {/* Soft Ambient Background Glows */}
@@ -88,6 +97,34 @@ const Roadmap = () => {
           <p className="text-[#64748B] font-inter text-sm sm:text-base md:text-[17px] leading-relaxed max-w-2xl mx-auto mb-8 px-2">
             Explore structured learning paths built for modern developers — pick a role below or explore custom career paths.
           </p>
+
+          {/* Quick Stats Strip */}
+          <div className="inline-grid grid-cols-3 gap-2 sm:gap-4 p-1.5 sm:p-2 rounded-2xl border border-stone-200/80 bg-white/85 backdrop-blur-xl shadow-[0_8px_30px_rgba(0,0,0,0.03)] mb-8 w-full max-w-lg">
+            <div className="flex flex-col items-center justify-center py-2 px-2 sm:px-4 rounded-xl bg-[#F8FAFC]">
+              <span className="font-geist text-lg sm:text-2xl font-black text-[#111827]">
+                {PREBUILT_ROLES?.length || 0}+
+              </span>
+              <span className="text-[9px] sm:text-[10px] font-bold uppercase tracking-wider text-[#64748B] font-exo">
+                Career Tracks
+              </span>
+            </div>
+            <div className="flex flex-col items-center justify-center py-2 px-2 sm:px-4 rounded-xl bg-[#F8FAFC]">
+              <span className="font-geist text-lg sm:text-2xl font-black text-[#6D3DF5]">
+                {totalModulesCount}+
+              </span>
+              <span className="text-[9px] sm:text-[10px] font-bold uppercase tracking-wider text-[#64748B] font-exo">
+                Skill Modules
+              </span>
+            </div>
+            <div className="flex flex-col items-center justify-center py-2 px-2 sm:px-4 rounded-xl bg-[#F8FAFC]">
+              <span className="font-geist text-lg sm:text-2xl font-black text-[#7C3AED]">
+                100%
+              </span>
+              <span className="text-[9px] sm:text-[10px] font-bold uppercase tracking-wider text-[#64748B] font-exo">
+                Free & Open
+              </span>
+            </div>
+          </div>
 
           {/* Search & Category Filter Bar */}
           <div className="flex flex-col gap-3.5 max-w-2xl mx-auto">
