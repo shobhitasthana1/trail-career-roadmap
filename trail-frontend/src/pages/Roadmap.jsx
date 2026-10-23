@@ -4,12 +4,10 @@ import { motion, AnimatePresence } from "motion/react";
 import {
   FiCompass,
   FiArrowRight,
-  FiTrendingUp,
   FiLayers,
   FiCheckCircle,
   FiSearch,
   FiX,
-  FiZap,
 } from "react-icons/fi";
 
 import Footer from "../components/footer/Footer";
@@ -50,15 +48,6 @@ const Roadmap = () => {
     });
   }, [searchQuery, activeCategory]);
 
-  const totalModulesCount = useMemo(
-    () =>
-      (PREBUILT_ROLES || []).reduce(
-        (acc, curr) => acc + (Number(curr.totalSkills) || 0),
-        0
-      ),
-    []
-  );
-
   return (
     <div className="relative min-h-screen w-full bg-[#FAFAFA] text-[#111827] overflow-x-hidden font-inter selection:bg-[#7C3AED]/15 selection:text-[#6D3DF5]">
       {/* Soft Ambient Background Glows */}
@@ -88,7 +77,6 @@ const Roadmap = () => {
           transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
           className="text-center max-w-3xl mx-auto mb-10 sm:mb-14"
         >
-
           {/* Main Heading */}
           <h1 className="font-geist text-[clamp(2.1rem,5vw,4rem)] font-bold tracking-[-0.045em] text-[#111827] mb-4 leading-[1.02]">
             Ready-Made Career{" "}
@@ -98,36 +86,8 @@ const Roadmap = () => {
           </h1>
 
           <p className="text-[#64748B] font-inter text-sm sm:text-base md:text-[17px] leading-relaxed max-w-2xl mx-auto mb-8 px-2">
-            Explore structured, market-aligned learning paths built from real employer requirements — pick a role below or generate any custom career path in Explore.
+            Explore structured learning paths built for modern developers — pick a role below or explore custom career paths.
           </p>
-
-          {/* Quick Stats Strip */}
-          <div className="inline-grid grid-cols-3 gap-2 sm:gap-4 p-1.5 sm:p-2 rounded-2xl border border-stone-200/80 bg-white/85 backdrop-blur-xl shadow-[0_8px_30px_rgba(0,0,0,0.03)] mb-8 w-full max-w-lg">
-            <div className="flex flex-col items-center justify-center py-2 px-2 sm:px-4 rounded-xl bg-[#F8FAFC]">
-              <span className="font-geist text-lg sm:text-2xl font-black text-[#111827]">
-                {PREBUILT_ROLES?.length || 0}+
-              </span>
-              <span className="text-[9px] sm:text-[10px] font-bold uppercase tracking-wider text-[#64748B] font-exo">
-                Career Tracks
-              </span>
-            </div>
-            <div className="flex flex-col items-center justify-center py-2 px-2 sm:px-4 rounded-xl bg-[#F8FAFC]">
-              <span className="font-geist text-lg sm:text-2xl font-black text-[#6D3DF5]">
-                {totalModulesCount}+
-              </span>
-              <span className="text-[9px] sm:text-[10px] font-bold uppercase tracking-wider text-[#64748B] font-exo">
-                Skill Modules
-              </span>
-            </div>
-            <div className="flex flex-col items-center justify-center py-2 px-2 sm:px-4 rounded-xl bg-[#F8FAFC]">
-              <span className="font-geist text-lg sm:text-2xl font-black text-emerald-600">
-                24h
-              </span>
-              <span className="text-[9px] sm:text-[10px] font-bold uppercase tracking-wider text-[#64748B] font-exo">
-                Live Sync
-              </span>
-            </div>
-          </div>
 
           {/* Search & Category Filter Bar */}
           <div className="flex flex-col gap-3.5 max-w-2xl mx-auto">
@@ -154,7 +114,7 @@ const Roadmap = () => {
                   to="/explore"
                   className="hidden sm:inline-flex items-center gap-1.5 absolute right-2 px-3.5 py-2 rounded-xl bg-[#6D3DF5]/[0.08] hover:bg-[#6D3DF5] text-[#6D3DF5] hover:text-white text-xs font-semibold transition-all duration-200"
                 >
-                  <span>Custom Search</span>
+                  <span>Explore Search</span>
                   <FiArrowRight className="w-3.5 h-3.5" />
                 </Link>
               )}
@@ -187,117 +147,83 @@ const Roadmap = () => {
         {filteredRoles.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6 lg:gap-7 mb-20">
             <AnimatePresence mode="popLayout">
-              {filteredRoles.map((item, idx) => {
-                const numericDemand =
-                  parseInt(String(item.marketDemandAvg).replace(/\D/g, ""), 10) ||
-                  85;
+              {filteredRoles.map((item, idx) => (
+                <motion.div
+                  layout
+                  key={item.slug}
+                  initial={{ opacity: 0, y: 24 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.96 }}
+                  transition={{ duration: 0.45, delay: idx * 0.06 }}
+                  className="group relative flex flex-col justify-between rounded-[26px] border border-stone-200/90 bg-white/95 backdrop-blur-xl p-5 sm:p-6 lg:p-7 shadow-[0_10px_30px_-12px_rgba(17,24,39,0.05)] hover:shadow-[0_24px_50px_-12px_rgba(109,61,245,0.16)] hover:border-[#6D3DF5]/35 transition-all duration-300 hover:-translate-y-1.5 overflow-hidden"
+                >
+                  {/* Top Gradient Accent Bar */}
+                  <div
+                    className={`absolute top-0 inset-x-0 h-[3.5px] bg-gradient-to-r ${
+                      item.gradient || "from-[#6D3DF5] via-[#7C3AED] to-[#A855F7]"
+                    } opacity-75 group-hover:opacity-100 transition-opacity duration-300`}
+                  />
 
-                return (
-                  <motion.div
-                    layout
-                    key={item.slug}
-                    initial={{ opacity: 0, y: 24 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, scale: 0.96 }}
-                    transition={{ duration: 0.45, delay: idx * 0.06 }}
-                    className="group relative flex flex-col justify-between rounded-[26px] border border-stone-200/90 bg-white/95 backdrop-blur-xl p-5 sm:p-6 lg:p-7 shadow-[0_10px_30px_-12px_rgba(17,24,39,0.05)] hover:shadow-[0_24px_50px_-12px_rgba(109,61,245,0.16)] hover:border-[#6D3DF5]/35 transition-all duration-300 hover:-translate-y-1.5 overflow-hidden"
-                  >
-                    {/* Top Gradient Accent Bar */}
-                    <div
-                      className={`absolute top-0 inset-x-0 h-[3.5px] bg-gradient-to-r ${
-                        item.gradient || "from-[#6D3DF5] via-[#7C3AED] to-[#A855F7]"
-                      } opacity-75 group-hover:opacity-100 transition-opacity duration-300`}
-                    />
+                  {/* Soft Ambient Corner Glow on Hover */}
+                  <div className="pointer-events-none absolute -right-12 -top-12 w-36 h-36 rounded-full bg-[#6D3DF5]/[0.06] blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
-                    {/* Soft Ambient Corner Glow on Hover */}
-                    <div className="pointer-events-none absolute -right-12 -top-12 w-36 h-36 rounded-full bg-[#6D3DF5]/[0.06] blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-
-                    <div>
-                      {/* Card Top Meta Row */}
-                      <div className="flex items-center justify-between gap-2 mb-5">
-                        <div className="flex items-center gap-2">
-                          <span className="flex h-7 w-7 items-center justify-center rounded-full border border-[#6D3DF5]/20 bg-[#6D3DF5]/[0.07] font-exo text-[11px] font-bold text-[#6D3DF5]">
-                            {String(idx + 1).padStart(2, "0")}
-                          </span>
-                          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold text-[#6D3DF5] bg-[#6D3DF5]/[0.07] border border-[#6D3DF5]/15 font-exo uppercase tracking-wider">
-                            <FiLayers className="w-3 h-3 text-[#6D3DF5]" />
-                            {item.totalSkills} Modules
-                          </span>
-                        </div>
-
-                        <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-emerald-700 bg-emerald-50/90 px-2.5 py-1 rounded-full border border-emerald-200/80">
-                          <FiTrendingUp className="w-3 h-3 text-emerald-600" />
-                          {item.marketDemandAvg} Demand
+                  <div>
+                    {/* Card Top Meta Row */}
+                    <div className="flex items-center justify-between gap-2 mb-5">
+                      <div className="flex items-center gap-2">
+                        <span className="flex h-7 w-7 items-center justify-center rounded-full border border-[#6D3DF5]/20 bg-[#6D3DF5]/[0.07] font-exo text-[11px] font-bold text-[#6D3DF5]">
+                          {String(idx + 1).padStart(2, "0")}
                         </span>
-                      </div>
-
-                      {/* Role Title */}
-                      <h3 className="font-geist text-xl sm:text-[22px] font-bold text-[#111827] mb-2 group-hover:text-[#6D3DF5] transition-colors tracking-tight leading-snug">
-                        {item.role}
-                      </h3>
-
-                      {/* Description */}
-                      <p className="text-[#64748B] font-inter text-xs sm:text-sm leading-relaxed mb-5 line-clamp-3">
-                        {item.description}
-                      </p>
-
-                      {/* Visual Market Demand Bar */}
-                      <div className="mb-5 rounded-2xl bg-[#F8FAFC] border border-stone-200/60 p-3">
-                        <div className="flex items-center justify-between text-[11px] font-semibold mb-1.5">
-                          <span className="text-[#475569] flex items-center gap-1">
-                            <FiZap className="w-3 h-3 text-[#6D3DF5]" />
-                            Employer Relevance
-                          </span>
-                          <span className="text-[#6D3DF5] font-bold">
-                            {item.marketDemandAvg}
-                          </span>
-                        </div>
-                        <div className="w-full h-1.5 rounded-full bg-stone-200/80 overflow-hidden">
-                          <div
-                            className={`h-full rounded-full bg-gradient-to-r ${
-                              item.gradient || "from-[#6D3DF5] to-[#A855F7]"
-                            } transition-all duration-700`}
-                            style={{
-                              width: `${Math.min(100, Math.max(40, numericDemand))}%`,
-                            }}
-                          />
-                        </div>
-                      </div>
-
-                      {/* Top Skills Tags */}
-                      <div className="mb-6">
-                        <span className="block text-[10px] font-bold uppercase tracking-[0.18em] text-[#94A3B8] font-exo mb-2.5">
-                          Core Skills Inside
+                        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold text-[#6D3DF5] bg-[#6D3DF5]/[0.07] border border-[#6D3DF5]/15 font-exo uppercase tracking-wider">
+                          <FiLayers className="w-3 h-3 text-[#6D3DF5]" />
+                          {item.totalSkills} Modules
                         </span>
-                        <div className="flex flex-wrap gap-1.5">
-                          {(item.topSkills || []).map((sk) => (
-                            <span
-                              key={sk}
-                              className="inline-flex items-center gap-1.5 text-[11px] font-semibold text-[#334155] bg-white px-2.5 py-1 rounded-lg border border-stone-200/80 shadow-[0_1px_2px_rgba(0,0,0,0.02)] group-hover:border-[#6D3DF5]/20 transition-colors"
-                            >
-                              <span className="h-1.5 w-1.5 rounded-full bg-[#6D3DF5]/70" />
-                              {sk}
-                            </span>
-                          ))}
-                        </div>
                       </div>
                     </div>
 
-                    {/* Action Button: View in Explore */}
-                    <div className="pt-4 border-t border-stone-100">
-                      <Link
-                        to={`/explore/${item.slug}`}
-                        className="w-full flex items-center justify-between py-2.5 pl-4 pr-2.5 rounded-2xl bg-[#111827] group-hover:bg-gradient-to-r group-hover:from-[#6D3DF5] group-hover:via-[#7C3AED] group-hover:to-[#9577F4] text-white text-xs sm:text-sm font-semibold tracking-wide shadow-sm group-hover:shadow-[0_10px_25px_-5px_rgba(109,61,245,0.45)] transition-all duration-300"
-                      >
-                        <span className="font-geist">Explore Interactive Path</span>
-                        <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-white/10 group-hover:bg-white group-hover:text-[#6D3DF5] transition-all duration-300 group-hover:-rotate-45">
-                          <FiArrowRight className="w-4 h-4" />
-                        </span>
-                      </Link>
+                    {/* Role Title */}
+                    <h3 className="font-geist text-xl sm:text-[22px] font-bold text-[#111827] mb-2 group-hover:text-[#6D3DF5] transition-colors tracking-tight leading-snug">
+                      {item.role}
+                    </h3>
+
+                    {/* Description */}
+                    <p className="text-[#64748B] font-inter text-xs sm:text-sm leading-relaxed mb-6 line-clamp-3">
+                      {item.description}
+                    </p>
+
+                    {/* Top Skills Tags */}
+                    <div className="mb-6">
+                      <span className="block text-[10px] font-bold uppercase tracking-[0.18em] text-[#94A3B8] font-exo mb-2.5">
+                        Core Skills Inside
+                      </span>
+                      <div className="flex flex-wrap gap-1.5">
+                        {(item.topSkills || []).map((sk) => (
+                          <span
+                            key={sk}
+                            className="inline-flex items-center gap-1.5 text-[11px] font-semibold text-[#334155] bg-white px-2.5 py-1 rounded-lg border border-stone-200/80 shadow-[0_1px_2px_rgba(0,0,0,0.02)] group-hover:border-[#6D3DF5]/20 transition-colors"
+                          >
+                            <span className="h-1.5 w-1.5 rounded-full bg-[#6D3DF5]/70" />
+                            {sk}
+                          </span>
+                        ))}
+                      </div>
                     </div>
-                  </motion.div>
-                );
-              })}
+                  </div>
+
+                  {/* Action Button: View in Explore */}
+                  <div className="pt-4 border-t border-stone-100">
+                    <Link
+                      to={`/explore/${item.slug}`}
+                      className="w-full flex items-center justify-between py-2.5 pl-4 pr-2.5 rounded-2xl bg-[#111827] group-hover:bg-gradient-to-r group-hover:from-[#6D3DF5] group-hover:via-[#7C3AED] group-hover:to-[#9577F4] text-white text-xs sm:text-sm font-semibold tracking-wide shadow-sm group-hover:shadow-[0_10px_25px_-5px_rgba(109,61,245,0.45)] transition-all duration-300"
+                    >
+                      <span className="font-geist">Explore Interactive Path</span>
+                      <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-white/10 group-hover:bg-white group-hover:text-[#6D3DF5] transition-all duration-300 group-hover:-rotate-45">
+                        <FiArrowRight className="w-4 h-4" />
+                      </span>
+                    </Link>
+                  </div>
+                </motion.div>
+              ))}
             </AnimatePresence>
           </div>
         ) : (
@@ -314,7 +240,7 @@ const Roadmap = () => {
               No prebuilt roadmap matches &ldquo;{searchQuery}&rdquo;
             </h3>
             <p className="text-xs sm:text-sm text-[#64748B] mb-6">
-              Don&apos;t worry — our live engine in Explore can generate a custom roadmap for any role on the fly!
+              Don&apos;t worry — you can explore other specializations or search in Explore.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
               <button
@@ -331,7 +257,7 @@ const Roadmap = () => {
                 to="/explore"
                 className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#6D3DF5] to-[#7C3AED] text-xs sm:text-sm font-semibold text-white shadow-md"
               >
-                <span>Generate in Explore</span>
+                <span>Open Explore</span>
                 <FiArrowRight className="w-4 h-4" />
               </Link>
             </div>
@@ -357,7 +283,6 @@ const Roadmap = () => {
               <FiCompass className="w-7 h-7" />
             </div>
 
-
             <h2 className="font-geist text-2xl sm:text-3xl lg:text-4xl font-bold text-[#111827] tracking-tight mb-3">
               Looking for a different{" "}
               <span className="font-iowan italic font-normal bg-gradient-to-r from-[#6D3DF5] to-[#A855F7] bg-clip-text text-transparent pr-1">
@@ -366,7 +291,7 @@ const Roadmap = () => {
             </h2>
 
             <p className="text-[#64748B] font-inter text-xs sm:text-base leading-relaxed mb-8">
-              Our role search engine generates custom interactive roadmaps on the fly with accurate live market prerequisites and skill demand metrics.
+              Explore our interactive search engine to navigate through role prerequisites and module dependencies seamlessly.
             </p>
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-3.5">
