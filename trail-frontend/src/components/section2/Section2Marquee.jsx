@@ -1,4 +1,3 @@
-import React from "react";
 
 const topItems = [
   { text: "ELEVATE CAREER", color: "#6D3DF5" },
