@@ -142,10 +142,12 @@ const Section2 = () => {
               <ButtonFour
                 text="SEE HOW IT WORKS"
                 onClick={() => {
-                  window.scrollTo({
-                    top: window.innerHeight * 2,
-                    behavior: "smooth",
-                  });
+                  const target = document.getElementById("how-it-works");
+                  if (window.__lenis && typeof window.__lenis.scrollTo === "function") {
+                    window.__lenis.scrollTo(target || "#how-it-works", { duration: 1.2 });
+                  } else if (target) {
+                    target.scrollIntoView({ behavior: "smooth" });
+                  }
                 }}
               />
             </div>
