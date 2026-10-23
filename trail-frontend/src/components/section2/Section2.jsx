@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import { motion } from "motion/react";
 // import Section2Marquee from "./Section2Marquee";
 import ButtonThree from "../buttons/ButtonThree";
@@ -16,6 +17,7 @@ const STATS = [
 
 const Section2 = () => {
   const sectionRef = useRef(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -133,8 +135,19 @@ const Section2 = () => {
             </div>
 
             <div className="s2-reveal flex flex-row flex-wrap items-center gap-4 pt-4 md:gap-5">
-              <ButtonThree text="START EXPLORING" />
-              <ButtonFour text="SEE HOW IT WORKS" />
+              <ButtonThree
+                text="START EXPLORING"
+                onClick={() => navigate("/explore")}
+              />
+              <ButtonFour
+                text="SEE HOW IT WORKS"
+                onClick={() => {
+                  window.scrollTo({
+                    top: window.innerHeight * 2,
+                    behavior: "smooth",
+                  });
+                }}
+              />
             </div>
           </div>
 

@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { FaGithub, FaLinkedin, FaArrowRight } from "react-icons/fa6";
 
 const Footer = () => {
@@ -47,13 +48,13 @@ const Footer = () => {
               Discover the right career path, learn the skills that matter, and track your progress. Built as an MCA final-year academic project.
             </p>
             
-            <button className="group relative w-full sm:w-max px-6 py-3 sm:py-2.5 rounded-full overflow-hidden bg-white/5 border border-white/10 hover:border-white/30 transition-all duration-500 flex items-center justify-between gap-4 cursor-pointer shadow-lg active:scale-[0.98]">
+            <Link to="/explore" className="group relative w-full sm:w-max px-6 py-3 sm:py-2.5 rounded-full overflow-hidden bg-white/5 border border-white/10 hover:border-white/30 transition-all duration-500 flex items-center justify-between gap-4 cursor-pointer shadow-lg active:scale-[0.98]">
               <span className="relative z-10 text-sm font-semibold text-white tracking-wide ml-2 sm:ml-0 font-geist">Explore Roadmaps</span>
               <div className="relative z-10 w-9 h-9 sm:w-8 sm:h-8 rounded-full bg-white text-[#120D21] flex items-center justify-center transform group-hover:rotate-[-45deg] transition-transform duration-500 ease-out shrink-0">
                 <FaArrowRight size={14} />
               </div>
               <div className="absolute inset-0 bg-gradient-to-r from-[#9D4EDD]/0 via-[#9D4EDD]/20 to-[#9D4EDD]/0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out pointer-events-none"></div>
-            </button>
+            </Link>
           </div>
 
           <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-12 gap-12 w-full">
@@ -61,11 +62,17 @@ const Footer = () => {
             <div className="sm:col-span-4 flex flex-col gap-6">
               <h4 className="text-white/40 text-[11px] sm:text-xs uppercase tracking-[0.25em] font-bold font-exo">Explore</h4>
               <div className="flex flex-col gap-5 sm:gap-4 text-white/70 font-medium text-[15px] sm:text-base font-inter">
-                {['Home', 'Explore', 'Roadmap', 'Progress', 'Resources'].map((link, index) => (
-                  <a key={index} href="#" className="relative w-max group hover:text-white transition-colors duration-300 pb-1">
-                    {link}
+                {[
+                  { name: "Home", path: "/" },
+                  { name: "Explore", path: "/explore" },
+                  { name: "Roadmap", path: "/roadmap" },
+                  { name: "Progress", path: "/progress" },
+                  { name: "Resources", path: "/resources" },
+                ].map((link, index) => (
+                  <Link key={index} to={link.path} className="relative w-max group hover:text-white transition-colors duration-300 pb-1">
+                    {link.name}
                     <span className="absolute left-0 bottom-0 w-0 h-[1.5px] bg-[#9D4EDD] transition-all duration-300 group-hover:w-full"></span>
-                  </a>
+                  </Link>
                 ))}
               </div>
             </div>
