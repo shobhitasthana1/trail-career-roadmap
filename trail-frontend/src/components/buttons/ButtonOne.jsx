@@ -1,4 +1,3 @@
-import React from "react";
 
 const ButtonOne = ({ text, onClick, className = "", type = "button" }) => {
   return (

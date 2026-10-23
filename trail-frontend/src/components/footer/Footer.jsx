@@ -1,4 +1,3 @@
-import React from "react";
 import { Link } from "react-router-dom";
 import { FaGithub, FaLinkedin, FaArrowRight } from "react-icons/fa6";
 
