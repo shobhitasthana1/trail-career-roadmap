@@ -1,8 +1,11 @@
-import React from "react";
 
-const ButtonOne = ({ text }) => {
+const ButtonOne = ({ text, onClick, className = "", type = "button" }) => {
   return (
-    <button className="group relative flex items-center gap-2 overflow-hidden rounded-xl bg-[#0E0A1A] border border-white/10 px-4 py-2 sm:px-5 sm:py-2.5 text-[11px] sm:text-xs font-semibold tracking-wide text-white transition-all duration-500 hover:shadow-[0_8px_30px_rgba(124,58,237,0.4)] hover:-translate-y-0.5 md:gap-2.5 md:rounded-2xl md:px-6 md:py-3 md:text-sm cursor-pointer">
+    <button
+      type={type}
+      onClick={onClick}
+      className={`group relative flex items-center gap-2 overflow-hidden rounded-xl bg-[#0E0A1A] border border-white/10 px-4 py-2 sm:px-5 sm:py-2.5 text-[11px] sm:text-xs font-semibold tracking-wide text-white transition-all duration-500 hover:shadow-[0_8px_30px_rgba(124,58,237,0.4)] hover:-translate-y-0.5 md:gap-2.5 md:rounded-2xl md:px-6 md:py-3 md:text-sm cursor-pointer ${className}`}
+    >
       <div className="absolute left-0 top-[110%] h-full w-full rounded-t-[50%] bg-gradient-to-r from-[#7C3AED] to-[#9D4EDD] transition-all duration-500 ease-[cubic-bezier(0.76,0,0.24,1)] group-hover:top-0 group-hover:rounded-none z-0" />
 
       <div className="relative z-10 block h-[16px] sm:h-[18px] md:h-[20px] overflow-hidden">
