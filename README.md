@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # TRAIL Backend API
 
 > Career Roadmap Platform — Node.js / Express / MongoDB backend
