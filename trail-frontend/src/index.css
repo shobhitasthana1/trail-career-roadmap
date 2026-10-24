@@ -1,0 +1,67 @@
+@import "tailwindcss";
+@import "./fonts.css";
+
+@layer base {
+  html, body {
+    width: 100%;
+    max-width: 100vw;
+    min-height: 100%;
+    overflow-x: hidden !important;
+    margin: 0;
+    padding: 0;
+    background-color: #FAFAFA;
+    color: #111827;
+  }
+  #root {
+    min-height: 100vh;
+    width: 100%;
+    background-color: #FAFAFA;
+  }
+}
+
+/* Hide the native scrollbar everywhere — Lenis already drives smooth
+   scroll, so no element needs to show its own browser scrollbar
+   (this was showing up right next to full-bleed sections like HeroRight). */
+* {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* old Edge/IE */
+}
+
+*::-webkit-scrollbar {
+  display: none; /* Chrome, Brave, Safari */
+  width: 0;
+  height: 0;
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0%);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  animation: marquee 34s linear infinite;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+@keyframes glow-pulse {
+  0%,
+  100% {
+    opacity: 0.55;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.08);
+  }
+}
+
+.animate-glow-pulse {
+  animation: glow-pulse 4.5s ease-in-out infinite;
+}
