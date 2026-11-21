@@ -1,22 +1,22 @@
-const express = require("express");
-const cors = require("cors");
-require("dotenv").config();
+require('dotenv').config();
 
-const app = express();
+const app = require('./app');
+const connectDB = require('./config/db');
+const { startCronJobs } = require('./config/cronJobs');
 
-app.use(cors());
-app.use(express.json());
+const PORT = process.env.PORT || 5000;
 
-// basic health-check route
-app.get("/api/health", (req, res) => {
-    res.status(200).json({
-        status: true,
-        message: "Trail Backend API is running..."
-    });
-});
+async function startServer() {
+  await connectDB();
 
-const PORT = process.env.PORT || 5051;
+  app.listen(PORT, () => {
+    console.log(`TRAIL API running on port ${PORT} [${process.env.NODE_ENV}]`);
+  });
 
-app.listen(PORT, () => {
-    console.log(`Server running on http://localhost:${PORT}`);
-});
+  // Start background jobs (only in production/development — not in test)
+  if (process.env.NODE_ENV !== 'test') {
+    startCronJobs();
+  }
+}
+
+startServer();
