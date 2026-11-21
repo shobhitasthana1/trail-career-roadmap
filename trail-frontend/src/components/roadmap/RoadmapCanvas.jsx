@@ -304,7 +304,7 @@ const RoadmapCanvas = ({
 
   return (
     <div className="relative w-full rounded-3xl border border-stone-200/90 bg-white overflow-hidden shadow-[0_15px_45px_-12px_rgba(17,24,39,0.06)]">
-      {/* ── Top Header Controls Bar (Light Theme) ─────────────────────────── */}
+      {/* Header controls bar */}
       <div className="relative z-20 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4 p-5 sm:p-6 border-b border-stone-200/80 bg-white/95 backdrop-blur-md">
         {/* Left: Role info */}
         <div>
@@ -401,7 +401,7 @@ const RoadmapCanvas = ({
         </div>
       )}
 
-      {/* ── React Flow Canvas Container (Light Theme) ─────────────────────── */}
+      {/* React Flow canvas container */}
       <div
         ref={reactFlowWrapper}
         data-lenis-prevent
@@ -463,7 +463,7 @@ const RoadmapCanvas = ({
         </div>
       </div>
 
-      {/* ── Slide-in Node Detail Drawer (Light Theme) ─────────────────────── */}
+      {/* Slide-in node detail drawer */}
       <SkillDetailPanel
         skill={selectedSkill}
         isOpen={isPanelOpen}

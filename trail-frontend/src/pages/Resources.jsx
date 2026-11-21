@@ -29,11 +29,12 @@ import {
   RESOURCE_TYPES,
 } from "../data/resourcesData";
 import {
+  fetchResources,
   fetchBookmarkedResourceIds,
   toggleBookmarkResource,
 } from "../services/api";
 
-/* ── 67 Newly Curated Resources (Auto-merged & Deduplicated) ───────── */
+// Curated additional learning resources
 export const ADDITIONAL_RESOURCES_DATA = [
   // FRONTEND (1 - 12)
   {
@@ -903,12 +904,29 @@ const Resources = () => {
   const [showSavedOnly, setShowSavedOnly] = useState(false);
   const [bookmarkedIds, setBookmarkedIds] = useState([]);
   const [guestPrompt, setGuestPrompt] = useState(false);
+  const [apiResources, setApiResources] = useState([]);
 
   const searchInputRef = useRef(null);
   const catalogRef = useRef(null);
 
+  // Fetch live resources from backend API on mount
+  useEffect(() => {
+    let isMounted = true;
+    fetchResources()
+      .then((items) => {
+        if (isMounted && Array.isArray(items) && items.length > 0) {
+          setApiResources(items);
+        }
+      })
+      .catch(() => {});
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
   // Merge existing RESOURCES_DATA with the 67 new resources without duplicates
   const allResources = useMemo(() => {
+    if (apiResources.length > 0) return apiResources;
     const base = Array.isArray(RESOURCES_DATA) ? RESOURCES_DATA : [];
     const seenUrls = new Set(
       base.map((r) => (r.url || "").trim().toLowerCase().replace(/\/+$/, ""))
@@ -928,7 +946,7 @@ const Resources = () => {
       }
     });
     return merged;
-  }, []);
+  }, [apiResources]);
 
   // Ensure "Article" is always present in Resource Types
   const allResourceTypes = useMemo(() => {
@@ -1134,7 +1152,7 @@ const Resources = () => {
 
       {/* Main Container */}
       <div className="relative z-10 max-w-[1320px] mx-auto px-4 sm:px-6 md:px-10 lg:px-12 pt-28 sm:pt-36 pb-20">
-        {/* ── 1. HERO HEADER ───────────────────────────────────────────────── */}
+        {/* Hero header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -1163,7 +1181,7 @@ const Resources = () => {
           </p>
         </motion.div>
 
-        {/* ── 2. SEARCH & FILTER COMMAND HUB ───────────────────────────────── */}
+        {/* Search and filter command hub */}
         <motion.div
           initial={{ opacity: 0, scale: 0.98 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -1394,7 +1412,7 @@ const Resources = () => {
           </div>
         </motion.div>
 
-        {/* ── 3. RESOURCE CARDS GRID ───────────────────────────────────────── */}
+        {/* Resource cards grid */}
         <div ref={catalogRef} className="pt-2">
           {/* Header Count Indicator */}
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-7">

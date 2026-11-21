@@ -18,9 +18,10 @@ import LockScreen from "../components/LockScreen";
 import {
   PREBUILT_ROLES,
   fetchRoadmapBySlug,
+  generateRoadmap,
 } from "../services/api";
 
-/* ── Alias map: common search terms → slug ─────────────────────────── */
+// Role alias mappings for search queries
 const ROLE_ALIASES = {
   "frontend": "frontend-developer",
   "front-end": "frontend-developer",
@@ -98,7 +99,7 @@ const ExploreContent = () => {
 
   const searchInputRef = useRef(null);
 
-  // If slug is in URL, auto-load — static only, no API
+  // If slug is in URL, load from backend or generate dynamically
   useEffect(() => {
     if (!slug) {
       setRoadmapData(null);
@@ -114,15 +115,26 @@ const ExploreContent = () => {
       .then((data) => {
         if (isMounted) {
           setRoadmapData(data);
-          setActiveRoleName(data.roadmap.role);
+          setActiveRoleName(data.roadmap?.role || slug);
           setLoading(false);
         }
       })
       .catch(() => {
-        if (isMounted) {
-          setSearchError(`No roadmap found for '${slug}'`);
-          setLoading(false);
-        }
+        // Try generating if not found in prebuilt
+        generateRoadmap(slug.replace(/-/g, " "))
+          .then((data) => {
+            if (isMounted) {
+              setRoadmapData(data);
+              setActiveRoleName(data.roadmap?.role || slug);
+              setLoading(false);
+            }
+          })
+          .catch(() => {
+            if (isMounted) {
+              setSearchError(`No roadmap found for '${slug}'`);
+              setLoading(false);
+            }
+          });
       });
 
     return () => {
@@ -130,7 +142,7 @@ const ExploreContent = () => {
     };
   }, [slug]);
 
-  // Handle typing suggestions — static match only
+  // Handle typing suggestions
   const handleInputChange = (e) => {
     const val = e.target.value;
     setQuery(val);
@@ -146,7 +158,7 @@ const ExploreContent = () => {
     setSuggestions(filtered);
   };
 
-  // Perform static selection — NO API call
+  // Perform role selection with backend API
   const handleSelectRole = async (roleName, roleSlug = null) => {
     setQuery("");
     setSuggestions([]);
@@ -154,24 +166,32 @@ const ExploreContent = () => {
     setSearchError("");
     setActiveRoleName(roleName);
 
-    // Resolve to one of the 6 static roles
     const resolved = resolveStaticRole(roleSlug || roleName);
+    const targetSlug = resolved
+      ? resolved.slug
+      : (roleSlug || roleName.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, ""));
 
-    if (resolved) {
-      setLoading(true);
+    setLoading(true);
+    try {
+      let data = null;
       try {
-        const data = await fetchRoadmapBySlug(resolved.slug);
-        setRoadmapData(data);
-        navigate(`/explore/${resolved.slug}`, { replace: false });
+        data = await fetchRoadmapBySlug(targetSlug);
       } catch {
-        setSearchError(`Failed to load roadmap for '${roleName}'`);
-      } finally {
-        setLoading(false);
+        // If not found by slug, dynamically generate from real market data via backend
+        data = await generateRoadmap(roleName);
       }
-    } else {
-      // Not one of the 6 — show clean "not found" state
+
+      if (data && data.nodes && data.nodes.length > 0) {
+        setRoadmapData(data);
+        navigate(`/explore/${data.roadmap?.slug || targetSlug}`, { replace: false });
+      } else {
+        throw new Error("No roadmap generated");
+      }
+    } catch {
       setRoadmapData(null);
-      setSearchError(`No roadmap found for '${roleName}'`);
+      setSearchError(`No roadmap found for '${roleName}'. Try searching for roles like Frontend Developer, Backend Developer, or DevOps.`);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -202,7 +222,7 @@ const ExploreContent = () => {
 
       {/* Main Container */}
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 md:px-10 lg:px-12 pt-32 sm:pt-40 pb-20">
-        {/* ── Intro Section ──────────────────────────────────────────────── */}
+        {/* Intro section */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -221,7 +241,7 @@ const ExploreContent = () => {
           </p>
         </motion.div>
 
-        {/* ── Prominent Search Bar Control ───────────────────────────────── */}
+        {/* Search input control */}
         <div className="max-w-3xl mx-auto mb-10 relative">
           <form
             onSubmit={handleFormSubmit}
@@ -344,7 +364,7 @@ const ExploreContent = () => {
           </div>
         </div>
 
-        {/* ── Loading State ──────────────────────────────────────────────── */}
+        {/* Loading state */}
         {loading && (
           <div className="w-full py-24 flex flex-col items-center justify-center text-center">
             <div className="relative mb-5">
@@ -363,7 +383,7 @@ const ExploreContent = () => {
           </div>
         )}
 
-        {/* ── No-Result / Error State ──────────────────────────────────── */}
+        {/* No-result and error state */}
         {!loading && searchError && (
           <div className="max-w-xl mx-auto my-12 p-8 rounded-3xl bg-white border border-stone-200/80 text-center shadow-lg">
             <div className="w-12 h-12 rounded-2xl bg-[#6D3DF5]/10 text-[#6D3DF5] flex items-center justify-center mx-auto mb-4 border border-[#6D3DF5]/20">
@@ -389,7 +409,7 @@ const ExploreContent = () => {
           </div>
         )}
 
-        {/* ── 1) EMPTY STATE (When no role has been searched yet) ────────── */}
+        {/* Empty search prompt state */}
         {!loading && !searchError && !roadmapData && (
           <motion.div
             initial={{ opacity: 0, y: 16 }}
@@ -438,7 +458,7 @@ const ExploreContent = () => {
           </motion.div>
         )}
 
-        {/* ── 2) React Flow Interactive Roadmap Canvas (Visible after search) ─ */}
+        {/* Interactive roadmap canvas */}
         {!loading && !searchError && roadmapData && (
           <motion.div
             initial={{ opacity: 0, scale: 0.99 }}
@@ -459,7 +479,7 @@ const ExploreContent = () => {
   );
 };
 
-/* ── Explore Page Auth Guard Wrapper ───────────────────────────────── */
+// Explore page wrapper with authentication check
 const Explore = () => {
   const { isAuthenticated, loading } = useAuth();
 

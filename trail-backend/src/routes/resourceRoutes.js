@@ -1,12 +1,17 @@
 const express = require('express');
-const { listResources, getResource } = require('../controllers/resourceController');
+const {
+  listResources,
+  getResource,
+  getBookmarks,
+  toggleBookmark,
+} = require('../controllers/resourceController');
+const { protect } = require('../middleware/authMiddleware');
 
 const router = express.Router();
 
-// GET /api/v1/resources?skillSlug=nodejs
+router.get('/bookmarks', protect, getBookmarks);
+router.post('/bookmarks/:resourceId', protect, toggleBookmark);
 router.get('/', listResources);
-
-// GET /api/v1/resources/:id
 router.get('/:id', getResource);
 
 module.exports = router;

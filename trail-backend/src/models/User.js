@@ -1,10 +1,6 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 
-mongoose.connect(process.env.MONGODB_URI)
-  .then(() => console.log("MongoDB connected"))
-  .catch(err => console.error(err));
-
 const userSchema = new mongoose.Schema(
   {
     name: {
@@ -22,7 +18,6 @@ const userSchema = new mongoose.Schema(
     password: {
       type: String,
       minlength: 6,
-      // not required — Google users have no password
     },
     googleId: {
       type: String,
@@ -32,19 +27,47 @@ const userSchema = new mongoose.Schema(
       enum: ['local', 'google'],
       default: 'local',
     },
+    avatar: {
+      type: String,
+      default: null,
+    },
+    bio: {
+      type: String,
+      default: '',
+    },
+    phone: {
+      type: String,
+      default: '',
+    },
+    location: {
+      type: String,
+      default: '',
+    },
+    careerGoal: {
+      type: String,
+      default: '',
+    },
+    skills: {
+      type: [String],
+      default: [],
+    },
+    bookmarkedResources: {
+      type: [String],
+      default: [],
+    },
   },
   { timestamps: true }
 );
 
 // Hash password before saving
 userSchema.pre('save', async function () {
-  if (!this.isModified('password') || !this.password) return ;
+  if (!this.isModified('password') || !this.password) return;
   this.password = await bcrypt.hash(this.password, 12);
-  ;
 });
 
 // Compare password for login
 userSchema.methods.comparePassword = async function (candidatePassword) {
+  if (!this.password) return false;
   return bcrypt.compare(candidatePassword, this.password);
 };
 

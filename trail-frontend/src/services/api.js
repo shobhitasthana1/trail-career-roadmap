@@ -1,19 +1,15 @@
 /**
  * TRAIL — API Service Layer (src/services/api.js)
  * 
- * Single centralized service layer for all backend communications.
- * When USE_MOCK is true, all calls return realistic mock data simulating
- * network latency and persisting progress in localStorage per user.
- * 
- * When USE_MOCK is false, calls the real Node.js/Express/MongoDB backend
- * at VITE_API_BASE_URL (http://localhost:5000/api/v1) with Bearer token authentication.
+ * Centralized service layer for all backend communications.
+ * Connected directly to the Node.js/Express/MongoDB backend
+ * at VITE_API_BASE_URL with Bearer token authentication.
  */
 
-export const USE_MOCK = true;
+export const USE_MOCK = false;
 
-const API_BASE = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000/api/v1";
-
-const delay = (ms = 350) => new Promise((resolve) => setTimeout(resolve, ms));
+export const API_BASE =
+  import.meta.env.VITE_API_BASE_URL || "https://trail-backend-agdl.onrender.com/api/v1";
 
 function getAuthHeaders() {
   const token = localStorage.getItem("trail_auth_token");
@@ -34,10 +30,7 @@ function getCurrentUserId() {
   }
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// COMPLETE MOCK ROADMAP DATA FOR 6 PREBUILT ROLES
-// Exact backend format: { roadmap: { role, slug, source }, nodes: [...], edges: [...] }
-// ─────────────────────────────────────────────────────────────────────────────
+// Prebuilt roles metadata used for gallery cards, gradients, and fallback display
 
 export const PREBUILT_ROLES = [
   {
@@ -96,1030 +89,310 @@ export const PREBUILT_ROLES = [
   },
 ];
 
-const MOCK_ROADMAPS = {
-  "frontend-developer": {
-    roadmap: {
-      role: "Frontend Developer",
-      slug: "frontend-developer",
-      source: "prebuilt",
-      description: "Master modern client-side engineering: core foundations, component architecture, type safety, and production delivery.",
-    },
-    nodes: [
-      {
-        id: "html-semantic",
-        label: "Semantic HTML5 & Accessibility",
-        marketDemand: "92%",
-        stage: "Foundation",
-        description: "Semantic elements, ARIA standards, keyboard navigation, and screen reader compatibility.",
-      },
-      {
-        id: "css-modern",
-        label: "Modern CSS & Flex/Grid",
-        marketDemand: "95%",
-        stage: "Foundation",
-        description: "CSS Grid, Flexbox layouts, responsive design, custom properties, and fluid typography.",
-      },
-      {
-        id: "git-version-control",
-        label: "Git & Version Control",
-        marketDemand: "89%",
-        stage: "Foundation",
-        description: "Branching strategies, rebasing, pull request workflows, merge conflict resolution, and GitHub Actions.",
-      },
-      {
-        id: "js-es6",
-        label: "Modern JavaScript (ES6+)",
-        marketDemand: "98%",
-        stage: "Core",
-        description: "Async/await, closures, prototypes, event loop, Fetch API, DOM manipulation, and ES modules.",
-      },
-      {
-        id: "typescript-core",
-        label: "TypeScript Fundamentals",
-        marketDemand: "88%",
-        stage: "Core",
-        description: "Static typing, generics, interfaces, union types, and TypeScript integration with modern tooling.",
-      },
-      {
-        id: "react-ecosystem",
-        label: "React 19 & Component Design",
-        marketDemand: "96%",
-        stage: "Core",
-        description: "Hooks, server/client components, reconciliation, custom hooks, and memoization patterns.",
-      },
-      {
-        id: "tailwind-styling",
-        label: "Tailwind CSS & Design Systems",
-        marketDemand: "84%",
-        stage: "Core",
-        description: "Utility-first design tokens, responsive breakpoints, dark mode, and design system abstraction.",
-      },
-      {
-        id: "state-management",
-        label: "State Management (Zustand)",
-        marketDemand: "86%",
-        stage: "Advanced",
-        description: "Global stores, asynchronous state hydration, selector optimization, and client cache sync.",
-      },
-      {
-        id: "nextjs-ssr",
-        label: "Next.js & Server Rendering",
-        marketDemand: "91%",
-        stage: "Advanced",
-        description: "App router, SSR/SSG/ISR, streaming metadata, image optimization, and edge middleware.",
-      },
-      {
-        id: "testing-vitest",
-        label: "Testing (Vitest & Playwright)",
-        marketDemand: "82%",
-        stage: "Tools & Deployment",
-        description: "Unit testing components, mock service workers, and automated end-to-end user journeys.",
-      },
-      {
-        id: "web-perf-deployment",
-        label: "Web Performance & CI/CD",
-        marketDemand: "87%",
-        stage: "Tools & Deployment",
-        description: "Core Web Vitals, code splitting, asset compression, CDN caching, and automated deployment pipelines.",
-      },
-    ],
-    edges: [
-      { id: "e-html-css", source: "html-semantic", target: "css-modern" },
-      { id: "e-html-js", source: "html-semantic", target: "js-es6" },
-      { id: "e-css-tailwind", source: "css-modern", target: "tailwind-styling" },
-      { id: "e-js-ts", source: "js-es6", target: "typescript-core" },
-      { id: "e-js-react", source: "js-es6", target: "react-ecosystem" },
-      { id: "e-react-state", source: "react-ecosystem", target: "state-management" },
-      { id: "e-react-next", source: "react-ecosystem", target: "nextjs-ssr" },
-      { id: "e-ts-testing", source: "typescript-core", target: "testing-vitest" },
-      { id: "e-git-deploy", source: "git-version-control", target: "web-perf-deployment" },
-      { id: "e-next-deploy", source: "nextjs-ssr", target: "web-perf-deployment" },
-    ],
-  },
-
-  "backend-developer": {
-    roadmap: {
-      role: "Backend Developer",
-      slug: "backend-developer",
-      source: "prebuilt",
-      description: "Engineer resilient server architectures, high-throughput APIs, fault-tolerant databases, and cloud services.",
-    },
-    nodes: [
-      {
-        id: "http-networking",
-        label: "HTTP/HTTPS & Network Protocols",
-        marketDemand: "90%",
-        stage: "Foundation",
-        description: "TCP/IP, HTTP/1.1 vs HTTP/2/3, headers, status codes, WebSockets, and TLS encryption.",
-      },
-      {
-        id: "linux-cli",
-        label: "Linux OS & Shell Scripting",
-        marketDemand: "86%",
-        stage: "Foundation",
-        description: "Process management, file permissions, systemctl, piping, grep, bash automation, and SSH keys.",
-      },
-      {
-        id: "git-backend",
-        label: "Git & Collaborative Workflows",
-        marketDemand: "88%",
-        stage: "Foundation",
-        description: "Semantic versioning, release tagging, changelogs, submodules, and branch protection.",
-      },
-      {
-        id: "nodejs-runtime",
-        label: "Node.js & Asynchronous I/O",
-        marketDemand: "94%",
-        stage: "Core",
-        description: "Event loop, libuv, stream buffers, cluster module, worker threads, and memory profiling.",
-      },
-      {
-        id: "express-fastify",
-        label: "Express & Fastify Frameworks",
-        marketDemand: "91%",
-        stage: "Core",
-        description: "Middleware pipelines, route handlers, error handling middleware, and schema validation with Zod.",
-      },
-      {
-        id: "rest-api-design",
-        label: "RESTful API Architecture",
-        marketDemand: "96%",
-        stage: "Core",
-        description: "Idempotency, rate limiting, pagination, JSON:API conventions, OpenAPI/Swagger specifications.",
-      },
-      {
-        id: "auth-security",
-        label: "Authentication & Security",
-        marketDemand: "95%",
-        stage: "Core",
-        description: "JWT access/refresh tokens, OAuth2, Bcrypt hashing, CSRF/CORS policies, and SQL injection prevention.",
-      },
-      {
-        id: "postgresql-db",
-        label: "PostgreSQL & Relational Design",
-        marketDemand: "93%",
-        stage: "Database",
-        description: "ACID transactions, foreign keys, indexing (B-tree, GIN), query execution plans, and migrations.",
-      },
-      {
-        id: "mongodb-nosql",
-        label: "MongoDB & Document Stores",
-        marketDemand: "82%",
-        stage: "Database",
-        description: "Document aggregation pipelines, schema validation, sharding, and replica sets.",
-      },
-      {
-        id: "redis-caching",
-        label: "Redis Caching & Pub/Sub",
-        marketDemand: "88%",
-        stage: "Database",
-        description: "In-memory key-value caching, TTL eviction policies, distributed session locks, and pub/sub channels.",
-      },
-      {
-        id: "docker-containers",
-        label: "Docker & Containerization",
-        marketDemand: "92%",
-        stage: "Advanced",
-        description: "Multi-stage builds, Docker Compose, volume mounts, networking, and minimal alpine images.",
-      },
-      {
-        id: "microservices-messaging",
-        label: "Message Queues (Kafka / RabbitMQ)",
-        marketDemand: "85%",
-        stage: "Advanced",
-        description: "Asynchronous task workers, event-driven decoupling, consumer groups, and dead-letter queues.",
-      },
-      {
-        id: "cloud-cicd",
-        label: "Cloud Deployment & CI/CD",
-        marketDemand: "89%",
-        stage: "Tools & Deployment",
-        description: "AWS EC2/ECS/S3, GitHub Actions CI pipelines, zero-downtime rolling deploys, and monitoring.",
-      },
-    ],
-    edges: [
-      { id: "e-net-node", source: "http-networking", target: "nodejs-runtime" },
-      { id: "e-node-express", source: "nodejs-runtime", target: "express-fastify" },
-      { id: "e-express-rest", source: "express-fastify", target: "rest-api-design" },
-      { id: "e-rest-auth", source: "rest-api-design", target: "auth-security" },
-      { id: "e-rest-pg", source: "rest-api-design", target: "postgresql-db" },
-      { id: "e-rest-mongo", source: "rest-api-design", target: "mongodb-nosql" },
-      { id: "e-pg-redis", source: "postgresql-db", target: "redis-caching" },
-      { id: "e-linux-docker", source: "linux-cli", target: "docker-containers" },
-      { id: "e-auth-micro", source: "auth-security", target: "microservices-messaging" },
-      { id: "e-redis-micro", source: "redis-caching", target: "microservices-messaging" },
-      { id: "e-docker-cloud", source: "docker-containers", target: "cloud-cicd" },
-      { id: "e-git-cloud", source: "git-backend", target: "cloud-cicd" },
-    ],
-  },
-
-  "full-stack-developer": {
-    roadmap: {
-      role: "Full Stack Developer",
-      slug: "full-stack-developer",
-      source: "prebuilt",
-      description: "Build complete end-to-end products: responsive clients, typed backends, relational databases, and edge deployments.",
-    },
-    nodes: [
-      {
-        id: "web-fundamentals",
-        label: "Web Fundamentals (HTML/CSS)",
-        marketDemand: "92%",
-        stage: "Foundation",
-        description: "Responsive layouts, flexbox, semantic structure, browser rendering engine cycles.",
-      },
-      {
-        id: "git-cli-fs",
-        label: "Git Version Control & CLI",
-        marketDemand: "89%",
-        stage: "Foundation",
-        description: "Monorepo management, feature branching, interactive rebasing, pull requests.",
-      },
-      {
-        id: "js-ts-core",
-        label: "Modern JavaScript & TypeScript",
-        marketDemand: "97%",
-        stage: "Core",
-        description: "Shared type definitions between frontend and backend, generics, async programming.",
-      },
-      {
-        id: "react-frontend",
-        label: "React 19 & Component Systems",
-        marketDemand: "95%",
-        stage: "Core",
-        description: "Reusable component libraries, hooks, client state, Tailwind styling, optimistic UI.",
-      },
-      {
-        id: "node-backend",
-        label: "Node.js & Express / REST",
-        marketDemand: "93%",
-        stage: "Core",
-        description: "Server architecture, route handling, input validation, middleware chains.",
-      },
-      {
-        id: "sql-prisma",
-        label: "PostgreSQL & Prisma ORM",
-        marketDemand: "91%",
-        stage: "Database",
-        description: "Type-safe database queries, schema migrations, relation modeling, transactions.",
-      },
-      {
-        id: "db-cache-redis",
-        label: "Redis Caching & Session Stores",
-        marketDemand: "84%",
-        stage: "Database",
-        description: "Distributed caching, rate limiting, pub/sub notifications, session storage.",
-      },
-      {
-        id: "nextjs-fullstack",
-        label: "Next.js Full Stack Architecture",
-        marketDemand: "94%",
-        stage: "Advanced",
-        description: "Server Actions, route handlers, SSR caching, parallel routes, and middleware auth.",
-      },
-      {
-        id: "fullstack-security",
-        label: "Authentication & API Security",
-        marketDemand: "92%",
-        stage: "Advanced",
-        description: "JWT, session cookies, OAuth social login, CSRF tokens, role-based access control.",
-      },
-      {
-        id: "docker-fs",
-        label: "Docker Containerization",
-        marketDemand: "88%",
-        stage: "Tools & Deployment",
-        description: "Containerizing frontend, API, and database services using Docker Compose.",
-      },
-      {
-        id: "testing-cicd",
-        label: "Automated Testing & CI/CD",
-        marketDemand: "86%",
-        stage: "Tools & Deployment",
-        description: "End-to-end integration tests, GitHub Actions pipeline automation, pre-commit hooks.",
-      },
-      {
-        id: "cloud-infra",
-        label: "Production Cloud Hosting",
-        marketDemand: "90%",
-        stage: "Tools & Deployment",
-        description: "Vercel / AWS deployment, database connection pooling, CDN edge caching, and monitoring.",
-      },
-    ],
-    edges: [
-      { id: "e-web-ts", source: "web-fundamentals", target: "js-ts-core" },
-      { id: "e-ts-react", source: "js-ts-core", target: "react-frontend" },
-      { id: "e-ts-node", source: "js-ts-core", target: "node-backend" },
-      { id: "e-react-next", source: "react-frontend", target: "nextjs-fullstack" },
-      { id: "e-node-next", source: "node-backend", target: "nextjs-fullstack" },
-      { id: "e-node-db", source: "node-backend", target: "sql-prisma" },
-      { id: "e-db-redis", source: "sql-prisma", target: "db-cache-redis" },
-      { id: "e-node-sec", source: "node-backend", target: "fullstack-security" },
-      { id: "e-sec-next", source: "fullstack-security", target: "nextjs-fullstack" },
-      { id: "e-git-test", source: "git-cli-fs", target: "testing-cicd" },
-      { id: "e-docker-cloud", source: "docker-fs", target: "cloud-infra" },
-      { id: "e-next-cloud", source: "nextjs-fullstack", target: "cloud-infra" },
-    ],
-  },
-
-  "data-analyst": {
-    roadmap: {
-      role: "Data Analyst",
-      slug: "data-analyst",
-      source: "prebuilt",
-      description: "Extract insights from raw data: query relational databases, perform exploratory analysis, and build executive dashboards.",
-    },
-    nodes: [
-      {
-        id: "excel-advanced",
-        label: "Advanced Excel & Spreadsheets",
-        marketDemand: "85%",
-        stage: "Foundation",
-        description: "XLOOKUP, INDEX/MATCH, pivot tables, Power Query, dynamic arrays, and macro basics.",
-      },
-      {
-        id: "stats-prob",
-        label: "Applied Statistics & Probability",
-        marketDemand: "88%",
-        stage: "Foundation",
-        description: "Hypothesis testing, p-values, A/B testing methodology, variance, normal distributions.",
-      },
-      {
-        id: "sql-analytics",
-        label: "SQL for Data Analysis",
-        marketDemand: "96%",
-        stage: "Core",
-        description: "Window functions (RANK, LAG, LEAD), complex JOINs, CTEs, aggregation, and subqueries.",
-      },
-      {
-        id: "python-analytics",
-        label: "Python for Data Analysis",
-        marketDemand: "91%",
-        stage: "Core",
-        description: "Python syntax, Jupyter notebooks, virtual environments, data structures, and scripting.",
-      },
-      {
-        id: "pandas-numpy",
-        label: "Data Wrangling with Pandas",
-        marketDemand: "93%",
-        stage: "Core",
-        description: "Dataframe manipulation, handling missing values, group-by operations, and string cleaning.",
-      },
-      {
-        id: "data-warehouse",
-        label: "Data Warehousing (Snowflake / BigQuery)",
-        marketDemand: "86%",
-        stage: "Database",
-        description: "Columnar databases, star/snowflake schemas, dimensional modeling, and partitioning.",
-      },
-      {
-        id: "data-modeling",
-        label: "Relational Data Modeling",
-        marketDemand: "84%",
-        stage: "Database",
-        description: "Entity-relationship diagrams, normalization (1NF-3NF), surrogate keys, and slowly changing dimensions.",
-      },
-      {
-        id: "eda-visualization",
-        label: "Exploratory Data Analysis (EDA)",
-        marketDemand: "89%",
-        stage: "Advanced",
-        description: "Matplotlib & Seaborn visualizations, correlation heatmaps, outlier detection, and distribution analysis.",
-      },
-      {
-        id: "bi-dashboards",
-        label: "Power BI & Tableau Dashboards",
-        marketDemand: "94%",
-        stage: "Advanced",
-        description: "DAX formulas, LOD expressions, interactive drill-downs, KPI cards, and dashboard UX design.",
-      },
-      {
-        id: "storytelling-insights",
-        label: "Executive Storytelling & Presentation",
-        marketDemand: "87%",
-        stage: "Advanced",
-        description: "Translating technical data metrics into business revenue drivers and executive slides.",
-      },
-      {
-        id: "etl-automation",
-        label: "ETL Pipelines & Scheduled Reports",
-        marketDemand: "83%",
-        stage: "Tools & Deployment",
-        description: "Automated data ingestion with Python, cron scheduling, data quality checks, and alert webhooks.",
-      },
-    ],
-    edges: [
-      { id: "e-excel-sql", source: "excel-advanced", target: "sql-analytics" },
-      { id: "e-stats-python", source: "stats-prob", target: "python-analytics" },
-      { id: "e-python-pandas", source: "python-analytics", target: "pandas-numpy" },
-      { id: "e-sql-dw", source: "sql-analytics", target: "data-warehouse" },
-      { id: "e-dw-model", source: "data-warehouse", target: "data-modeling" },
-      { id: "e-pandas-eda", source: "pandas-numpy", target: "eda-visualization" },
-      { id: "e-eda-bi", source: "eda-visualization", target: "bi-dashboards" },
-      { id: "e-dw-bi", source: "data-warehouse", target: "bi-dashboards" },
-      { id: "e-bi-story", source: "bi-dashboards", target: "storytelling-insights" },
-      { id: "e-pandas-etl", source: "pandas-numpy", target: "etl-automation" },
-    ],
-  },
-
-  "data-scientist": {
-    roadmap: {
-      role: "Data Scientist",
-      slug: "data-scientist",
-      source: "prebuilt",
-      description: "Harness mathematical foundations, statistical modeling, machine learning, and deep neural networks to build intelligent software.",
-    },
-    nodes: [
-      {
-        id: "math-linear-algebra",
-        label: "Linear Algebra & Calculus",
-        marketDemand: "89%",
-        stage: "Foundation",
-        description: "Matrix decompositions, eigenvalues, gradients, partial derivatives, and optimization techniques.",
-      },
-      {
-        id: "python-scientific",
-        label: "Scientific Python (NumPy / SciPy)",
-        marketDemand: "95%",
-        stage: "Foundation",
-        description: "Vectorized operations, broadcasting, numerical stability, and statistical distributions.",
-      },
-      {
-        id: "stats-inference",
-        label: "Statistical Inference & Modeling",
-        marketDemand: "92%",
-        stage: "Foundation",
-        description: "Bayesian vs Frequentist, regression analysis, confidence intervals, and hypothesis tests.",
-      },
-      {
-        id: "feature-engineering",
-        label: "Feature Engineering & Preprocessing",
-        marketDemand: "94%",
-        stage: "Core",
-        description: "Imputation, categorical encoding, feature scaling, interaction terms, and dimensionality reduction (PCA).",
-      },
-      {
-        id: "supervised-learning",
-        label: "Supervised ML (Scikit-Learn)",
-        marketDemand: "96%",
-        stage: "Core",
-        description: "Random Forests, XGBoost, LightGBM, SVMs, hyperparameter tuning, and cross-validation.",
-      },
-      {
-        id: "unsupervised-learning",
-        label: "Unsupervised ML & Clustering",
-        marketDemand: "87%",
-        stage: "Core",
-        description: "K-Means, hierarchical clustering, DBSCAN, t-SNE, UMAP, and anomaly detection.",
-      },
-      {
-        id: "vector-dbs-sql",
-        label: "SQL & Vector Databases",
-        marketDemand: "90%",
-        stage: "Database",
-        description: "Postgres pgvector, Pinecone, similarity search, embeddings storage, and indexing algorithms.",
-      },
-      {
-        id: "big-data-spark",
-        label: "Big Data with Apache Spark",
-        marketDemand: "85%",
-        stage: "Database",
-        description: "PySpark DataFrames, distributed memory partitions, and large-scale parallel computations.",
-      },
-      {
-        id: "deep-learning-pytorch",
-        label: "Deep Learning with PyTorch",
-        marketDemand: "94%",
-        stage: "Advanced",
-        description: "Neural network architectures, autograd, backpropagation, CNNs, RNNs, and custom loss functions.",
-      },
-      {
-        id: "nlp-llms",
-        label: "NLP & Large Language Models",
-        marketDemand: "96%",
-        stage: "Advanced",
-        description: "Transformers, attention mechanisms, HuggingFace, fine-tuning, RAG pipelines, and prompt engineering.",
-      },
-      {
-        id: "model-evaluation",
-        label: "Model Evaluation & Bias Auditing",
-        marketDemand: "88%",
-        stage: "Advanced",
-        description: "ROC-AUC, Precision-Recall curves, confusion matrices, calibration, and fairness metrics.",
-      },
-      {
-        id: "mlops-deployment",
-        label: "MLOps & Model Deployment (MLflow)",
-        marketDemand: "91%",
-        stage: "Tools & Deployment",
-        description: "FastAPI inference microservices, Dockerization, model artifact versioning, and latency monitoring.",
-      },
-    ],
-    edges: [
-      { id: "e-math-stats", source: "math-linear-algebra", target: "stats-inference" },
-      { id: "e-py-feat", source: "python-scientific", target: "feature-engineering" },
-      { id: "e-stats-sup", source: "stats-inference", target: "supervised-learning" },
-      { id: "e-feat-sup", source: "feature-engineering", target: "supervised-learning" },
-      { id: "e-feat-unsup", source: "feature-engineering", target: "unsupervised-learning" },
-      { id: "e-sup-eval", source: "supervised-learning", target: "model-evaluation" },
-      { id: "e-sup-pytorch", source: "supervised-learning", target: "deep-learning-pytorch" },
-      { id: "e-pytorch-nlp", source: "deep-learning-pytorch", target: "nlp-llms" },
-      { id: "e-vdb-nlp", source: "vector-dbs-sql", target: "nlp-llms" },
-      { id: "e-spark-vdb", source: "big-data-spark", target: "vector-dbs-sql" },
-      { id: "e-pytorch-mlops", source: "deep-learning-pytorch", target: "mlops-deployment" },
-      { id: "e-eval-mlops", source: "model-evaluation", target: "mlops-deployment" },
-    ],
-  },
-
-  "devops-engineer": {
-    roadmap: {
-      role: "DevOps Engineer",
-      slug: "devops-engineer",
-      source: "prebuilt",
-      description: "Design automated delivery pipelines, container orchestrations, immutable infrastructure, and bulletproof production uptime.",
-    },
-    nodes: [
-      {
-        id: "linux-kernel-bash",
-        label: "Linux Internals & Bash Scripting",
-        marketDemand: "93%",
-        stage: "Foundation",
-        description: "Kernel parameters, systemd, crontab, process signals, bash regex, and shell security.",
-      },
-      {
-        id: "networking-security",
-        label: "Networking & DNS / TLS Protocols",
-        marketDemand: "91%",
-        stage: "Foundation",
-        description: "CIDR blocks, subnets, NAT gateways, DNS records, SSL/TLS certificates, and load balancing.",
-      },
-      {
-        id: "git-devops",
-        label: "Git & GitOps Foundation",
-        marketDemand: "89%",
-        stage: "Foundation",
-        description: "Trunk-based development, automated semantic releases, tag hooks, and signed commits.",
-      },
-      {
-        id: "docker-runtime",
-        label: "Docker & Container Architecture",
-        marketDemand: "97%",
-        stage: "Core",
-        description: "OCI standards, multi-stage builds, rootless containers, overlay networks, and image security scanning.",
-      },
-      {
-        id: "cicd-automation",
-        label: "CI/CD Pipelines (GitHub Actions)",
-        marketDemand: "95%",
-        stage: "Core",
-        description: "Automated test matrix, cache optimization, secret masking, reusable workflows, and deployment environments.",
-      },
-      {
-        id: "terraform-iac",
-        label: "Infrastructure as Code (Terraform)",
-        marketDemand: "94%",
-        stage: "Core",
-        description: "HCL syntax, remote state backends, lock tables, modules, plan/apply gates, and drift detection.",
-      },
-      {
-        id: "cloud-platforms",
-        label: "Cloud Architecture (AWS / GCP)",
-        marketDemand: "96%",
-        stage: "Core",
-        description: "VPC architecture, IAM roles, security groups, S3 buckets, EC2 auto-scaling, and managed databases.",
-      },
-      {
-        id: "kubernetes-orchestration",
-        label: "Kubernetes (K8s) Orchestration",
-        marketDemand: "96%",
-        stage: "Advanced",
-        description: "Pods, Deployments, StatefulSets, Services, Ingress controllers, ConfigMaps, and ResourceQuotas.",
-      },
-      {
-        id: "gitops-argocd",
-        label: "GitOps & Helm (ArgoCD)",
-        marketDemand: "88%",
-        stage: "Advanced",
-        description: "Helm chart templates, declarative state reconciliation, ArgoCD sync waves, and automated rollbacks.",
-      },
-      {
-        id: "observability-monitoring",
-        label: "Observability (Prometheus & Grafana)",
-        marketDemand: "92%",
-        stage: "Tools & Deployment",
-        description: "Time-series metrics, PromQL queries, Alertmanager rules, Grafana dashboards, and distributed tracing.",
-      },
-      {
-        id: "secret-management",
-        label: "Secrets & Vault Management",
-        marketDemand: "87%",
-        stage: "Tools & Deployment",
-        description: "HashiCorp Vault, AWS Secrets Manager, KMS envelope encryption, and rotating service tokens.",
-      },
-      {
-        id: "devsecops-compliance",
-        label: "DevSecOps & Cloud Security",
-        marketDemand: "90%",
-        stage: "Tools & Deployment",
-        description: "Static code analysis (SonarQube), container vulnerability auditing (Trivy), and CIS benchmark hardening.",
-      },
-    ],
-    edges: [
-      { id: "e-linux-docker", source: "linux-kernel-bash", target: "docker-runtime" },
-      { id: "e-net-k8s", source: "networking-security", target: "kubernetes-orchestration" },
-      { id: "e-git-cicd", source: "git-devops", target: "cicd-automation" },
-      { id: "e-docker-k8s", source: "docker-runtime", target: "kubernetes-orchestration" },
-      { id: "e-iac-cloud", source: "terraform-iac", target: "cloud-platforms" },
-      { id: "e-cloud-k8s", source: "cloud-platforms", target: "kubernetes-orchestration" },
-      { id: "e-k8s-argo", source: "kubernetes-orchestration", target: "gitops-argocd" },
-      { id: "e-k8s-obs", source: "kubernetes-orchestration", target: "observability-monitoring" },
-      { id: "e-cicd-argo", source: "cicd-automation", target: "gitops-argocd" },
-      { id: "e-secrets-sec", source: "secret-management", target: "devsecops-compliance" },
-      { id: "e-cloud-sec", source: "cloud-platforms", target: "devsecops-compliance" },
-    ],
-  },
-};
-
-
-// ─────────────────────────────────────────────────────────────────────────────
-// LOCALSTORAGE PROGRESS HELPERS (Mock Persistence)
-// ─────────────────────────────────────────────────────────────────────────────
-
-function getProgressStorageKey() {
-  const userId = getCurrentUserId();
-  return `trail_user_progress_${userId}`;
+// Helper to normalize status representation between backend ('not_started') and frontend ('not-started')
+function normalizeStatus(st) {
+  if (!st) return "not-started";
+  return st.replace("_", "-");
 }
 
-function getJourneysStorageKey() {
-  const userId = getCurrentUserId();
-  return `trail_user_journeys_${userId}`;
+function toBackendStatus(st) {
+  if (!st) return "not_started";
+  return st.replace("-", "_");
 }
 
-function getSavedRoadmapsStorageKey() {
-  const userId = getCurrentUserId();
-  return `trail_saved_roadmaps_${userId}`;
-}
-
-function getStoredProgressState() {
-  try {
-    const raw = localStorage.getItem(getProgressStorageKey());
-    return raw ? JSON.parse(raw) : {};
-  } catch {
-    return {};
-  }
-}
-
-function saveStoredProgressState(state) {
-  try {
-    localStorage.setItem(getProgressStorageKey(), JSON.stringify(state));
-  } catch {
-    // ignore
-  }
-}
-
-function getStoredJourneys() {
-  try {
-    const raw = localStorage.getItem(getJourneysStorageKey());
-    return raw ? JSON.parse(raw) : [];
-  } catch {
-    return [];
-  }
-}
-
-function saveStoredJourneys(list) {
-  try {
-    localStorage.setItem(getJourneysStorageKey(), JSON.stringify(list));
-  } catch {
-    // ignore
-  }
-}
-
-function getStoredSavedRoadmaps() {
-  try {
-    const raw = localStorage.getItem(getSavedRoadmapsStorageKey());
-    return raw ? JSON.parse(raw) : [];
-  } catch {
-    return [];
-  }
-}
-
-function saveStoredSavedRoadmaps(list) {
-  try {
-    localStorage.setItem(getSavedRoadmapsStorageKey(), JSON.stringify(list));
-  } catch {
-    // ignore
-  }
-}
-
-// ─────────────────────────────────────────────────────────────────────────────
-// EXPORTED SERVICE FUNCTIONS
-// ─────────────────────────────────────────────────────────────────────────────
+// Backend API service functions
 
 /**
- * Fetch list of all ready-made prebuilt roadmaps
+ * Fetch list of all ready-made roadmaps from backend
  */
 export async function fetchRoadmaps() {
-  if (USE_MOCK) {
-    await delay(250);
+  try {
+    const res = await fetch(`${API_BASE}/roadmaps`, {
+      headers: getAuthHeaders(),
+    });
+    if (!res.ok) throw new Error("Failed to fetch roadmaps");
+    const data = await res.json();
+    return data.roadmaps || data || PREBUILT_ROLES;
+  } catch (err) {
+    console.warn("fetchRoadmaps network fallback:", err.message);
     return PREBUILT_ROLES;
   }
-
-  const res = await fetch(`${API_BASE}/roadmaps`, {
-    headers: getAuthHeaders(),
-  });
-  if (!res.ok) throw new Error("Failed to fetch roadmaps");
-  return res.json();
 }
 
 /**
- * Fetch a roadmap by slug (Static roadmaps for the 6 roles only)
+ * Fetch a roadmap by slug from backend
  */
 export async function fetchRoadmapBySlug(slug) {
-  if (USE_MOCK) {
-    await delay(200);
-    const normalizedSlug = slug?.toLowerCase().trim();
-    let found = MOCK_ROADMAPS[normalizedSlug];
-    if (!found) {
-      // Try finding by role match
-      const matchedRole = PREBUILT_ROLES.find(
-        (r) => r.slug === normalizedSlug || r.role.toLowerCase() === normalizedSlug
-      );
-      if (matchedRole && MOCK_ROADMAPS[matchedRole.slug]) {
-        found = MOCK_ROADMAPS[matchedRole.slug];
-      }
-    }
-
-    if (!found) {
-      throw new Error(`Roadmap not found for slug: ${slug}`);
-    }
-
-    // Sync with removed skills from progress if any
-    const allProgress = getStoredProgressState();
-    const removedSkills = allProgress[found.roadmap.slug]?.removedSkills || [];
-    if (removedSkills.length > 0) {
-      const activeNodes = found.nodes.filter((n) => !removedSkills.includes(n.id));
-      const activeEdges = found.edges.filter(
-        (e) => !removedSkills.includes(e.source) && !removedSkills.includes(e.target)
-      );
-      return {
-        ...found,
-        nodes: activeNodes,
-        edges: activeEdges,
-      };
-    }
-
-    return found;
-  }
-
-  const res = await fetch(`${API_BASE}/roadmaps/${slug}`, {
+  const normSlug = (slug || "").toLowerCase().trim();
+  const res = await fetch(`${API_BASE}/roadmaps/${normSlug}`, {
     headers: getAuthHeaders(),
   });
-  if (!res.ok) throw new Error(`Roadmap not found for slug: ${slug}`);
-  return res.json();
+
+  if (!res.ok) {
+    const errData = await res.json().catch(() => ({}));
+    throw new Error(errData.message || `Roadmap not found for slug: ${slug}`);
+  }
+
+  const data = await res.json();
+
+  // Normalize shape: ensures data.roadmap, data.nodes, data.edges are populated
+  const roadmapObj = data.roadmap || data;
+  const nodes = data.nodes || roadmapObj.nodes || [];
+  const edges = data.edges || roadmapObj.edges || [];
+
+  return {
+    roadmap: {
+      role: roadmapObj.role,
+      slug: roadmapObj.slug || normSlug,
+      source: roadmapObj.source || "verified",
+      description: roadmapObj.description || "",
+      totalJobs: roadmapObj.totalJobs || 0,
+      marketDemandAvg: roadmapObj.marketDemandAvg || "90%",
+      gradient: roadmapObj.gradient || "from-[#6D3DF5] to-[#9577F4]",
+    },
+    nodes,
+    edges,
+  };
 }
 
 /**
- * Generate or retrieve a roadmap for a given role query (Static prebuilt only)
+ * Dynamically generate or retrieve a roadmap for a given role query via backend
  */
 export async function generateRoadmap(roleName) {
-  if (USE_MOCK) {
-    await delay(300);
-    const cleanRole = (roleName || "").trim().toLowerCase();
-
-    // Direct match against prebuilt
-    const matched = PREBUILT_ROLES.find(
-      (p) =>
-        p.role.toLowerCase() === cleanRole ||
-        cleanRole.includes(p.role.toLowerCase()) ||
-        p.role.toLowerCase().includes(cleanRole) ||
-        p.slug === cleanRole
-    );
-
-    if (matched && MOCK_ROADMAPS[matched.slug]) {
-      return fetchRoadmapBySlug(matched.slug);
-    }
-
-    throw new Error(`No roadmap found for '${roleName}'`);
-  }
-
   const res = await fetch(`${API_BASE}/roadmaps/generate`, {
     method: "POST",
     headers: getAuthHeaders(),
     body: JSON.stringify({ role: roleName }),
   });
-  if (!res.ok) throw new Error("Failed to generate roadmap");
-  return res.json();
+
+  if (!res.ok) {
+    const errData = await res.json().catch(() => ({}));
+    throw new Error(errData.message || `Failed to generate roadmap for "${roleName}"`);
+  }
+
+  const data = await res.json();
+  const roadmapObj = data.roadmap || data;
+  const nodes = data.nodes || roadmapObj.nodes || [];
+  const edges = data.edges || roadmapObj.edges || [];
+
+  return {
+    roadmap: {
+      role: roadmapObj.role || roleName,
+      slug: roadmapObj.slug || roleName.toLowerCase().replace(/\s+/g, "-"),
+      source: roadmapObj.source || "market-generated",
+      description: roadmapObj.description || `Learning path for ${roleName}`,
+      totalJobs: roadmapObj.totalJobs || 0,
+    },
+    nodes,
+    edges,
+  };
 }
 
 /**
- * Check if the user has started a journey for this roadmap
+ * Check if the user has saved / started a journey for this roadmap
  */
 export async function isJourneyStarted(slug) {
   const normSlug = slug?.toLowerCase().trim();
-  if (USE_MOCK) {
-    const list = getStoredJourneys();
-    return list.includes(normSlug);
-  }
+  const token = localStorage.getItem("trail_auth_token");
+  if (!token) return false;
 
   try {
     const res = await fetch(`${API_BASE}/roadmaps/saved`, { headers: getAuthHeaders() });
     if (!res.ok) return false;
     const data = await res.json();
-    return Array.isArray(data) && data.some((r) => r.slug === normSlug);
+    const savedList = data.saved || (Array.isArray(data) ? data : []);
+    return savedList.some((item) => (item.roadmap?.slug || item.slug) === normSlug);
   } catch {
     return false;
   }
 }
 
 /**
- * Start a learning journey on a roadmap (adds to user's Progress)
+ * Start a learning journey on a roadmap (saves roadmap to user's Progress)
  */
 export async function startJourney(slug) {
   const normSlug = slug?.toLowerCase().trim();
-  if (USE_MOCK) {
-    await delay(180);
-    const journeys = getStoredJourneys();
-    if (!journeys.includes(normSlug)) {
-      journeys.push(normSlug);
-      saveStoredJourneys(journeys);
-    }
-    const allProgress = getStoredProgressState();
-    if (!allProgress[normSlug]) {
-      allProgress[normSlug] = {
-        startedAt: new Date().toISOString(),
-        skills: {},
-      };
-      saveStoredProgressState(allProgress);
-    }
-    return { success: true, started: true, slug: normSlug };
-  }
-
   const res = await fetch(`${API_BASE}/roadmaps/${normSlug}/save`, {
     method: "POST",
     headers: getAuthHeaders(),
   });
-  if (!res.ok) throw new Error("Failed to start journey");
+
+  // 409 means already saved, which is a success state for startJourney
+  if (res.status === 409) {
+    return { success: true, started: true, slug: normSlug };
+  }
+
+  if (!res.ok) {
+    const errData = await res.json().catch(() => ({}));
+    throw new Error(errData.message || "Failed to start journey");
+  }
+
   return res.json();
 }
 
 /**
- * Fetch all journeys started by the user with stage checklists
+ * Fetch all journeys started by the user with stage checklists and progress
  */
 export async function fetchMyJourneys() {
-  if (USE_MOCK) {
-    await delay(180);
-    const journeys = getStoredJourneys();
-    const allProgress = getStoredProgressState();
-    const savedSlugs = getStoredSavedRoadmaps();
-    const result = [];
-
-    for (const slug of journeys) {
-      let rData = MOCK_ROADMAPS[slug];
-      if (!rData) {
-        const p = PREBUILT_ROLES.find((x) => x.slug === slug);
-        if (p) rData = MOCK_ROADMAPS[p.slug];
-      }
-
-      if (rData) {
-        const removedSkills = allProgress[slug]?.removedSkills || [];
-        const activeNodes = rData.nodes.filter((node) => !removedSkills.includes(node.id));
-        const totalNodes = activeNodes.length;
-        const skillsMap = allProgress[slug]?.skills || {};
-        let completedCount = 0;
-        let inProgressCount = 0;
-
-        const enrichedNodes = activeNodes.map((node) => {
-          const st = skillsMap[node.id] || "not-started";
-          if (st === "completed") completedCount++;
-          else if (st === "in-progress") inProgressCount++;
-          return {
-            ...node,
-            status: st,
-          };
-        });
-
-        const stagesMap = {};
-        enrichedNodes.forEach((node) => {
-          const stg = node.stage || "Core";
-          if (!stagesMap[stg]) stagesMap[stg] = [];
-          stagesMap[stg].push(node);
-        });
-
-        const stagesList = Object.keys(stagesMap).map((stgName) => ({
-          name: stgName,
-          skills: stagesMap[stgName],
-          total: stagesMap[stgName].length,
-          completed: stagesMap[stgName].filter((s) => s.status === "completed").length,
-        }));
-
-        // Guard against divide-by-zero: never NaN%
-        const progressPct = totalNodes > 0 ? Math.round((completedCount / totalNodes) * 100) : 0;
-
-        result.push({
-          slug,
-          role: rData.roadmap.role,
-          description: rData.roadmap.description,
-          totalSkills: totalNodes,
-          completedCount,
-          inProgressCount,
-          notStartedCount: Math.max(0, totalNodes - completedCount - inProgressCount),
-          progressPct,
-          nodes: enrichedNodes,
-          stages: stagesList,
-          isSaved: savedSlugs.includes(slug),
-          startedAt: allProgress[slug]?.startedAt || null,
-        });
-      }
-    }
-
-    return result;
-  }
+  const token = localStorage.getItem("trail_auth_token");
+  if (!token) return [];
 
   const res = await fetch(`${API_BASE}/roadmaps/saved`, {
     headers: getAuthHeaders(),
   });
-  if (!res.ok) throw new Error("Failed to fetch journeys");
-  return res.json();
+
+  if (!res.ok) {
+    throw new Error("Failed to fetch journeys");
+  }
+
+  const data = await res.json();
+  const savedRecords = data.saved || (Array.isArray(data) ? data : []);
+  const journeys = [];
+
+  for (const record of savedRecords) {
+    const roadmapMeta = record.roadmap || record;
+    const slug = roadmapMeta.slug;
+    if (!slug) continue;
+
+    try {
+      // Fetch full roadmap nodes + edges and progress in parallel
+      const [rData, progData] = await Promise.all([
+        fetchRoadmapBySlug(slug).catch(() => null),
+        fetchProgress(slug).catch(() => null),
+      ]);
+
+      if (!rData) continue;
+
+      const removedSkills = progData?.removedSkills || [];
+      const skillsMap = progData?.skillsMap || {};
+      const activeNodes = (rData.nodes || []).filter((node) => !removedSkills.includes(node.id));
+      const totalNodes = activeNodes.length;
+
+      let completedCount = 0;
+      let inProgressCount = 0;
+
+      const enrichedNodes = activeNodes.map((node) => {
+        const st = skillsMap[node.id] || "not-started";
+        if (st === "completed") completedCount++;
+        else if (st === "in-progress") inProgressCount++;
+        return {
+          ...node,
+          status: st,
+        };
+      });
+
+      const stagesMap = {};
+      enrichedNodes.forEach((node) => {
+        const stg = node.stage || "Core";
+        if (!stagesMap[stg]) stagesMap[stg] = [];
+        stagesMap[stg].push(node);
+      });
+
+      const stagesList = Object.keys(stagesMap).map((stgName) => ({
+        name: stgName,
+        skills: stagesMap[stgName],
+        total: stagesMap[stgName].length,
+        completed: stagesMap[stgName].filter((s) => s.status === "completed").length,
+      }));
+
+      const progressPct =
+        totalNodes > 0 ? Math.round((completedCount / totalNodes) * 100) : record.completionPercentage || 0;
+
+      journeys.push({
+        slug,
+        role: rData.roadmap.role || roadmapMeta.role,
+        description: rData.roadmap.description || roadmapMeta.description || "",
+        totalSkills: totalNodes,
+        completedCount,
+        inProgressCount,
+        notStartedCount: Math.max(0, totalNodes - completedCount - inProgressCount),
+        progressPct,
+        nodes: enrichedNodes,
+        stages: stagesList,
+        isSaved: true,
+        startedAt: record.createdAt || null,
+      });
+    } catch {
+      // Continue next journey
+    }
+  }
+
+  return journeys;
 }
 
 /**
  * Fetch user progress for a specific roadmap
  */
 export async function fetchProgress(roadmapSlug) {
-  if (USE_MOCK) {
-    await delay(120);
-    const normalizedSlug = roadmapSlug?.toLowerCase().trim();
-    const allProgress = getStoredProgressState();
-    const userRoadmapProgress = allProgress[normalizedSlug] || { skills: {}, removedSkills: [] };
-    const removedSkills = userRoadmapProgress.removedSkills || [];
+  const normSlug = roadmapSlug?.toLowerCase().trim();
+  const token = localStorage.getItem("trail_auth_token");
 
-    // Get nodes of this roadmap to calculate counts
-    let roadmapData = MOCK_ROADMAPS[normalizedSlug];
-    if (!roadmapData) {
-      const p = PREBUILT_ROLES.find((x) => x.slug === normalizedSlug);
-      if (p) roadmapData = MOCK_ROADMAPS[p.slug];
-    }
-
-    const allNodes = roadmapData?.nodes || [];
-    const activeNodes = allNodes.filter((n) => !removedSkills.includes(n.id));
-    const totalNodes = activeNodes.length;
-    const skillsMap = userRoadmapProgress.skills || {};
-
-    const completed = [];
-    const inProgress = [];
-    const notStarted = [];
-
-    activeNodes.forEach((n) => {
-      const status = skillsMap[n.id] || "not-started";
-      if (status === "completed") completed.push(n.id);
-      else if (status === "in-progress") inProgress.push(n.id);
-      else notStarted.push(n.id);
-    });
-
-    const completedCount = completed.length;
-    const progressPct = totalNodes > 0 ? Math.round((completedCount / totalNodes) * 100) : 0;
-
+  if (!token) {
     return {
-      roadmapSlug: normalizedSlug,
-      progressPct,
-      completedSkills: completed,
-      inProgressSkills: inProgress,
-      notStartedSkills: notStarted,
-      totalSkills: totalNodes,
-      skillsMap,
+      roadmapSlug: normSlug,
+      progressPct: 0,
+      completedSkills: [],
+      inProgressSkills: [],
+      notStartedSkills: [],
+      totalSkills: 0,
+      skillsMap: {},
+      removedSkills: [],
     };
   }
 
-  const res = await fetch(`${API_BASE}/progress/${roadmapSlug}`, {
+  const res = await fetch(`${API_BASE}/progress/${normSlug}`, {
     headers: getAuthHeaders(),
   });
-  if (!res.ok) throw new Error(`Failed to fetch progress for ${roadmapSlug}`);
-  return res.json();
+
+  if (!res.ok) {
+    // If not saved yet, return empty progress without throwing
+    return {
+      roadmapSlug: normSlug,
+      progressPct: 0,
+      completedSkills: [],
+      inProgressSkills: [],
+      notStartedSkills: [],
+      totalSkills: 0,
+      skillsMap: {},
+      removedSkills: [],
+    };
+  }
+
+  const data = await res.json();
+  const skillsMap = data.skillsMap || {};
+
+  if (Array.isArray(data.skills) && (!data.skillsMap || Object.keys(data.skillsMap).length === 0)) {
+    data.skills.forEach((s) => {
+      skillsMap[s.skillId] = normalizeStatus(s.status);
+    });
+  }
+
+  const completed = Object.keys(skillsMap).filter((k) => skillsMap[k] === "completed");
+  const inProgress = Object.keys(skillsMap).filter((k) => skillsMap[k] === "in-progress");
+  const notStarted = Object.keys(skillsMap).filter((k) => skillsMap[k] === "not-started");
+
+  return {
+    roadmapSlug: normSlug,
+    progressPct: data.completionPercentage || data.progressPct || 0,
+    completedSkills: completed,
+    inProgressSkills: inProgress,
+    notStartedSkills: notStarted,
+    totalSkills: Object.keys(skillsMap).length,
+    skillsMap,
+    removedSkills: data.removedSkills || [],
+  };
 }
 
 /**
- * Remove an entire learning journey
+ * Remove an entire learning journey (unsaves roadmap)
  */
 export async function removeJourney(slug) {
   const normSlug = slug?.toLowerCase().trim();
-  if (USE_MOCK) {
-    await delay(120);
-    const journeys = getStoredJourneys();
-    const updated = journeys.filter((s) => s !== normSlug);
-    saveStoredJourneys(updated);
-
-    const allProgress = getStoredProgressState();
-    if (allProgress[normSlug]) {
-      delete allProgress[normSlug];
-      saveStoredProgressState(allProgress);
-    }
-    return { success: true, removed: true, slug: normSlug };
-  }
-
-  const res = await fetch(`${API_BASE}/roadmaps/${normSlug}/journey`, {
+  const res = await fetch(`${API_BASE}/roadmaps/${normSlug}/save`, {
     method: "DELETE",
     headers: getAuthHeaders(),
   });
+
   if (!res.ok) throw new Error("Failed to remove journey");
   return res.json();
 }
@@ -1129,61 +402,26 @@ export async function removeJourney(slug) {
  */
 export async function removeSkillFromJourney(roadmapSlug, skillId) {
   const normSlug = roadmapSlug?.toLowerCase().trim();
-  if (USE_MOCK) {
-    await delay(100);
-    const allProgress = getStoredProgressState();
-    if (!allProgress[normSlug]) {
-      allProgress[normSlug] = {
-        startedAt: new Date().toISOString(),
-        skills: {},
-        removedSkills: [],
-      };
-    }
-    allProgress[normSlug].removedSkills = allProgress[normSlug].removedSkills || [];
-    if (!allProgress[normSlug].removedSkills.includes(skillId)) {
-      allProgress[normSlug].removedSkills.push(skillId);
-    }
-    if (allProgress[normSlug].skills && allProgress[normSlug].skills[skillId]) {
-      delete allProgress[normSlug].skills[skillId];
-    }
-    allProgress[normSlug].lastUpdated = new Date().toISOString();
-    saveStoredProgressState(allProgress);
-    return { success: true, slug: normSlug, skillId };
-  }
-
-  const res = await fetch(`${API_BASE}/progress/${roadmapSlug}/skills/${skillId}`, {
+  const res = await fetch(`${API_BASE}/progress/${normSlug}/skills/${skillId}`, {
     method: "DELETE",
     headers: getAuthHeaders(),
   });
+
   if (!res.ok) throw new Error("Failed to remove skill");
   return res.json();
 }
 
 /**
- * Restore a previously removed skill to a journey (Undo)
+ * Restore a previously removed skill to a journey
  */
 export async function restoreSkillToJourney(roadmapSlug, skillId, previousStatus = "not-started") {
   const normSlug = roadmapSlug?.toLowerCase().trim();
-  if (USE_MOCK) {
-    await delay(100);
-    const allProgress = getStoredProgressState();
-    if (allProgress[normSlug]) {
-      if (allProgress[normSlug].removedSkills) {
-        allProgress[normSlug].removedSkills = allProgress[normSlug].removedSkills.filter((id) => id !== skillId);
-      }
-      allProgress[normSlug].skills = allProgress[normSlug].skills || {};
-      allProgress[normSlug].skills[skillId] = previousStatus;
-      allProgress[normSlug].lastUpdated = new Date().toISOString();
-      saveStoredProgressState(allProgress);
-    }
-    return { success: true, slug: normSlug, skillId, status: previousStatus };
-  }
-
-  const res = await fetch(`${API_BASE}/progress/${roadmapSlug}/skills/${skillId}/restore`, {
+  const res = await fetch(`${API_BASE}/progress/${normSlug}/skills/${skillId}/restore`, {
     method: "POST",
     headers: getAuthHeaders(),
-    body: JSON.stringify({ status: previousStatus }),
+    body: JSON.stringify({ status: toBackendStatus(previousStatus) }),
   });
+
   if (!res.ok) throw new Error("Failed to restore skill");
   return res.json();
 }
@@ -1193,21 +431,11 @@ export async function restoreSkillToJourney(roadmapSlug, skillId, previousStatus
  */
 export async function resetJourneySkills(roadmapSlug) {
   const normSlug = roadmapSlug?.toLowerCase().trim();
-  if (USE_MOCK) {
-    await delay(120);
-    const allProgress = getStoredProgressState();
-    if (allProgress[normSlug]) {
-      allProgress[normSlug].removedSkills = [];
-      allProgress[normSlug].lastUpdated = new Date().toISOString();
-      saveStoredProgressState(allProgress);
-    }
-    return { success: true, slug: normSlug };
-  }
-
-  const res = await fetch(`${API_BASE}/progress/${roadmapSlug}/reset-skills`, {
+  const res = await fetch(`${API_BASE}/progress/${normSlug}/reset-skills`, {
     method: "POST",
     headers: getAuthHeaders(),
   });
+
   if (!res.ok) throw new Error("Failed to reset skills");
   return res.json();
 }
@@ -1217,38 +445,15 @@ export async function resetJourneySkills(roadmapSlug) {
  * status: 'not-started' | 'in-progress' | 'completed'
  */
 export async function updateSkillStatus(roadmapSlug, skillId, status) {
-  if (USE_MOCK) {
-    await delay(180);
-    const normalizedSlug = roadmapSlug?.toLowerCase().trim();
-    const allProgress = getStoredProgressState();
-    if (!allProgress[normalizedSlug]) {
-      allProgress[normalizedSlug] = {
-        startedAt: new Date().toISOString(),
-        skills: {},
-      };
-    }
-    allProgress[normalizedSlug].skills = allProgress[normalizedSlug].skills || {};
-    allProgress[normalizedSlug].skills[skillId] = status;
-    allProgress[normalizedSlug].lastUpdated = new Date().toISOString();
-    saveStoredProgressState(allProgress);
-
-    // Ensure it's in journeys if user marked a skill
-    const journeys = getStoredJourneys();
-    if (!journeys.includes(normalizedSlug)) {
-      journeys.push(normalizedSlug);
-      saveStoredJourneys(journeys);
-    }
-
-    return fetchProgress(normalizedSlug);
-  }
-
-  const res = await fetch(`${API_BASE}/progress/${roadmapSlug}/skills/${skillId}`, {
+  const normSlug = roadmapSlug?.toLowerCase().trim();
+  const res = await fetch(`${API_BASE}/progress/${normSlug}/skills/${skillId}`, {
     method: "PATCH",
     headers: getAuthHeaders(),
-    body: JSON.stringify({ status }),
+    body: JSON.stringify({ status: toBackendStatus(status) }),
   });
+
   if (!res.ok) throw new Error("Failed to update skill status");
-  return res.json();
+  return fetchProgress(normSlug);
 }
 
 /**
@@ -1262,20 +467,16 @@ export async function fetchUserExploreActivity() {
  * Save a roadmap to user profile (bookmark)
  */
 export async function saveRoadmap(slug) {
-  if (USE_MOCK) {
-    await delay(180);
-    const list = getStoredSavedRoadmaps();
-    if (!list.includes(slug)) {
-      list.push(slug);
-      saveStoredSavedRoadmaps(list);
-    }
-    return { success: true, saved: true, slug };
-  }
-
-  const res = await fetch(`${API_BASE}/roadmaps/${slug}/save`, {
+  const normSlug = slug?.toLowerCase().trim();
+  const res = await fetch(`${API_BASE}/roadmaps/${normSlug}/save`, {
     method: "POST",
     headers: getAuthHeaders(),
   });
+
+  if (res.status === 409) {
+    return { success: true, saved: true, slug: normSlug };
+  }
+
   if (!res.ok) throw new Error("Failed to save roadmap");
   return res.json();
 }
@@ -1284,18 +485,12 @@ export async function saveRoadmap(slug) {
  * Unsave a roadmap
  */
 export async function unsaveRoadmap(slug) {
-  if (USE_MOCK) {
-    await delay(150);
-    let list = getStoredSavedRoadmaps();
-    list = list.filter((s) => s !== slug);
-    saveStoredSavedRoadmaps(list);
-    return { success: true, saved: false, slug };
-  }
-
-  const res = await fetch(`${API_BASE}/roadmaps/${slug}/save`, {
+  const normSlug = slug?.toLowerCase().trim();
+  const res = await fetch(`${API_BASE}/roadmaps/${normSlug}/save`, {
     method: "DELETE",
     headers: getAuthHeaders(),
   });
+
   if (!res.ok) throw new Error("Failed to unsave roadmap");
   return res.json();
 }
@@ -1304,39 +499,35 @@ export async function unsaveRoadmap(slug) {
  * Check if a roadmap is currently saved
  */
 export async function isRoadmapSaved(slug) {
-  if (USE_MOCK) {
-    const list = getStoredSavedRoadmaps();
-    return list.includes(slug);
-  }
-  // Handled by saved roadmaps list
-  return false;
+  return isJourneyStarted(slug);
 }
 
 /**
  * Fetch saved roadmaps for current user
  */
 export async function fetchSavedRoadmaps() {
-  if (USE_MOCK) {
-    await delay(200);
-    const savedSlugs = getStoredSavedRoadmaps();
-    return PREBUILT_ROLES.filter((r) => savedSlugs.includes(r.slug));
-  }
-
   const res = await fetch(`${API_BASE}/roadmaps/saved`, {
     headers: getAuthHeaders(),
   });
-  if (!res.ok) throw new Error("Failed to fetch saved roadmaps");
-  return res.json();
-}
 
+  if (!res.ok) throw new Error("Failed to fetch saved roadmaps");
+  const data = await res.json();
+  const records = data.saved || (Array.isArray(data) ? data : []);
+  return records.map((r) => r.roadmap || r);
+}
 
 /**
  * Export roadmap data payload for download / sharing
  */
 export async function exportRoadmapData(slug) {
-  if (USE_MOCK) {
-    await delay(100);
-    const rData = MOCK_ROADMAPS[slug] || null;
+  const normSlug = slug?.toLowerCase().trim();
+  const res = await fetch(`${API_BASE}/roadmaps/${normSlug}/export-data`, {
+    headers: getAuthHeaders(),
+  });
+
+  if (!res.ok) {
+    // Fallback: fetch roadmap directly and build export payload
+    const rData = await fetchRoadmapBySlug(normSlug);
     return {
       exportedAt: new Date().toISOString(),
       platform: "TRAIL Career Roadmaps",
@@ -1344,61 +535,89 @@ export async function exportRoadmapData(slug) {
     };
   }
 
-  const res = await fetch(`${API_BASE}/roadmaps/${slug}/export-data`, {
-    headers: getAuthHeaders(),
-  });
-  if (!res.ok) throw new Error("Failed to export roadmap data");
   return res.json();
 }
 
 /**
- * Resource Bookmarks (per-user storage in localStorage via service layer)
+ * Fetch curated learning resources from backend with search and filtering
  */
-export function getStoredBookmarkedResourceIds() {
-  const userId = getCurrentUserId();
-  if (userId === "guest") return [];
-  try {
-    const raw = localStorage.getItem(`trail_saved_resources_${userId}`);
-    return raw ? JSON.parse(raw) : [];
-  } catch {
-    return [];
-  }
+export async function fetchResources(params = {}) {
+  const query = new URLSearchParams();
+  if (params.category && params.category !== "All") query.set("category", params.category);
+  if (params.type && params.type !== "All") query.set("type", params.type);
+  if (params.difficulty && params.difficulty !== "All") query.set("difficulty", params.difficulty);
+  if (params.search) query.set("search", params.search);
+  if (params.skillSlug) query.set("skillSlug", params.skillSlug);
+
+  const url = `${API_BASE}/resources${query.toString() ? `?${query.toString()}` : ""}`;
+  const res = await fetch(url, { headers: getAuthHeaders() });
+
+  if (!res.ok) throw new Error("Failed to fetch resources");
+  const data = await res.json();
+  return data.resources || [];
 }
 
-export async function toggleBookmarkResource(resourceId) {
-  const userId = getCurrentUserId();
-  if (userId === "guest") {
-    throw new Error("Login to save resources");
-  }
-  const current = getStoredBookmarkedResourceIds();
-  let updated;
-  let isBookmarked;
-  if (current.includes(resourceId)) {
-    updated = current.filter((id) => id !== resourceId);
-    isBookmarked = false;
-  } else {
-    updated = [...current, resourceId];
-    isBookmarked = true;
-  }
-  localStorage.setItem(`trail_saved_resources_${userId}`, JSON.stringify(updated));
-  return { isBookmarked, bookmarkedIds: updated };
-}
-
+/**
+ * Resource Bookmarks via Backend API (with graceful localStorage sync)
+ */
 export async function fetchBookmarkedResourceIds() {
-  if (USE_MOCK) {
-    await delay(80);
-    return getStoredBookmarkedResourceIds();
+  const token = localStorage.getItem("trail_auth_token");
+  const userId = getCurrentUserId();
+
+  if (!token || userId === "guest") {
+    try {
+      const raw = localStorage.getItem(`trail_saved_resources_guest`);
+      return raw ? JSON.parse(raw) : [];
+    } catch {
+      return [];
+    }
   }
+
   try {
     const res = await fetch(`${API_BASE}/resources/bookmarks`, {
       headers: getAuthHeaders(),
     });
-    if (!res.ok) {
-      return getStoredBookmarkedResourceIds();
-    }
-    return await res.json();
+    if (!res.ok) throw new Error();
+    const data = await res.json();
+    return data.bookmarkedIds || [];
   } catch {
-    return getStoredBookmarkedResourceIds();
+    const raw = localStorage.getItem(`trail_saved_resources_${userId}`);
+    return raw ? JSON.parse(raw) : [];
   }
 }
 
+export async function toggleBookmarkResource(resourceId) {
+  const token = localStorage.getItem("trail_auth_token");
+  const userId = getCurrentUserId();
+
+  if (!token || userId === "guest") {
+    throw new Error("Login to save resources");
+  }
+
+  try {
+    const res = await fetch(`${API_BASE}/resources/bookmarks/${resourceId}`, {
+      method: "POST",
+      headers: getAuthHeaders(),
+    });
+
+    if (!res.ok) throw new Error();
+    const data = await res.json();
+    localStorage.setItem(`trail_saved_resources_${userId}`, JSON.stringify(data.bookmarkedIds));
+    return { isBookmarked: data.isBookmarked, bookmarkedIds: data.bookmarkedIds };
+  } catch {
+    // Local fallback
+    const raw = localStorage.getItem(`trail_saved_resources_${userId}`);
+    const current = raw ? JSON.parse(raw) : [];
+    let updated;
+    let isBookmarked;
+    if (current.includes(resourceId)) {
+      updated = current.filter((id) => id !== resourceId);
+      isBookmarked = false;
+    } else {
+      updated = [...current, resourceId];
+      isBookmarked = true;
+    }
+    localStorage.setItem(`trail_saved_resources_${userId}`, JSON.stringify(updated));
+    return { isBookmarked, bookmarkedIds: updated };
+  }
+}

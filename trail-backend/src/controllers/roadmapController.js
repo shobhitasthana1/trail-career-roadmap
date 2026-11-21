@@ -1,9 +1,6 @@
 const { generateRoadmap, getRoadmapBySlug, listRoadmaps } = require('../services/roadmapService');
 
-/**
- * GET /api/v1/roadmaps
- * List all available roadmaps (prebuilt + generated).
- */
+// Return all available roadmaps
 async function listRoadmapsHandler(req, res, next) {
   try {
     const roadmaps = await listRoadmaps();
@@ -13,29 +10,44 @@ async function listRoadmapsHandler(req, res, next) {
   }
 }
 
-/**
- * GET /api/v1/roadmaps/:slug
- * Return a specific roadmap with full nodes and edges.
- */
+// Return roadmap nodes and edges by slug
 async function getRoadmapHandler(req, res, next) {
   try {
-    const roadmap = await getRoadmapBySlug(req.params.slug);
+    const slug = (req.params.slug || '').toLowerCase().trim();
+    const roadmap = await getRoadmapBySlug(slug);
     if (!roadmap) {
-      return res.status(404).json({ success: false, message: `Roadmap "${req.params.slug}" not found. Generate it first.` });
+      return res.status(404).json({ success: false, message: `Roadmap "${slug}" not found. Generate it first.` });
     }
-    res.json({ success: true, roadmap });
+
+    const nodes = roadmap.nodes || [];
+    const edges = roadmap.edges || [];
+
+    res.json({
+      success: true,
+      roadmap: {
+        id: roadmap._id,
+        role: roadmap.role,
+        slug: roadmap.slug,
+        source: roadmap.source,
+        description: roadmap.description,
+        totalJobs: roadmap.totalJobs || 0,
+        totalSkills: nodes.length,
+        marketDemandAvg: roadmap.marketDemandAvg || '',
+        gradient: roadmap.gradient || '',
+        topSkills: roadmap.topSkills || [],
+        marketAnalyzedAt: roadmap.marketAnalyzedAt,
+        nodeCount: nodes.length,
+        edgeCount: edges.length,
+      },
+      nodes,
+      edges,
+    });
   } catch (err) {
     next(err);
   }
 }
 
-/**
- * POST /api/v1/roadmaps/generate
- * Body: { role: "Backend Developer" }
- *
- * Generates a roadmap from current market data.
- * Uses cached snapshot if fresh; otherwise triggers analysis.
- */
+// Generate a roadmap on the fly from market data
 async function generateRoadmapHandler(req, res, next) {
   try {
     const role = (req.body.role || '').trim();
@@ -46,6 +58,9 @@ async function generateRoadmapHandler(req, res, next) {
     console.log(`Generating roadmap for "${role}"...`);
     const roadmap = await generateRoadmap(role);
 
+    const nodes = roadmap.nodes || [];
+    const edges = roadmap.edges || [];
+
     res.json({
       success: true,
       roadmap: {
@@ -53,39 +68,57 @@ async function generateRoadmapHandler(req, res, next) {
         role: roadmap.role,
         slug: roadmap.slug,
         source: roadmap.source,
+        description: roadmap.description,
         totalJobs: roadmap.totalJobs,
+        totalSkills: nodes.length,
+        marketDemandAvg: roadmap.marketDemandAvg,
+        gradient: roadmap.gradient,
+        topSkills: roadmap.topSkills,
         marketAnalyzedAt: roadmap.marketAnalyzedAt,
-        nodeCount: roadmap.nodes.length,
-        edgeCount: roadmap.edges.length,
+        nodeCount: nodes.length,
+        edgeCount: edges.length,
       },
-      nodes: roadmap.nodes,
-      edges: roadmap.edges,
+      nodes,
+      edges,
     });
   } catch (err) {
     next(err);
   }
 }
 
-/**
- * GET /api/v1/roadmaps/:slug/export-data
- * Return structured data for frontend PNG/SVG/PDF export.
- */
+// Export formatted roadmap payload for sharing or download
 async function exportRoadmapHandler(req, res, next) {
   try {
-    const roadmap = await getRoadmapBySlug(req.params.slug);
+    const slug = (req.params.slug || '').toLowerCase().trim();
+    const roadmap = await getRoadmapBySlug(slug);
     if (!roadmap) {
       return res.status(404).json({ success: false, message: 'Roadmap not found' });
     }
+
+    const nodes = roadmap.nodes || [];
+    const edges = roadmap.edges || [];
 
     res.json({
       success: true,
       export: {
         title: roadmap.role,
+        slug: roadmap.slug,
         source: roadmap.source,
-        generatedAt: roadmap.marketAnalyzedAt || roadmap.createdAt,
+        description: roadmap.description,
+        generatedAt: roadmap.marketAnalyzedAt || roadmap.createdAt || new Date().toISOString(),
         totalJobs: roadmap.totalJobs,
-        nodes: roadmap.nodes,
-        edges: roadmap.edges,
+        nodes,
+        edges,
+      },
+      data: {
+        roadmap: {
+          role: roadmap.role,
+          slug: roadmap.slug,
+          source: roadmap.source,
+          description: roadmap.description,
+        },
+        nodes,
+        edges,
       },
     });
   } catch (err) {
