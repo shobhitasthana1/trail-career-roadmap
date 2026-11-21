@@ -72,13 +72,11 @@ async function generateRoadmap(role) {
     .populate('toSkill', 'slug name')
     .lean();
 
-  // Step 4: Expand skills if needed
+  // Step 4: Retain cohesive curriculum without dragging in competing language families
   const rawSlugs = marketSkills.map((s) => s.slug);
-  const expandedSlugs = await expandWithPrerequisites(
-    rawSlugs,
-    allRelationships,
-    slugToSkill
-  );
+  const expandedSlugs = snapshot.source === 'groq'
+    ? rawSlugs
+    : await expandWithPrerequisites(rawSlugs, allRelationships, slugToSkill);
 
   // Step 5: Partition into balanced 4 stages
   const stageGroups = {
