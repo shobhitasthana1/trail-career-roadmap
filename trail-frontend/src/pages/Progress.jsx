@@ -26,7 +26,7 @@ import {
 } from "../services/api";
 import LockScreen from "../components/LockScreen";
 
-/* ── Locked screen for guests (Light Theme) ───────────────────────── */
+// Guest locked state view
 const LockedProgress = () => (
   <LockScreen
     badge="Dashboard Locked"
@@ -39,7 +39,7 @@ const LockedProgress = () => (
   />
 );
 
-/* ── Real progress dashboard driven by Started Journeys ──────────── */
+// Progress dashboard component
 const ProgressDashboard = () => {
   const { user } = useAuth();
   const [journeys, setJourneys] = useState([]);
@@ -307,7 +307,7 @@ const ProgressDashboard = () => {
           </div>
         </motion.div>
 
-        {/* ── EMPTY STATE (User hasn't started any roadmap yet) ───────────── */}
+        {/* Empty state when no roadmap has been started */}
         {totalJourneysCount === 0 ? (
           <motion.div
             initial={{ opacity: 0, scale: 0.98 }}
@@ -337,7 +337,7 @@ const ProgressDashboard = () => {
           </motion.div>
         ) : (
           <>
-            {/* ── Summary Stats ────────────────────────────────────────────── */}
+            {/* Summary stats cards */}
             <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
               <div className="rounded-2xl border border-stone-200/90 bg-white p-5 shadow-xs">
                 <div className="text-[11px] font-bold uppercase tracking-wider text-stone-500 font-exo mb-2">
@@ -370,7 +370,7 @@ const ProgressDashboard = () => {
               </div>
             </div>
 
-            {/* ── Started Journeys Cards + Checklist ──────────────────────── */}
+            {/* Started journeys cards and skill checklist */}
             <div className="space-y-6">
               {journeys.map((journey) => {
                 const isExpanded = expandedJourneySlug === journey.slug;
@@ -690,7 +690,7 @@ const ProgressDashboard = () => {
   );
 };
 
-/* ── Progress Page Wrapper ─────────────────────────────────────────── */
+// Progress page root component
 const Progress = () => {
   const { isAuthenticated, loading } = useAuth();
 

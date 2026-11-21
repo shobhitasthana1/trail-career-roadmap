@@ -6,7 +6,7 @@ const connectDB = require('../config/db');
 const Skill = require('../models/Skill');
 const SkillRelationship = require('../models/SkillRelationship');
 
-// ── Canonical skills ──────────────────────────────────────────────────────────
+// Canonical skills dataset
 const skills = [
   // Languages
   { name: 'HTML', slug: 'html', category: 'language', aliases: ['html5'] },
@@ -76,7 +76,7 @@ const skills = [
   { name: 'Data Visualization', slug: 'data-visualization', category: 'concept', aliases: ['matplotlib', 'seaborn', 'plotly', 'tableau', 'power bi'] },
 ];
 
-// ── Prerequisite relationships ─────────────────────────────────────────────────
+// Prerequisite relationships dataset
 // Format: [fromSkillSlug, toSkillSlug]
 // Meaning: fromSkill must be learned before toSkill
 const relationships = [

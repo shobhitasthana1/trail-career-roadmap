@@ -31,12 +31,12 @@ const Login = ({ initialMode }) => {
     }
   };
 
-  /* ── Login State & Logic ── */
+  // Login form state
   const [loginForm, setLoginForm] = useState({ email: "", password: "" });
   const [loginErrors, setLoginErrors] = useState({});
   const [showLoginPass, setShowLoginPass] = useState(false);
 
-  /* ── Signup State & Logic ── */
+  // Signup form state
   const [signupForm, setSignupForm] = useState({
     name: "",
     email: "",
@@ -47,7 +47,7 @@ const Login = ({ initialMode }) => {
   const [showSignupPass, setShowSignupPass] = useState(false);
   const [showConfirmPass, setShowConfirmPass] = useState(false);
 
-  /* ── Shared API State ── */
+  // Shared request state
   const [apiError, setApiError] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -329,7 +329,7 @@ const Login = ({ initialMode }) => {
           isRegisterMode ? "is-active" : ""
         }`}
       >
-        {/* ==================== 1. LOGIN FORM PANEL (RIGHT SIDE) ==================== */}
+        {/* Login form panel */}
         <div className="trail-form-panel is-login">
           <form
             onSubmit={handleLoginSubmit}
@@ -474,7 +474,7 @@ const Login = ({ initialMode }) => {
           </form>
         </div>
 
-        {/* ==================== 2. REGISTRATION FORM PANEL (LEFT SIDE WHEN ACTIVE) ==================== */}
+        {/* Registration form panel */}
         <div className="trail-form-panel is-register">
           <form
             onSubmit={handleSignupSubmit}
@@ -634,7 +634,7 @@ const Login = ({ initialMode }) => {
           </form>
         </div>
 
-        {/* ==================== 3. SLIDING CURVED TOGGLE OVERLAY ==================== */}
+        {/* Sliding curved overlay */}
         <div className="trail-curve-box">
           {/* Left Panel (Shown during Login) */}
           <div className="trail-side-panel side-left">

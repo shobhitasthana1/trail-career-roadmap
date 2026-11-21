@@ -288,7 +288,7 @@ const RoadmapTimeline = forwardRef((props, ref) => {
 
   return (
     <div className="w-full mt-1 lg:mt-0 pb-0">
-      {/* ===== Desktop / tablet rail ===== */}
+      {/* Desktop and tablet rail view */}
       <div className="hidden md:block">
         <div className="relative w-full h-8 mb-4">
           {/* base track — dashed like rail ties for a subtle "trail" motif */}
@@ -427,7 +427,7 @@ const RoadmapTimeline = forwardRef((props, ref) => {
         </div>
       </div>
 
-      {/* ===== Mobile stacked view ===== */}
+      {/* Mobile stacked view */}
       <div className="md:hidden flex flex-col gap-4 pt-3 pb-4">
         {roadmapSteps.map((step, index) => (
           <div key={`mobile-card-${step.id}`} className="flex gap-3 sm:gap-4">

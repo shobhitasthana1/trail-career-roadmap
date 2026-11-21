@@ -94,9 +94,7 @@ export default function Buttonfive({
             opacity 180ms ease;
         }
 
-        /* --------------------------------
-           SVG SHAPE
-        -------------------------------- */
+        /* SVG Shape */
 
         .btn-five__shape {
           position: absolute;
@@ -123,9 +121,7 @@ export default function Buttonfive({
             stroke 220ms ease;
         }
 
-        /* --------------------------------
-           CONTENT
-        -------------------------------- */
+        /* Content */
 
         .btn-five__content {
           display: inline-flex;
@@ -152,9 +148,7 @@ export default function Buttonfive({
           text-transform: uppercase;
         }
 
-        /* --------------------------------
-           ARROW
-        -------------------------------- */
+        /* Arrow */
 
         .btn-five__arrow {
           width: 18px;
@@ -168,9 +162,7 @@ export default function Buttonfive({
             transform 280ms cubic-bezier(.2,.8,.2,1);
         }
 
-        /* --------------------------------
-           HOVER
-        -------------------------------- */
+        /* Hover state */
 
         .btn-five:hover {
           transform: translateX(3px);
@@ -184,9 +176,7 @@ export default function Buttonfive({
           transform: translateX(4px);
         }
 
-        /* --------------------------------
-           ACTIVE
-        -------------------------------- */
+        /* Active state */
 
         .btn-five:active {
           transform: translateX(1px) scale(0.985);
@@ -196,18 +186,14 @@ export default function Buttonfive({
           fill: #eaeae5;
         }
 
-        /* --------------------------------
-           FOCUS
-        -------------------------------- */
+        /* Focus state */
 
         .btn-five:focus-visible {
           outline: 2px solid var(--btn5-border);
           outline-offset: 5px;
         }
 
-        /* --------------------------------
-           DISABLED
-        -------------------------------- */
+        /* Disabled state */
 
         .btn-five:disabled {
           cursor: not-allowed;
@@ -219,9 +205,7 @@ export default function Buttonfive({
           transform: none;
         }
 
-        /* --------------------------------
-           REDUCED MOTION
-        -------------------------------- */
+        /* Reduced motion */
 
         @media (prefers-reduced-motion: reduce) {
           .btn-five,
@@ -231,9 +215,7 @@ export default function Buttonfive({
           }
         }
 
-        /* --------------------------------
-           MOBILE
-        -------------------------------- */
+        /* Mobile responsive styles */
 
         @media (max-width: 480px) {
           .btn-five {

@@ -5,7 +5,7 @@ const skillProgressSchema = new mongoose.Schema(
     skillId: String, // matches node id in the roadmap
     status: {
       type: String,
-      enum: ['not_started', 'in_progress', 'completed'],
+      enum: ['not_started', 'in_progress', 'completed', 'not-started', 'in-progress'],
       default: 'not_started',
     },
   },
@@ -25,7 +25,11 @@ const progressSchema = new mongoose.Schema(
       required: true,
     },
     skills: [skillProgressSchema],
-    // calculated by the backend, never accepted from the frontend
+    removedSkills: {
+      type: [String],
+      default: [],
+    },
+    // calculated by the backend, never accepted directly from client
     completionPercentage: {
       type: Number,
       default: 0,

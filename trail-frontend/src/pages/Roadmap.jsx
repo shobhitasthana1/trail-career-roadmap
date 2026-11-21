@@ -70,7 +70,7 @@ const Roadmap = () => {
 
       {/* Main Content Container */}
       <div className="relative z-10 max-w-[1320px] mx-auto px-4 sm:px-6 md:px-10 lg:px-12 pt-28 sm:pt-36 pb-20">
-        {/* ── Hero Header Section ─────────────────────────────────────────── */}
+        {/* Hero header section */}
         <motion.div
           initial={{ opacity: 0, y: 22 }}
           animate={{ opacity: 1, y: 0 }}
@@ -143,7 +143,7 @@ const Roadmap = () => {
           </div>
         </motion.div>
 
-        {/* ── Roadmaps Gallery Grid ─────────────────────────────────────────── */}
+        {/* Roadmaps gallery grid */}
         {filteredRoles.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6 lg:gap-7 mb-20">
             <AnimatePresence mode="popLayout">
@@ -264,7 +264,7 @@ const Roadmap = () => {
           </motion.div>
         )}
 
-        {/* ── Bottom Callout Banner ────────────────────────────────────────── */}
+        {/* Bottom callout banner */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}

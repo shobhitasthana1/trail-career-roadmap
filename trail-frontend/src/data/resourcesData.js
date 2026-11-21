@@ -24,7 +24,7 @@ export const RESOURCE_TYPES = [
 ];
 
 export const RESOURCES_DATA = [
-  // ── FRONTEND ─────────────────────────────────────────────────────────────
+  // Frontend learning resources
   {
     id: "fe-mdn",
     title: "MDN Web Docs",
@@ -147,7 +147,7 @@ export const RESOURCES_DATA = [
     difficulty: "Beginner",
   },
 
-  // ── BACKEND ──────────────────────────────────────────────────────────────
+  // Backend learning resources
   {
     id: "be-nodejs-learn",
     title: "Node.js Official Learn",
@@ -226,7 +226,7 @@ export const RESOURCES_DATA = [
     difficulty: "Beginner",
   },
 
-  // ── DATA & AI ────────────────────────────────────────────────────────────
+  // Data and AI learning resources
   {
     id: "da-kaggle-learn",
     title: "Kaggle Learn",
@@ -338,7 +338,7 @@ export const RESOURCES_DATA = [
     difficulty: "Beginner",
   },
 
-  // ── DEVOPS & TOOLS ───────────────────────────────────────────────────────
+  // DevOps and cloud tools resources
   {
     id: "dev-docker-getstarted",
     title: "Docker Get Started",
@@ -417,7 +417,7 @@ export const RESOURCES_DATA = [
     difficulty: "Beginner",
   },
 
-  // ── DSA & INTERVIEW ──────────────────────────────────────────────────────
+  // DSA and interview preparation resources
   {
     id: "dsa-neetcode",
     title: "NeetCode",
@@ -518,7 +518,7 @@ export const RESOURCES_DATA = [
     difficulty: "Intermediate",
   },
 
-  // ── CS CORE ──────────────────────────────────────────────────────────────
+  // Computer Science core curriculum resources
   {
     id: "cs-cs50",
     title: "CS50: Introduction to Computer Science",

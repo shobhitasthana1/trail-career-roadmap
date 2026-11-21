@@ -1,110 +1,92 @@
-import { createContext, useContext, useState, useCallback } from "react";
+import { createContext, useContext, useState, useEffect, useCallback } from "react";
 
 const AuthContext = createContext(null);
-
-/* ─── Mock Auth Service ─────────────────────────────────────────────
-   Replace the functions below with real API calls when the backend
-   auth endpoints are ready. The UI layer never touches these directly;
-   everything goes through the AuthProvider actions.
-   ─────────────────────────────────────────────────────────────────── */
 
 const STORAGE_TOKEN_KEY = "trail_auth_token";
 const STORAGE_USER_KEY = "trail_auth_user";
 
-const delay = (ms) => new Promise((r) => setTimeout(r, ms));
+const API_BASE = import.meta.env.VITE_API_BASE_URL || "https://trail-backend-agdl.onrender.com/api/v1";
 
-// Simulated user store (lives in memory for the session)
-let mockUsers = JSON.parse(localStorage.getItem("trail_mock_users") || "[]");
-const persistMockUsers = () =>
-  localStorage.setItem("trail_mock_users", JSON.stringify(mockUsers));
-
+// Authentication API client
 const authService = {
   async login(email, password) {
-    await delay(800);
-    const user = mockUsers.find(
-      (u) => u.email === email && u.password === password,
-    );
-    if (!user) throw new Error("Invalid email or password");
-    const token = btoa(JSON.stringify({ id: user.id, ts: Date.now() }));
-    const { password: _, ...safeUser } = user;
-    return { token, user: safeUser };
+    const res = await fetch(`${API_BASE}/auth/login`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password }),
+    });
+
+    const data = await res.json();
+    if (!res.ok) {
+      throw new Error(data.message || "Invalid email or password");
+    }
+
+    return { token: data.token, user: data.user };
   },
 
   async signup({ name, email, password }) {
-    await delay(900);
-    if (mockUsers.some((u) => u.email === email))
-      throw new Error("An account with this email already exists");
-    const user = {
-      id: crypto.randomUUID(),
-      name,
-      email,
-      password,
-      avatar: null,
-      bio: "",
-      phone: "",
-      location: "",
-      careerGoal: "",
-      skills: "",
-      progress: {
-        completedSteps: [],
-        streak: 0,
-        lastActive: null,
-      },
-    };
-    mockUsers.push(user);
-    persistMockUsers();
-    const token = btoa(JSON.stringify({ id: user.id, ts: Date.now() }));
-    const { password: _, ...safeUser } = user;
-    return { token, user: safeUser };
-  },
+    const res = await fetch(`${API_BASE}/auth/register`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name, email, password }),
+    });
 
-  async updateProfile(userId, updates) {
-    await delay(600);
-    const idx = mockUsers.findIndex((u) => u.id === userId);
-    if (idx === -1) throw new Error("User not found");
-    mockUsers[idx] = { ...mockUsers[idx], ...updates };
-    persistMockUsers();
-    const { password: _, ...safeUser } = mockUsers[idx];
-    return safeUser;
-  },
-
-  async getProgress(userId) {
-    await delay(500);
-    const idx = mockUsers.findIndex((u) => u.id === userId);
-    if (idx === -1) throw new Error("User not found");
-    const user = mockUsers[idx];
-
-    // Seed some demo progress if empty
-    if (!user.progress || !user.progress.completedSteps || user.progress.completedSteps.length === 0) {
-      const demoProgress = {
-        completedSteps: [
-          { id: "s1", name: "HTML & CSS Basics", completedAt: new Date(Date.now() - 86400000 * 12).toISOString() },
-          { id: "s2", name: "JavaScript Fundamentals", completedAt: new Date(Date.now() - 86400000 * 9).toISOString() },
-          { id: "s3", name: "React Foundations", completedAt: new Date(Date.now() - 86400000 * 5).toISOString() },
-          { id: "s4", name: "State Management", completedAt: new Date(Date.now() - 86400000 * 2).toISOString() },
-        ],
-        totalSteps: 12,
-        streak: 5,
-        lastActive: new Date().toISOString(),
-        roadmapTitle: user.careerGoal || "Frontend Developer",
-        milestones: [
-          { name: "Foundations", steps: 3, completed: 3 },
-          { name: "Core Skills", steps: 3, completed: 1 },
-          { name: "Advanced", steps: 3, completed: 0 },
-          { name: "Professional", steps: 3, completed: 0 },
-        ],
-        weeklyActivity: [2, 3, 1, 4, 2, 3, 1],
-      };
-      mockUsers[idx] = { ...user, progress: demoProgress };
-      persistMockUsers();
-      return demoProgress;
+    const data = await res.json();
+    if (!res.ok) {
+      throw new Error(data.message || "Failed to create account");
     }
-    return user.progress;
+
+    return { token: data.token, user: data.user };
+  },
+
+  async googleLogin(credential) {
+    const res = await fetch(`${API_BASE}/auth/google`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ credential }),
+    });
+
+    const data = await res.json();
+    if (!res.ok) {
+      throw new Error(data.message || "Google authentication failed");
+    }
+
+    return { token: data.token, user: data.user };
+  },
+
+  async getMe(token) {
+    const res = await fetch(`${API_BASE}/auth/me`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!res.ok) throw new Error("Session expired");
+    const data = await res.json();
+    return data.user;
+  },
+
+  async updateProfile(token, updates) {
+    const res = await fetch(`${API_BASE}/auth/profile`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(updates),
+    });
+
+    const data = await res.json();
+    if (!res.ok) {
+      throw new Error(data.message || "Failed to update profile");
+    }
+
+    return data.user;
   },
 };
 
-/* ─── Provider ──────────────────────────────────────────────────── */
-
+// Auth context provider component
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(() => {
     try {
@@ -114,15 +96,61 @@ export function AuthProvider({ children }) {
       return null;
     }
   });
+
   const [token, setToken] = useState(() => localStorage.getItem(STORAGE_TOKEN_KEY));
-  const [loading, _setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const persistSession = useCallback((tok, usr) => {
-    localStorage.setItem(STORAGE_TOKEN_KEY, tok);
-    localStorage.setItem(STORAGE_USER_KEY, JSON.stringify(usr));
-    setToken(tok);
-    setUser(usr);
+    if (tok) {
+      localStorage.setItem(STORAGE_TOKEN_KEY, tok);
+      setToken(tok);
+    } else {
+      localStorage.removeItem(STORAGE_TOKEN_KEY);
+      setToken(null);
+    }
+
+    if (usr) {
+      localStorage.setItem(STORAGE_USER_KEY, JSON.stringify(usr));
+      setUser(usr);
+    } else {
+      localStorage.removeItem(STORAGE_USER_KEY);
+      setUser(null);
+    }
   }, []);
+
+  const logout = useCallback(() => {
+    persistSession(null, null);
+  }, [persistSession]);
+
+  // Validate and hydrate user session from backend on mount
+  useEffect(() => {
+    let isMounted = true;
+    const existingToken = localStorage.getItem(STORAGE_TOKEN_KEY);
+
+    if (existingToken) {
+      authService
+        .getMe(existingToken)
+        .then((freshUser) => {
+          if (isMounted) {
+            persistSession(existingToken, freshUser);
+            setLoading(false);
+          }
+        })
+        .catch(() => {
+          if (isMounted) {
+            // Token is invalid or expired
+            logout();
+            setLoading(false);
+          }
+        });
+    } else {
+      setLoading(false);
+    }
+
+    return () => {
+      isMounted = false;
+    };
+  }, [persistSession, logout]);
 
   const login = useCallback(
     async (email, password) => {
@@ -146,38 +174,35 @@ export function AuthProvider({ children }) {
     [persistSession],
   );
 
-  const logout = useCallback(() => {
-    localStorage.removeItem(STORAGE_TOKEN_KEY);
-    localStorage.removeItem(STORAGE_USER_KEY);
-    setToken(null);
-    setUser(null);
-  }, []);
+  const googleLogin = useCallback(
+    async (credential) => {
+      const { token: tok, user: usr } = await authService.googleLogin(credential);
+      persistSession(tok, usr);
+      return usr;
+    },
+    [persistSession],
+  );
 
   const updateProfile = useCallback(
     async (updates) => {
-      if (!user) throw new Error("Not authenticated");
-      const updated = await authService.updateProfile(user.id, updates);
-      persistSession(token, updated);
-      return updated;
+      if (!token) throw new Error("Not authenticated");
+      const updatedUser = await authService.updateProfile(token, updates);
+      persistSession(token, updatedUser);
+      return updatedUser;
     },
-    [user, token, persistSession],
+    [token, persistSession],
   );
-
-  const getProgress = useCallback(async () => {
-    if (!user) throw new Error("Not authenticated");
-    return authService.getProgress(user.id);
-  }, [user]);
 
   const value = {
     user,
     token,
     loading,
-    isAuthenticated: !!user,
+    isAuthenticated: !!user && !!token,
     login,
     signup,
+    googleLogin,
     logout,
     updateProfile,
-    getProgress,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

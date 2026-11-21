@@ -12,31 +12,65 @@ const resourceRoutes = require('./routes/resourceRoutes');
 
 const app = express();
 
-// ── Security headers ──────────────────────────────────────────────────────────
-app.use(helmet());
+// Security headers
+app.use(helmet({
+  crossOriginResourcePolicy: false,
+}));
 
-// ── CORS ──────────────────────────────────────────────────────────────────────
+// CORS configuration for local and deployed frontends
+const allowedOrigins = [
+  'https://trail-career-roadmap.vercel.app',
+  'http://localhost:3000',
+  'http://localhost:5173',
+  'http://localhost:5000',
+  'http://localhost:5051',
+  'http://localhost:8080',
+];
+
+if (process.env.CLIENT_ORIGIN) {
+  process.env.CLIENT_ORIGIN.split(',').forEach((o) => {
+    const trimmed = o.trim();
+    if (trimmed && !allowedOrigins.includes(trimmed)) {
+      allowedOrigins.push(trimmed);
+    }
+  });
+}
+
 app.use(
   cors({
-    origin: process.env.CLIENT_ORIGIN || 'http://localhost:3000',
+    origin: (origin, callback) => {
+      if (!origin) return callback(null, true);
+      if (
+        allowedOrigins.includes(origin) ||
+        origin.endsWith('.vercel.app') ||
+        origin.includes('localhost') ||
+        origin.includes('127.0.0.1')
+      ) {
+        return callback(null, true);
+      }
+      return callback(null, true);
+    },
     credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
   })
 );
 
-// ── Rate limiting ─────────────────────────────────────────────────────────────
+// Basic rate limiting to prevent spam
 const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100,
+  windowMs: 15 * 60 * 1000,
+  max: 300,
   standardHeaders: true,
   legacyHeaders: false,
   message: { success: false, message: 'Too many requests, please try again later.' },
 });
 app.use('/api/', limiter);
 
-// ── Body parsing ──────────────────────────────────────────────────────────────
-app.use(express.json());
+// Request body parsers
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
-// ── Routes ────────────────────────────────────────────────────────────────────
+// API route registrations
 app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/jobs', jobRoutes);
 app.use('/api/v1/skills', skillRoutes);
@@ -44,7 +78,7 @@ app.use('/api/v1/roadmaps', roadmapRoutes);
 app.use('/api/v1/progress', progressRoutes);
 app.use('/api/v1/resources', resourceRoutes);
 
-// ── Health check ──────────────────────────────────────────────────────────────
+// Server health check
 app.get('/api/v1/health', (req, res) => {
   res.json({
     success: true,
@@ -54,19 +88,19 @@ app.get('/api/v1/health', (req, res) => {
   });
 });
 
-// ── 404 handler ───────────────────────────────────────────────────────────────
+// Fallback 404 handler
 app.use((req, res) => {
   res.status(404).json({ success: false, message: `Route ${req.originalUrl} not found` });
 });
 
-// ── Global error handler ──────────────────────────────────────────────────────
+// Global error handler
 // eslint-disable-next-line no-unused-vars
 app.use((err, req, res, next) => {
   console.error(err.stack);
   const statusCode = err.statusCode || 500;
   res.status(statusCode).json({
     success: false,
-    message: process.env.NODE_ENV === 'production' ? 'Internal server error' : err.message,
+    message: process.env.NODE_ENV === 'production' ? err.message || 'Internal server error' : err.message,
   });
 });
 
