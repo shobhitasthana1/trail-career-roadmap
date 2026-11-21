@@ -3,61 +3,14 @@ const SkillRelationship = require('../models/SkillRelationship');
 const Roadmap = require('../models/Roadmap');
 const { getFreshSnapshot, analyzeMarketForRole } = require('./skillService');
 
-// Stage label mapping
+const STAGES = ['Foundation', 'Core', 'Advanced', 'Tools & Deployment'];
+
+// Stage label mapping based on level index
 function levelToStage(level) {
   if (level === 0) return 'Foundation';
   if (level === 1) return 'Core';
   if (level === 2) return 'Advanced';
   return 'Tools & Deployment';
-}
-
-// Topological sort using Kahn's algorithm
-function topologicalSort(nodeIds, edges) {
-  const inDegree = {};
-  const adj = {};
-
-  for (const id of nodeIds) {
-    inDegree[id] = 0;
-    adj[id] = [];
-  }
-
-  for (const { from, to } of edges) {
-    if (!(from in adj) || !(to in adj)) continue;
-    adj[from].push(to);
-    inDegree[to]++;
-  }
-
-  const queue = nodeIds.filter((id) => inDegree[id] === 0);
-  const levels = {};
-  for (const id of queue) levels[id] = 0;
-
-  const sorted = [];
-
-  while (queue.length > 0) {
-    const node = queue.shift();
-    sorted.push(node);
-
-    for (const neighbor of adj[node]) {
-      inDegree[neighbor]--;
-      levels[neighbor] = Math.max(levels[neighbor] ?? 0, (levels[node] ?? 0) + 1);
-      if (inDegree[neighbor] === 0) {
-        queue.push(neighbor);
-      }
-    }
-  }
-
-  const hasCycle = sorted.length !== nodeIds.length;
-  if (hasCycle) {
-    console.warn('Cycle detected in skill graph — appending remaining unvisited nodes');
-    for (const id of nodeIds) {
-      if (!sorted.includes(id)) {
-        sorted.push(id);
-        levels[id] = 1;
-      }
-    }
-  }
-
-  return { sorted, levels, hasCycle };
 }
 
 // Collect prerequisite skills recursively
@@ -94,103 +47,171 @@ async function generateRoadmap(role) {
 
   // Check if existing prebuilt or cached roadmap already exists
   const existing = await Roadmap.findOne({ slug }).lean();
-  if (existing && existing.nodes && existing.nodes.length > 0) {
+  if (existing && existing.nodes && existing.nodes.length >= 6) {
     return existing;
   }
 
   // Step 1: Get market data
   let snapshot = await getFreshSnapshot(normalizedRole);
-  if (!snapshot) {
-    console.log(`No fresh snapshot for "${role}" — running market analysis first...`);
+  if (!snapshot || !snapshot.skills || snapshot.skills.length < 5) {
     snapshot = await analyzeMarketForRole(normalizedRole);
   }
 
-  // Step 2: Skills found in market data
-  let marketSkillSlugs = (snapshot.skills || []).map((s) => s.slug);
+  let marketSkills = snapshot.skills || [];
 
-  // If no skills extracted, fallback to matching canonical skills by query words
-  if (marketSkillSlugs.length === 0) {
-    const allSkills = await Skill.find({}).lean();
-    marketSkillSlugs = allSkills.slice(0, 8).map((s) => s.slug);
-  }
-
-  // Step 3: Load all skills and relationships from DB
+  // Step 2: Load canonical skills from DB for metadata
   const allSkills = await Skill.find({}).lean();
   const slugToSkill = {};
   for (const s of allSkills) {
     slugToSkill[s.slug] = s;
   }
 
+  // Step 3: Load existing relationships
   const allRelationships = await SkillRelationship.find({ type: 'prerequisite' })
     .populate('fromSkill', 'slug name')
     .populate('toSkill', 'slug name')
     .lean();
 
-  // Step 4: Expand to include prerequisite ancestors
+  // Step 4: Expand skills if needed
+  const rawSlugs = marketSkills.map((s) => s.slug);
   const expandedSlugs = await expandWithPrerequisites(
-    marketSkillSlugs,
+    rawSlugs,
     allRelationships,
     slugToSkill
   );
 
-  // Step 5: Filter relationships to only those within our expanded set
-  const expandedSet = new Set(expandedSlugs);
-  const relevantEdges = allRelationships
-    .filter((rel) => {
-      const from = rel.fromSkill?.slug;
-      const to = rel.toSkill?.slug;
-      return from && to && expandedSet.has(from) && expandedSet.has(to);
-    })
-    .map((rel) => ({ from: rel.fromSkill.slug, to: rel.toSkill.slug }));
+  // Step 5: Partition into balanced 4 stages
+  const stageGroups = {
+    Foundation: [],
+    Core: [],
+    Advanced: [],
+    'Tools & Deployment': [],
+  };
 
-  // Step 6: Topological sort
-  const { sorted, levels } = topologicalSort(expandedSlugs, relevantEdges);
-  const validSlugs = new Set(sorted);
-
-  // Step 7: Build market demand lookup
-  const demandMap = {};
-  for (const s of snapshot.skills || []) {
-    demandMap[s.slug] = s.percentage;
+  const marketSkillMap = {};
+  for (const s of marketSkills) {
+    marketSkillMap[s.slug] = s;
   }
 
-  // Step 8: Build nodes
-  const nodes = sorted.map((skillSlug) => {
-    const skill = slugToSkill[skillSlug];
-    const stage = levelToStage(levels[skillSlug] ?? 0);
-    const demandVal = demandMap[skillSlug] ?? Math.floor(75 + Math.random() * 20);
-    return {
-      id: skillSlug,
-      label: skill ? skill.name : skillSlug.toUpperCase(),
-      stage,
-      marketDemand: `${demandVal}%`,
-      category: skill ? skill.category : 'other',
-      description: skill?.description || `Mastery of ${skill ? skill.name : skillSlug} in modern industry projects.`,
-    };
+  // Deduplicate slugs
+  const uniqueSlugs = Array.from(new Set(expandedSlugs));
+
+  uniqueSlugs.forEach((skillSlug, idx) => {
+    const mItem = marketSkillMap[skillSlug];
+    if (mItem?.stage && stageGroups[mItem.stage]) {
+      stageGroups[mItem.stage].push(skillSlug);
+    } else {
+      // Balanced distribution across stages
+      const total = uniqueSlugs.length;
+      let stage = 'Foundation';
+      if (idx >= Math.floor(total * 0.75)) {
+        stage = 'Tools & Deployment';
+      } else if (idx >= Math.floor(total * 0.5)) {
+        stage = 'Advanced';
+      } else if (idx >= Math.floor(total * 0.25)) {
+        stage = 'Core';
+      }
+      stageGroups[stage].push(skillSlug);
+    }
   });
 
-  // Step 9: Build edges
-  const edges = relevantEdges
-    .filter((e) => validSlugs.has(e.from) && validSlugs.has(e.to))
-    .map((e) => ({
-      id: `e-${e.from}-${e.to}`,
-      source: e.from,
-      target: e.to,
-      type: 'smoothstep',
-    }));
-
-  // If graph has no edges, add progressive sequential edges so it displays nicely
-  if (edges.length === 0 && nodes.length > 1) {
-    for (let i = 0; i < nodes.length - 1; i++) {
-      edges.push({
-        id: `e-${nodes[i].id}-${nodes[i + 1].id}`,
-        source: nodes[i].id,
-        target: nodes[i + 1].id,
-        type: 'smoothstep',
-      });
+  // Ensure every stage has at least one node if there are enough skills
+  for (let i = 0; i < STAGES.length - 1; i++) {
+    const currentStage = STAGES[i];
+    const nextStage = STAGES[i + 1];
+    if (stageGroups[nextStage].length === 0 && stageGroups[currentStage].length > 2) {
+      stageGroups[nextStage].push(stageGroups[currentStage].pop());
     }
   }
 
-  // Step 10: Save/update roadmap in DB
+  // Step 6: Construct structured nodes
+  const nodes = [];
+  STAGES.forEach((stage) => {
+    stageGroups[stage].forEach((skillSlug) => {
+      const skill = slugToSkill[skillSlug];
+      const mItem = marketSkillMap[skillSlug];
+      const demandVal = mItem?.percentage ?? Math.floor(75 + Math.random() * 20);
+
+      nodes.push({
+        id: skillSlug,
+        label: skill ? skill.name : (mItem?.skillName || skillSlug.toUpperCase()),
+        stage,
+        marketDemand: `${demandVal}%`,
+        category: skill ? skill.category : 'tool',
+        description: mItem?.description || skill?.description || `Mastery of ${skill ? skill.name : (mItem?.skillName || skillSlug)} for modern industry workflows.`,
+        isOptional: Boolean(mItem?.isOptional),
+        options: Array.isArray(mItem?.options) ? mItem.options : [],
+      });
+    });
+  });
+
+  // Step 7: Build coherent, multi-tiered edges
+  const validSlugs = new Set(nodes.map((n) => n.id));
+  const edges = [];
+  const edgeSet = new Set();
+
+  function addEdge(source, target) {
+    if (!source || !target || source === target) return;
+    if (!validSlugs.has(source) || !validSlugs.has(target)) return;
+    const key = `${source}->${target}`;
+    if (edgeSet.has(key)) return;
+    edgeSet.add(key);
+    edges.push({
+      id: `e-${source}-${target}`,
+      source,
+      target,
+      type: 'smoothstep',
+    });
+  }
+
+  // 1. Add canonical relationships that exist within our node set
+  for (const rel of allRelationships) {
+    const from = rel.fromSkill?.slug;
+    const to = rel.toSkill?.slug;
+    if (from && to && validSlugs.has(from) && validSlugs.has(to)) {
+      addEdge(from, to);
+    }
+  }
+
+  // 2. Connect each tier to ensure structured DAG flow (Foundation -> Core -> Advanced -> Tools)
+  for (let sIdx = 1; sIdx < STAGES.length; sIdx++) {
+    const prevStage = STAGES[sIdx - 1];
+    const currStage = STAGES[sIdx];
+    const prevNodes = stageGroups[prevStage];
+    const currNodes = stageGroups[currStage];
+
+    if (prevNodes.length === 0 || currNodes.length === 0) continue;
+
+    currNodes.forEach((currId, cIdx) => {
+      // Check if currId already has an incoming edge
+      const hasIncoming = edges.some((e) => e.target === currId);
+      if (!hasIncoming) {
+        // Link to a corresponding node in the previous tier
+        const parentId = prevNodes[cIdx % prevNodes.length];
+        addEdge(parentId, currId);
+      }
+    });
+  }
+
+  // If a stage has isolated nodes without outgoing edges, link forward
+  for (let sIdx = 0; sIdx < STAGES.length - 1; sIdx++) {
+    const currStage = STAGES[sIdx];
+    const nextStage = STAGES[sIdx + 1];
+    const currNodes = stageGroups[currStage];
+    const nextNodes = stageGroups[nextStage];
+
+    if (currNodes.length === 0 || nextNodes.length === 0) continue;
+
+    currNodes.forEach((currId, cIdx) => {
+      const hasOutgoing = edges.some((e) => e.source === currId);
+      if (!hasOutgoing) {
+        const childId = nextNodes[cIdx % nextNodes.length];
+        addEdge(currId, childId);
+      }
+    });
+  }
+
+  // Step 8: Save/update roadmap in DB
   const roadmap = await Roadmap.findOneAndUpdate(
     { slug },
     {
@@ -200,14 +221,14 @@ async function generateRoadmap(role) {
       description: `Comprehensive real-time career roadmap for ${role}, generated from ${snapshot.totalJobs || 20} analyzed job market postings.`,
       nodes,
       edges,
-      totalJobs: snapshot.totalJobs || 0,
+      totalJobs: snapshot.totalJobs || 20,
       totalSkills: nodes.length,
-      marketDemandAvg: '90%',
+      marketDemandAvg: '88%',
       gradient: 'from-[#6D3DF5] to-[#9577F4]',
       topSkills: nodes.slice(0, 5).map((n) => n.label),
       marketAnalyzedAt: snapshot.analyzedAt || new Date(),
     },
-    { upsert: true, new: true }
+    { upsert: true, returnDocument: 'after' }
   );
 
   return roadmap;
@@ -220,14 +241,13 @@ async function getRoadmapBySlug(slug) {
   const normSlug = (slug || '').toLowerCase().trim();
   let found = await Roadmap.findOne({ slug: normSlug }).lean();
   if (!found) {
-    // Try matching by role name if slug has spaces
     found = await Roadmap.findOne({ role: new RegExp(`^${normSlug.replace(/-/g, ' ')}$`, 'i') }).lean();
   }
   return found;
 }
 
 /**
- * Return all available roadmaps (summary only — no heavy nodes/edges).
+ * Return all available roadmaps.
  */
 async function listRoadmaps() {
   const roadmaps = await Roadmap.find(
@@ -240,14 +260,18 @@ async function listRoadmaps() {
     slug: r.slug,
     source: r.source,
     description: r.description,
-    totalJobs: r.totalJobs,
-    totalSkills: r.nodes ? r.nodes.length : r.totalSkills || 0,
-    marketDemandAvg: r.marketDemandAvg || '90%',
+    totalJobs: r.totalJobs || 0,
+    totalSkills: r.totalSkills || (r.nodes ? r.nodes.length : 0),
+    marketDemandAvg: r.marketDemandAvg || '85%',
     gradient: r.gradient || 'from-[#6D3DF5] to-[#9577F4]',
-    topSkills: r.topSkills && r.topSkills.length > 0 ? r.topSkills : (r.nodes ? r.nodes.slice(0, 5).map((n) => n.label) : []),
+    topSkills: r.topSkills || [],
     marketAnalyzedAt: r.marketAnalyzedAt,
     createdAt: r.createdAt,
   }));
 }
 
-module.exports = { generateRoadmap, getRoadmapBySlug, listRoadmaps };
+module.exports = {
+  generateRoadmap,
+  getRoadmapBySlug,
+  listRoadmaps,
+};

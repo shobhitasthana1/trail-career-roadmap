@@ -168,6 +168,28 @@ const SkillDetailPanel = ({
               </p>
             </div>
 
+            {/* Alternative Tracks / Options if present */}
+            {skill.options && skill.options.length > 0 && (
+              <div className="rounded-2xl border border-[#6D3DF5]/20 bg-[#6D3DF5]/[0.04] p-4">
+                <span className="text-[11px] font-bold uppercase tracking-wider text-[#6D3DF5] font-exo block mb-1">
+                  Pick One Track (Alternative Options)
+                </span>
+                <p className="text-xs text-stone-600 mb-3 leading-relaxed">
+                  You only need to master one of these options to fulfill this milestone.
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  {skill.options.map((opt, i) => (
+                    <span
+                      key={i}
+                      className="px-3 py-1.5 rounded-xl bg-white border border-[#6D3DF5]/25 text-xs font-semibold text-[#111827] shadow-xs"
+                    >
+                      {opt}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
+
             {/* What You'll Learn: Topic Chips */}
             {topics.length > 0 && (
               <div>
