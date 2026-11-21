@@ -124,10 +124,16 @@ const RoadmapCanvas = ({
           if (!isMounted) return;
           const sMap = prog.skillsMap || {};
           setSkillsMap(sMap);
-          const total = roadmapData?.nodes?.length || 10;
-          const completed = prog.completedSkills?.length || 0;
-          const pct = total > 0 ? Math.round((completed / total) * 100) : 0;
-          setProgressStats({ completed, total, pct });
+          // Core milestone denominator excludes elective bonus options so users aren't penalized
+          const allNodes = roadmapData?.nodes || [];
+          const mandatoryNodes = allNodes.filter((n) => !n.isOptional && !n.isElective);
+          const total = mandatoryNodes.length > 0 ? mandatoryNodes.length : allNodes.length || 10;
+          const completedMandatory = (prog.completedSkills || []).filter((id) => {
+            const foundNode = allNodes.find((n) => n.id === id);
+            return !foundNode || (!foundNode.isOptional && !foundNode.isElective);
+          }).length;
+          const pct = total > 0 ? Math.min(100, Math.round((completedMandatory / total) * 100)) : 0;
+          setProgressStats({ completed: prog.completedSkills?.length || 0, total, pct });
         })
         .catch(() => {});
     }

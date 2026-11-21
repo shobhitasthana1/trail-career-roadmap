@@ -57,11 +57,18 @@ const SkillNode = ({ data, selected }) => {
 
       {/* Top Meta Bar: Stage & Demand */}
       <div className="flex items-center justify-between gap-2 mb-2">
-        <span
-          className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold tracking-wider uppercase border font-exo ${stageConfig.badge}`}
-        >
-          {stage}
-        </span>
+        <div className="flex items-center gap-1.5 flex-wrap">
+          <span
+            className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold tracking-wider uppercase border font-exo ${stageConfig.badge}`}
+          >
+            {stage}
+          </span>
+          {data.isOptional && (
+            <span className="inline-flex items-center px-1.5 py-0.5 rounded-md text-[9px] font-semibold text-stone-600 bg-stone-100 border border-stone-200">
+              Elective
+            </span>
+          )}
+        </div>
 
         {data.marketDemand && (
           <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-[#6D3DF5] bg-[#6D3DF5]/[0.08] px-2 py-0.5 rounded-full border border-[#6D3DF5]/15">
@@ -72,11 +79,19 @@ const SkillNode = ({ data, selected }) => {
       </div>
 
       {/* Skill Title */}
-      <div className="mb-2.5">
+      <div className="mb-2">
         <h3 className="font-geist font-bold text-[14px] leading-snug tracking-tight text-[#111827] group-hover:text-[#6D3DF5] transition-colors">
           {data.label}
         </h3>
       </div>
+
+      {/* Alternative Options Pill */}
+      {data.options && data.options.length > 0 && (
+        <div className="mb-2 text-[10.5px] text-stone-600 font-medium bg-stone-50 px-2 py-1 rounded-lg border border-stone-200/70 leading-tight">
+          <span className="font-bold text-[#6D3DF5]">Pick 1: </span>
+          {data.options.join(" • ")}
+        </div>
+      )}
 
       {/* Bottom Status Row */}
       <div className="flex items-center justify-between pt-2 border-t border-stone-100 text-xs">

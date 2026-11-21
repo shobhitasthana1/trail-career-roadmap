@@ -6,6 +6,10 @@ const skillDemandSchema = new mongoose.Schema(
     slug: String,
     count: Number,       // how many job postings mentioned this skill
     percentage: Number,  // count / totalJobs * 100
+    stage: String,
+    isOptional: { type: Boolean, default: false },
+    options: [String],
+    description: String,
   },
   { _id: false }
 );
@@ -24,8 +28,8 @@ const marketSnapshotSchema = new mongoose.Schema(
     },
     source: {
       type: String,
-      enum: ['adzuna', 'jsearch', 'jooble', 'mixed'],
-      default: 'adzuna',
+      enum: ['adzuna', 'jsearch', 'jooble', 'mixed', 'groq'],
+      default: 'mixed',
     },
     skills: [skillDemandSchema],
     analyzedAt: {

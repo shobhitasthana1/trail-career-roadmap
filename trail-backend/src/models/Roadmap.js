@@ -8,6 +8,9 @@ const nodeSchema = new mongoose.Schema(
     marketDemand: mongoose.Schema.Types.Mixed,
     category: String,
     description: String,
+    isOptional: { type: Boolean, default: false },
+    isElective: { type: Boolean, default: false },
+    options: [String],
   },
   {
     _id: false,
