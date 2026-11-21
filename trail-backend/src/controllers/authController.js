@@ -99,7 +99,16 @@ async function googleLogin(req, res, next) {
 
     // Confirm the token was issued for our app
     if (payload.aud !== process.env.GOOGLE_CLIENT_ID) {
-      return res.status(401).json({ success: false, message: 'Google credential audience mismatch' });
+      return res.status(401).json({ 
+        success: false, 
+        message: 'Google credential audience mismatch' 
+      });
+    }
+    if (payload.email_verified !== "true") {
+      return res.status(401).json({
+        success: false,
+        message: "Google email is not verified"
+      });
     }
 
     const { sub: googleId, email, name } = payload;

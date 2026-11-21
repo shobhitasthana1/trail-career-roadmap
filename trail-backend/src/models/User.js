@@ -1,5 +1,7 @@
-import mongoose from "mongoose";
-mongoose.connect(process.env.MONGO_URI)
+const mongoose = require("mongoose");
+const bcrypt = require("bcryptjs");
+
+mongoose.connect(process.env.MONGODB_URI)
   .then(() => console.log("MongoDB connected"))
   .catch(err => console.error(err));
 
@@ -35,10 +37,10 @@ const userSchema = new mongoose.Schema(
 );
 
 // Hash password before saving
-userSchema.pre('save', async function (next) {
-  if (!this.isModified('password') || !this.password) return next();
+userSchema.pre('save', async function () {
+  if (!this.isModified('password') || !this.password) return ;
   this.password = await bcrypt.hash(this.password, 12);
-  next();
+  ;
 });
 
 // Compare password for login
