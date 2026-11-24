@@ -29,18 +29,12 @@ const Login = ({ initialMode }) => {
     }
   };
 
-<<<<<<< Updated upstream
   /* ── Login State & Logic ── */
-=======
->>>>>>> Stashed changes
   const [loginForm, setLoginForm] = useState({ email: "", password: "" });
   const [loginErrors, setLoginErrors] = useState({});
   const [showLoginPass, setShowLoginPass] = useState(false);
 
-<<<<<<< Updated upstream
   /* ── Signup State & Logic ── */
-=======
->>>>>>> Stashed changes
   const [signupForm, setSignupForm] = useState({
     name: "",
     email: "",
@@ -51,10 +45,7 @@ const Login = ({ initialMode }) => {
   const [showSignupPass, setShowSignupPass] = useState(false);
   const [showConfirmPass, setShowConfirmPass] = useState(false);
 
-<<<<<<< Updated upstream
   /* ── Shared API State ── */
-=======
->>>>>>> Stashed changes
   const [apiError, setApiError] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -332,10 +323,7 @@ const Login = ({ initialMode }) => {
           isRegisterMode ? "is-active" : ""
         }`}
       >
-<<<<<<< Updated upstream
         {/* ==================== 1. LOGIN FORM PANEL (RIGHT SIDE) ==================== */}
-=======
->>>>>>> Stashed changes
         <div className="trail-form-panel is-login">
           <form
             onSubmit={handleLoginSubmit}
@@ -439,10 +427,7 @@ const Login = ({ initialMode }) => {
           </form>
         </div>
 
-<<<<<<< Updated upstream
         {/* ==================== 2. REGISTRATION FORM PANEL (LEFT SIDE WHEN ACTIVE) ==================== */}
-=======
->>>>>>> Stashed changes
         <div className="trail-form-panel is-register">
           <form
             onSubmit={handleSignupSubmit}
@@ -598,10 +583,7 @@ const Login = ({ initialMode }) => {
           </form>
         </div>
 
-<<<<<<< Updated upstream
         {/* ==================== 3. SLIDING CURVED TOGGLE OVERLAY ==================== */}
-=======
->>>>>>> Stashed changes
         <div className="trail-curve-box">
           <div className="trail-side-panel side-left">
             <h2 className="font-geist text-3xl sm:text-4xl font-bold tracking-tight text-white">
