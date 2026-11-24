@@ -6,9 +6,19 @@ Explore career paths, discover the skills that matter, and find a roadmap built 
 
 <br/>
 <img width="1470" height="802" alt="image" src="https://github.com/user-attachments/assets/3c498200-47ad-450b-a103-5dd109d5489a" />
+
 <img width="1470" height="802" alt="image" src="https://github.com/user-attachments/assets/28a3584d-25bd-4448-9b52-c22225d719fb" />
 <br/>
 <br/>
+
+## What It Does
+
+- **Home** - the landing page that shows all the details about the app
+- **Explore** — search a role, see the skills employers are actually asking for right now
+- **Roadmaps** — save a personalized learning path for a role
+- **Progress** — track your skill progress against a target that updates as the job market shifts
+- **Resources** — curated free/paid learning material, matched to your specific skill gaps
+- **Profile** — login, settings, dark/light mode
 
 ## How It Works
 
@@ -52,7 +62,7 @@ Automatically, roughly every 24 hours per role. Nothing you need to refresh your
 Yes — fully free, built as an academic project with no paid tiers.
 
 **5. Do I need an account to search a role?** <br/>
-No — exploration is open to everyone. An account's only needed to save roadmaps and track progress.
+Yes, An account's is needed to explore a role, save roadmaps and track progress.
 
 **6. What if the role I search isn't in the system yet?** <br/>
 Search it anyway — Trail fetches live data for a role the first time anyone searches it.
@@ -60,12 +70,23 @@ Search it anyway — Trail fetches live data for a role the first time anyone se
 
 ## Tech stack
 
-**Frontend:** React (Vite), Tailwind CSS, Framer Motion, GSAP, Three.js, Recharts
-<br/>
-**Backend:** Node.js, Express, MongoDB, JWT auth
-<br/>
-**Data:** Live job postings via Adzuna / JSearch / Jooble
-<br/>
+**Frontend**
+- React (Vite)
+- Tailwind CSS
+- Framer Motion
+- Three.js
+
+**Backend**
+- Node.js + Express
+- MongoDB
+- JWT authentication
+- node-cron
+- Job data sourced from Adzuna / JSearch
+
+**Deployment**
+- Vercel — frontend
+- Render — backend
+- MongoDB Atlas — database
 
 ## Team
 
