@@ -1,15 +1,12 @@
 # Trail — Career Roadmap Platform
 
-**YOUR JOURNEY. YOUR ROADMAP. YOUR FUTURE.**
-
 TRAIL helps you discover the right career path, learn the skills that matter, follow a structured roadmap, and track your progress — all in one place.
-
 Explore career paths, discover the skills that matter, and find a roadmap built around your goals. Built as an MCA final-year academic project.
-
-🔗 [trail-career-roadmap.vercel.app](https://trail-career-roadmap.vercel.app)
+[Try it here 🔗](https://trail-career-roadmap.vercel.app)
 
 <br/>
-<img width="1469" height="800" alt="image" src="https://github.com/user-attachments/assets/4f55e682-6603-4c20-aed5-a17d58b5c54c" />
+<img width="1470" height="802" alt="image" src="https://github.com/user-attachments/assets/3c498200-47ad-450b-a103-5dd109d5489a" />
+<img width="1470" height="802" alt="image" src="https://github.com/user-attachments/assets/28a3584d-25bd-4448-9b52-c22225d719fb" />
 <br/>
 <br/>
 
@@ -25,7 +22,9 @@ Explore career paths, discover the skills that matter, and find a roadmap built 
 : Check off skills as you learn them. Your progress updates and takes you closer to the destination.
 
 <br/>
-<img width="1470" height="801" alt="image" src="https://github.com/user-attachments/assets/f313bf31-87cd-4630-8e00-8c22e7328348" />
+<img width="1470" height="800" alt="image" src="https://github.com/user-attachments/assets/713c6600-9d48-4b4c-995d-43c7ec8aa8cf" />
+
+<img width="1470" height="803" alt="image" src="https://github.com/user-attachments/assets/21805be3-badc-4329-8313-f6b0baa37644" />
 <br/>
 <br/>
 
@@ -36,7 +35,6 @@ Explore career paths, discover the skills that matter, and find a roadmap built 
 - **Progress tracking** — Mark skills as learned and watch your gap shrink against your desired job role.
 - **Personalised resources** — Get a list of resources matched to your desired job profile.
 - **Save and revisit** — Build a roadmap once, come back anytime — it stays updated for you.
-<br/>
 <br/>
 
 ## FAQ
@@ -54,11 +52,10 @@ Automatically, roughly every 24 hours per role. Nothing you need to refresh your
 Yes — fully free, built as an academic project with no paid tiers.
 
 **5. Do I need an account to search a role?** <br/>
-No — Explore is open to everyone. An account's only needed to save roadmaps and track progress.
+No — exploration is open to everyone. An account's only needed to save roadmaps and track progress.
 
 **6. What if the role I search isn't in the system yet?** <br/>
 Search it anyway — Trail fetches live data for a role the first time anyone searches it.
-<br/>
 <br/>
 
 ## Tech stack
@@ -69,16 +66,15 @@ Search it anyway — Trail fetches live data for a role the first time anyone se
 <br/>
 **Data:** Live job postings via Adzuna / JSearch / Jooble
 <br/>
-<br/>
 
 ## Team
 
-| Name | Role |
-|---|---|
-| Anshika | Backend |
-| Abhay | Backend |
-| Shobhit | Frontend |
-| Sharad | Data/Power BI analytics |
+| Name | Role | Github |
+|---|---|---|
+| Anshika Gupta| Team Lead & Backend | [@anshikagknp ](https://github.com/anshikagknp) |
+| Abhay Raj | Backend & UX | [@abhayraj81](https://github.com/abhayraj81) |
+| Shobhit Asthana| Frontend & UI | [@shobhitasthana1](https://github.com/shobhitasthana1) |
+| Sharad Savita | Data & Quality Analyst | [@sharadsavita](https://github.com/sharadsavita) |
 
 <br/>
 <br/>
