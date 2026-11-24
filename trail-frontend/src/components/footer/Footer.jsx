@@ -2,32 +2,32 @@ import { Link } from "react-router-dom";
 import { FaGithub, FaLinkedin, FaArrowRight } from "react-icons/fa6";
 
 const Footer = () => {
-  const teamMembers = [
-    {
-      name: "Shobhit Asthana",
-      role: "Frontend Developer",
-      github: "https://github.com/shobhitasthana1",
-      linkedin: "https://www.linkedin.com/in/shobhit-asthana/",
-    },
-    {
-      name: "Anshika Gupta",
-      role: "Backend Developer",
-      github: "https://github.com/anshikagknp",
-      linkedin: "https://www.linkedin.com/in/anshikagknp/",
-    },
-    {
-      name: "Abhay Raj",
-      role: "Backend Developer",
-      github: "https://github.com/abhayraj81",
-      linkedin: "https://www.linkedin.com/in/abhayraj081/",
-    },
-    {
-      name: "Sharad Savita",
-      role: "Data / Power BI Analytics",
-      github: "https://github.com/sharadsavita",
-      linkedin: "https://www.linkedin.com/in/sharad-savita-a08955368/",
-    },
-  ];
+ const teamMembers = [
+  {
+    name: "Shobhit Asthana",
+    role: "Frontend & UI Design",
+    github: "https://github.com/shobhitasthana1",
+    linkedin: "https://www.linkedin.com/in/shobhit-asthana/",
+  },
+  {
+    name: "Anshika Gupta",
+    role: "Team Lead & Backend",
+    github: "https://github.com/anshikagknp",
+    linkedin: "https://www.linkedin.com/in/anshikagknp/",
+  },
+  {
+    name: "Abhay Raj",
+    role: "Backend & UX Design",
+    github: "https://github.com/abhayraj81",
+    linkedin: "https://www.linkedin.com/in/abhayraj081/",
+  },
+  {
+    name: "Sharad Savita",
+    role: "Data & Quality Analyst",
+    github: "https://github.com/sharadsavita",
+    linkedin: "https://www.linkedin.com/in/sharad-savita-a08955368/",
+  },
+];
 
   return (
     <footer id="contact" className="relative w-full bg-[#0E0A1A] rounded-t-[2rem] sm:rounded-t-[2.5rem] px-5 sm:px-6 md:px-12 lg:px-20 pt-16 md:pt-20 pb-10 text-white overflow-hidden z-10 border-t border-white/10 shadow-[0_-20px_50px_rgba(157,78,221,0.05)]">

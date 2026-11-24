@@ -26,11 +26,11 @@ const FAQ_DATA = [
     answer:
       "Yes — fully free, built as an academic project with no paid tiers.",
   },
-  {
-    question: "Do I need an account to search a role?",
-    answer:
-      "No — Explore is open to everyone. An account's only needed to save roadmaps and track progress.",
-  },
+ {
+  question: "Do I need an account to search a role?",
+  answer:
+    "Yes, an account is needed to explore a role, save roadmaps and track progress.",
+},
   {
     question: "What if the role I search isn't in the system yet?",
     answer:

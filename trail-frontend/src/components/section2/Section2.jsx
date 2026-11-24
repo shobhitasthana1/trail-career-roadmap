@@ -10,9 +10,9 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 gsap.registerPlugin(ScrollTrigger);
 
 const STATS = [
-  { value: "20+", label: "Career Paths" },
-  { value: "100+", label: "Roadmaps" },
-  { value: "50K+", label: "Active Learners" },
+  { value: "6+", label: "Career Paths" },
+  { value: "100+", label: "Learning Resources" },
+  { value: "50+", label: "Live Job Postings" },
 ];
 
 const Section2 = () => {
