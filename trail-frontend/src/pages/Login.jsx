@@ -8,7 +8,6 @@ const Login = ({ initialMode }) => {
   const location = useLocation();
   const from = location.state?.from || "/";
 
-  // Check if opened via /signup or /login
   const [isRegisterMode, setIsRegisterMode] = useState(
     initialMode === "register" || location.pathname === "/signup"
   );
@@ -19,7 +18,6 @@ const Login = ({ initialMode }) => {
     );
   }, [location.pathname, initialMode]);
 
-  // Smoothly toggle mode and sync URL without remounting component
   const handleToggleMode = (toRegister) => {
     setIsRegisterMode(toRegister);
     setApiError("");
@@ -31,12 +29,18 @@ const Login = ({ initialMode }) => {
     }
   };
 
+<<<<<<< Updated upstream
   /* ── Login State & Logic ── */
+=======
+>>>>>>> Stashed changes
   const [loginForm, setLoginForm] = useState({ email: "", password: "" });
   const [loginErrors, setLoginErrors] = useState({});
   const [showLoginPass, setShowLoginPass] = useState(false);
 
+<<<<<<< Updated upstream
   /* ── Signup State & Logic ── */
+=======
+>>>>>>> Stashed changes
   const [signupForm, setSignupForm] = useState({
     name: "",
     email: "",
@@ -47,7 +51,10 @@ const Login = ({ initialMode }) => {
   const [showSignupPass, setShowSignupPass] = useState(false);
   const [showConfirmPass, setShowConfirmPass] = useState(false);
 
+<<<<<<< Updated upstream
   /* ── Shared API State ── */
+=======
+>>>>>>> Stashed changes
   const [apiError, setApiError] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -128,7 +135,6 @@ const Login = ({ initialMode }) => {
     }
   };
 
-  // Password strength helper
   const getPasswordStrength = (pass) => {
     if (!pass) return 0;
     let score = 0;
@@ -141,7 +147,6 @@ const Login = ({ initialMode }) => {
 
   return (
     <div className="relative min-h-screen w-full flex items-center justify-center bg-gradient-to-br from-[#F4F3FF] via-[#FAFAFA] to-[#EAE6FF] px-4 pt-24 pb-12 overflow-hidden font-inter selection:bg-[#7C3AED]/15 selection:text-[#6D3DF5]">
-      {/* Scoped Styles for the Curved Sliding Animation */}
       <style>{`
         .trail-auth-wrapper {
           position: relative;
@@ -309,7 +314,6 @@ const Login = ({ initialMode }) => {
         }
       `}</style>
 
-      {/* Subtle Radial Dot Grid (Matches Home Page) */}
       <div
         className="pointer-events-none absolute inset-0"
         style={{
@@ -323,13 +327,15 @@ const Login = ({ initialMode }) => {
         }}
       />
 
-      {/* Main Sliding Container */}
       <div
         className={`trail-auth-wrapper relative z-10 ${
           isRegisterMode ? "is-active" : ""
         }`}
       >
+<<<<<<< Updated upstream
         {/* ==================== 1. LOGIN FORM PANEL (RIGHT SIDE) ==================== */}
+=======
+>>>>>>> Stashed changes
         <div className="trail-form-panel is-login">
           <form
             onSubmit={handleLoginSubmit}
@@ -351,7 +357,6 @@ const Login = ({ initialMode }) => {
               </div>
             )}
 
-            {/* Email Input */}
             <div className="mb-3.5 text-left">
               <div className="relative">
                 <input
@@ -378,7 +383,6 @@ const Login = ({ initialMode }) => {
               )}
             </div>
 
-            {/* Password Input */}
             <div className="mb-3 text-left">
               <div className="relative">
                 <input
@@ -432,49 +436,13 @@ const Login = ({ initialMode }) => {
             >
               {loading && !isRegisterMode ? "Signing in..." : "Login"}
             </button>
-
-            <p className="mt-4 mb-2.5 text-xs text-[#94A3B8] text-center">
-              or continue with social platforms
-            </p>
-
-            <div className="flex justify-center gap-3">
-              {[
-                {
-                  label: "Google",
-                  svg: (
-                    <path d="M21.35 11.1h-9.17v2.73h6.51c-.33 3.81-3.5 5.44-6.5 5.44C8.36 19.27 5 16.25 5 12c0-4.1 3.2-7.27 7.2-7.27 3.09 0 4.9 1.97 4.9 1.97L19 4.72S16.56 2 12.1 2C6.42 2 2.03 6.8 2.03 12c0 5.05 4.13 10 10.22 10 5.35 0 9.25-3.67 9.25-9.09 0-1.15-.15-1.81-.15-1.81Z" />
-                  ),
-                },
-                {
-                  label: "GitHub",
-                  svg: (
-                    <path d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2Z" />
-                  ),
-                },
-                {
-                  label: "LinkedIn",
-                  svg: (
-                    <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77Z" />
-                  ),
-                },
-              ].map((item) => (
-                <button
-                  key={item.label}
-                  type="button"
-                  onClick={() => navigate("/explore")}
-                  title={item.label}
-                  className="flex h-10 w-10 items-center justify-center rounded-xl border border-stone-200 bg-white text-[#334155] shadow-sm transition-all duration-200 hover:border-[#6D3DF5] hover:text-[#6D3DF5] hover:-translate-y-0.5 cursor-pointer"
-                >
-                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                    {item.svg}
-                  </svg>
-                </button>
-              ))}
-            </div>
           </form>
         </div>
 
+<<<<<<< Updated upstream
         {/* ==================== 2. REGISTRATION FORM PANEL (LEFT SIDE WHEN ACTIVE) ==================== */}
+=======
+>>>>>>> Stashed changes
         <div className="trail-form-panel is-register">
           <form
             onSubmit={handleSignupSubmit}
@@ -496,7 +464,6 @@ const Login = ({ initialMode }) => {
               </div>
             )}
 
-            {/* Full Name */}
             <div className="mb-2.5 text-left">
               <div className="relative">
                 <input
@@ -523,7 +490,6 @@ const Login = ({ initialMode }) => {
               )}
             </div>
 
-            {/* Email */}
             <div className="mb-2.5 text-left">
               <div className="relative">
                 <input
@@ -550,7 +516,6 @@ const Login = ({ initialMode }) => {
               )}
             </div>
 
-            {/* Password */}
             <div className="mb-2.5 text-left">
               <div className="relative">
                 <input
@@ -593,7 +558,6 @@ const Login = ({ initialMode }) => {
               )}
             </div>
 
-            {/* Confirm Password */}
             <div className="mb-3 text-left">
               <div className="relative">
                 <input
@@ -634,9 +598,11 @@ const Login = ({ initialMode }) => {
           </form>
         </div>
 
+<<<<<<< Updated upstream
         {/* ==================== 3. SLIDING CURVED TOGGLE OVERLAY ==================== */}
+=======
+>>>>>>> Stashed changes
         <div className="trail-curve-box">
-          {/* Left Panel (Shown during Login) */}
           <div className="trail-side-panel side-left">
             <h2 className="font-geist text-3xl sm:text-4xl font-bold tracking-tight text-white">
               Hello,{" "}
@@ -656,7 +622,6 @@ const Login = ({ initialMode }) => {
             </button>
           </div>
 
-          {/* Right Panel (Shown during Registration) */}
           <div className="trail-side-panel side-right">
             <h2 className="font-geist text-3xl sm:text-4xl font-bold tracking-tight text-white">
               Welcome{" "}
