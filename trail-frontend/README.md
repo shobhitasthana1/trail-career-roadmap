@@ -1,64 +1,76 @@
-# Trail - A Career Roadmap App
+# Trail — Frontend
 
-A web app where a user enters a job role and gets back the skills required and a learning roadmap — built from real, current job posting data instead of a static skill list.
-
-## What It Does
-
-- **Home** - the landing page that shows all the details about the app
-- **Explore** — search a role, see the skills employers are actually asking for right now
-- **Roadmaps** — save a personalized learning path for a role
-- **Progress** — track your skill progress against a target that updates as the job market shifts
-- **Resources** — curated free/paid learning material, matched to your specific skill gaps
-- **Profile** — login, settings, dark/light mode
-
-## What Makes This Different
-
-- Skill requirements are pulled from live job postings, not a fixed database — so roadmaps update as the market changes
-- Reverse lookup: enter your current skills, see which roles you already fit
-- Progress is tracked against a moving target, since required skills for a role can shift over time
-- Resource suggestions are tied to each user's actual skill gap, not just generic per-role lists
-- A companion market-analytics dashboard (SkillPulse) backs the skill data with real trend analysis
+React single-page app for **Trail**, a career roadmap platform. A user searches a tech role, sees an interactive skill roadmap built from current job-market data, saves it, and tracks progress against it. This folder is only the UI; all data comes from [`trail-backend`](../trail-backend) over a REST API.
 
 ## Tech Stack
 
-**Frontend**
-- React (Vite)
-- Tailwind CSS
-- Framer Motion — app-wide page transitions
-- GSAP / Three.js — animated hero on the Home page only
-- Recharts — progress and in-app charts
-
-**Backend**
-- Node.js + Express
-- MongoDB — raw job postings, roadmaps, resources
-- JWT authentication (optionally Firebase/Clerk)
-- node-cron — scheduled job data refresh
-- Job data sourced from Adzuna / JSearch / Jooble APIs (chosen over scraping LinkedIn/Naukri to avoid ToS issues)
-
-**Deployment**
-- Vercel — frontend
-- Render / Railway — backend + database
-
-## Data Pipeline
-
-1. A scheduled job (node-cron) pulls postings from the job-search API
-2. New postings are deduplicated against existing records (matched on title + company + location) before being saved to MongoDB
-3. Skill and resource data is cleaned and structured in Excel, then imported into MongoDB
-4. The app reads from MongoDB to power Explore, Roadmaps, and Progress
-
-## Market Analytics Dashboard
-
-A companion project built alongside the app: a Power BI dashboard showing top skills overall, top skills by role, skill demand trends over time, and location-wise demand — built from the same job posting data the app uses. Demoed live from the `.pbix` file during presentations.
-
-## Team
-
-| Area | Owner |
+| Purpose | Tool |
 |---|---|
-| Frontend | Shobhit |
-| Backend | Anshika, Abhay |
-| Data & Analytics | Sharad |
-| Communication & Presentation | Anshika |
+| UI framework / build | React 19 + Vite |
+| Styling | Tailwind CSS v4 (`@tailwindcss/vite`) |
+| Routing | React Router v7 |
+| Page transitions | Motion (Framer Motion) |
+| Smooth scroll + scroll animation | Lenis + GSAP ScrollTrigger |
+| Roadmap graph | `@xyflow/react` (React Flow) + `dagre` for auto-layout |
+| 3D / hero effects | Three.js, React Three Fiber, drei |
 
-## Project Status
+## Project Structure
 
-🚧 In development — frontend in progress.
+```
+trail-frontend/
+├── index.html                # Vite entry HTML
+├── vite.config.js            # React + Tailwind plugins
+├── eslint.config.js
+├── .env.example              # VITE_API_BASE_URL
+├── public/
+│   ├── fonts/                # Self-hosted fonts (Satoshi, Inter, Exo, Geist)
+│   └── images/               # Logo, section images, hero frame sequence
+└── src/
+    ├── main.jsx              # Mounts <App/> inside BrowserRouter
+    ├── App.jsx               # Route table, Lenis smooth scroll, page transitions
+    ├── index.css / fonts.css # Tailwind import + global styles + @font-face
+    │
+    ├── pages/                # One file per route
+    │   ├── Home.jsx          # Landing page (assembles the sections below)
+    │   ├── Explore.jsx       # Role search + roadmap view
+    │   ├── Roadmap.jsx       # Saved roadmaps
+    │   ├── Progress.jsx      # Skill status tracking + charts
+    │   ├── Resources.jsx     # Learning resources, filters, bookmarks
+    │   ├── Profile.jsx       # Account and settings (protected)
+    │   ├── Login.jsx         # Login / register form
+    │   └── Signup.jsx        # Reuses Login in "register" mode
+    │
+    ├── components/
+    │   ├── Navbar.jsx
+    │   ├── ProtectedRoute.jsx   # Redirects guests away from private pages
+    │   ├── LockScreen.jsx       # "Log in to continue" placeholder
+    │   ├── ScrollToTop.jsx
+    │   ├── hero/                # Landing hero, marquee, timeline, frame-sequence engine
+    │   ├── section2/            # Career selector + 3D cylinder
+    │   ├── section3/
+    │   ├── Section4/            # Features section
+    │   ├── Faq/
+    │   ├── footer/
+    │   ├── buttons/             # Reusable button variants
+    │   └── roadmap/
+    │       ├── RoadmapCanvas.jsx     # React Flow graph + dagre layout
+    │       ├── SkillNode.jsx         # Single node in the graph
+    │       └── SkillDetailPanel.jsx  # Side panel: skill info, status, resources
+    │
+    ├── context/
+    │   └── AuthContext.jsx   # Auth state (user + JWT), login/logout helpers
+    ├── services/
+    │   └── api.js            # Every backend call lives here
+    └── data/
+        └── resourcesData.js  # Static curated resource list
+```
+
+## Environment Variables
+
+| Variable | Description |
+|---|---|
+| `VITE_API_BASE_URL` | Backend base URL, including `/api/v1` |
+
+## Deployment
+
+Deployed on **Vercel**. Set `VITE_API_BASE_URL` in the project's environment settings.
